@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비라임 - iHerb 가격 추적 서비스</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/synonyms.js"></script>
+    <script>
+      window.BLIME_SUPABASE_CONFIG = {
+        url: "https://owzhzchjhrpyreinicuq.supabase.co",
+        anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93emh6Y2hqaHJweXJlaW5pY3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTQ3NzIsImV4cCI6MjA3NTkzMDc3Mn0.XibDuV25pA9M7pxRCsxo5MR6aLa_nfOFS9vufnmHBF4",
+        requestFunctionUrl: "https://owzhzchjhrpyreinicuq.supabase.co/functions/v1/request-product-url"
+      };
+    </script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="#home">
+                    <img src="assets/logo_small.png" alt="비라임 로고" class="logo-img">
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">홈</a>
+                <a href="deals/" class="nav-link">할인 상품</a>
+                <a href="about/" class="nav-link">비라임 소개</a>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" aria-label="다크모드 전환">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <!-- 히어로 섹션 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    스마트한 건강 쇼핑의 시작
+                    <span class="hero-subtitle">iHerb 상품 가격을 실시간으로 추적하고 최저가를 놓치지 마세요</span>
+                </h1>
+                
+                <!-- 향상된 검색 섹션 -->
+                <div class="search-container">
+                    <div class="search-box">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" class="search-input" placeholder="제품명, 브랜드로 검색">
+                        <button class="search-button">검색</button> 
+                    </div>
+                    <div class="search-filters">
+                        <button class="filter-chip">전체</button>
+                        <button class="filter-chip">THORNE</button>
+                        <button class="filter-chip">NMN</button>
+                        <button class="filter-chip">베르베린</button>
+                        <button class="filter-chip">오메가3</button>
+                        <button class="filter-chip">유산균</button>
+                        <button class="filter-chip">마그네슘</button>
+                        <button class="filter-chip">콜라겐</button>
+                        <button class="filter-chip">단백질</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 핫딜 섹션 -->
+        
+        
+        <section class="hot-deals-section" id="deals">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    할인 상품
+                </h2>
+                <a href="deals/index.html" class="section-link">전체보기 →</a>
+            </div>
+            
+            <div class="hot-deals-grid">
+                
+                <div class="product-card" data-product-id="400">
+                    <div class="discount-flag">
+                        <span class="discount-percent">62%</span>
+                        <span class="discount-label">↓</span>
+                    </div>
+                    <a class="product-image-link" href="products/product_400.html" aria-label="천연 식품 K2, 맥시멈 스트렝스, 200mcg 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/swv/swv02906/v/24.jpg" alt="천연 식품 K2, 맥시멈 스트렝스, 200mcg" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Swanson</div>
+                        <h3 class="product-name">
+                            <a href="products/product_400.html">천연 식품 K2, 맥시멈 스트렝스, 200mcg</a>
+                        </h3>
+                        
+                        <div class="product-variant">소프트젤 30정</div>
+                        
+                        <div class="price-group">
+                            <span class="original-price">₩48,755</span>
+                            <span class="current-price">₩18,726</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                            <button class="quick-view-btn" aria-label="빠른 보기">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="409">
+                    <div class="discount-flag">
+                        <span class="discount-percent">54%</span>
+                        <span class="discount-label">↓</span>
+                    </div>
+                    <a class="product-image-link" href="products/product_409.html" aria-label="엘더베리 바다 이끼 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/tss/tss23556/v/24.jpg" alt="엘더베리 바다 이끼" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">True Sea Moss</div>
+                        <h3 class="product-name">
+                            <a href="products/product_409.html">엘더베리 바다 이끼</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 120정</div>
+                        
+                        <div class="price-group">
+                            <span class="original-price">₩26,710</span>
+                            <span class="current-price">₩12,160</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                            <button class="quick-view-btn" aria-label="빠른 보기">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="444">
+                    <div class="discount-flag">
+                        <span class="discount-percent">50%</span>
+                        <span class="discount-label">↓</span>
+                    </div>
+                    <a class="product-image-link" href="products/product_444.html" aria-label="노르웨이산 엑스트라 강도 오메가3 피쉬 오일, 천연 레몬 맛 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02303/v/10.jpg" alt="노르웨이산 엑스트라 강도 오메가3 피쉬 오일, 천연 레몬 맛" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">California Gold Nutrition</div>
+                        <h3 class="product-name">
+                            <a href="products/product_444.html">노르웨이산 엑스트라 강도 오메가3 피쉬 오일, 천연 레몬 맛</a>
+                        </h3>
+                        
+                        <div class="product-variant">200ml</div>
+                        
+                        <div class="price-group">
+                            <span class="original-price">₩68,101</span>
+                            <span class="current-price">₩34,051</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                            <button class="quick-view-btn" aria-label="빠른 보기">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="880">
+                    <div class="discount-flag">
+                        <span class="discount-percent">30%</span>
+                        <span class="discount-label">↓</span>
+                    </div>
+                    <a class="product-image-link" href="products/product_880.html" aria-label="세인트존스워트 추출물, 300mg 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01790/v/51.jpg" alt="세인트존스워트 추출물, 300mg" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Lake Avenue Nutrition</div>
+                        <h3 class="product-name">
+                            <a href="products/product_880.html">세인트존스워트 추출물, 300mg</a>
+                        </h3>
+                        
+                        <div class="product-variant">베지 캡슐 240정</div>
+                        
+                        <div class="price-group">
+                            <span class="original-price">₩25,535</span>
+                            <span class="current-price">₩17,875</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                            <button class="quick-view-btn" aria-label="빠른 보기">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="870">
+                    <div class="discount-flag">
+                        <span class="discount-percent">30%</span>
+                        <span class="discount-label">↓</span>
+                    </div>
+                    <a class="product-image-link" href="products/product_870.html" aria-label="오메가3 피쉬 오일, 피쉬 젤라틴 (소프트젤 1정당 1,250mg) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01860/v/39.jpg" alt="오메가3 피쉬 오일, 피쉬 젤라틴 (소프트젤 1정당 1,250mg)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Lake Avenue Nutrition</div>
+                        <h3 class="product-name">
+                            <a href="products/product_870.html">오메가3 피쉬 오일, 피쉬 젤라틴 (소프트젤 1정당 1,250mg)</a>
+                        </h3>
+                        
+                        <div class="product-variant">소프트젤 120정</div>
+                        
+                        <div class="price-group">
+                            <span class="original-price">₩60,564</span>
+                            <span class="current-price">₩42,395</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                            <button class="quick-view-btn" aria-label="빠른 보기">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="537">
+                    <div class="discount-flag">
+                        <span class="discount-percent">30%</span>
+                        <span class="discount-label">↓</span>
+                    </div>
+                    <a class="product-image-link" href="products/product_537.html" aria-label="Buffered Gold C™, 골드 스탠더드 아스코르브산 나트륨(비타민C) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01237/v/157.jpg" alt="Buffered Gold C™, 골드 스탠더드 아스코르브산 나트륨(비타민C)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">California Gold Nutrition</div>
+                        <h3 class="product-name">
+                            <a href="products/product_537.html">Buffered Gold C™, 골드 스탠더드 아스코르브산 나트륨(비타민C)</a>
+                        </h3>
+                        
+                        <div class="product-variant">베지 캡슐 240정</div>
+                        
+                        <div class="price-group">
+                            <span class="original-price">₩28,094</span>
+                            <span class="current-price">₩19,666</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                            <button class="quick-view-btn" aria-label="빠른 보기">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+
+        <!-- 전체 상품 섹션 -->
+        <section class="all-products-section" id="all-products">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    전체 상품
+                </h2>
+                <div class="view-options">
+                    <button class="view-option active" data-view="grid">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                    <button class="view-option" data-view="list">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="products-grid" id="products-grid">
+                
+                <div class="product-card" data-product-id="1228">
+                    
+                    <a class="product-image-link" href="products/product_1228.html" aria-label="리포소말 비타민D3, 250mcg(10,000IU) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl03201/v/55.jpg" alt="리포소말 비타민D3, 250mcg(10,000IU)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1228.html">리포소말 비타민D3, 250mcg(10,000IU)</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 90정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩76,323</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1226">
+                    
+                    <a class="product-image-link" href="products/product_1226.html" aria-label="리포소말 글루타치온, (캡슐 1정당 175mg) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl21217/v/8.jpg" alt="리포소말 글루타치온, (캡슐 1정당 175mg)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1226.html">리포소말 글루타치온, (캡슐 1정당 175mg)</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 60정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩63,595</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1225">
+                    
+                    <a class="product-image-link" href="products/product_1225.html" aria-label="콜라겐 복합체, I, II, III형 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl03838/v/24.jpg" alt="콜라겐 복합체, I, II, III형" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1225.html">콜라겐 복합체, I, II, III형</a>
+                        </h3>
+                        
+                        <div class="product-variant">90정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩63,601</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1227">
+                    
+                    <a class="product-image-link" href="products/product_1227.html" aria-label="컴플리트 프로바이오틱, 700억CFU 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl01318/v/13.jpg" alt="컴플리트 프로바이오틱, 700억CFU" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1227.html">컴플리트 프로바이오틱, 700억CFU</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩58,853</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status out-of-stock">
+                                품절
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1223">
+                    
+                    <a class="product-image-link" href="products/product_1223.html" aria-label="풀 스펙트럼 효소 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl03090/v/26.jpg" alt="풀 스펙트럼 효소" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1223.html">풀 스펙트럼 효소</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 90정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩47,698</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1224">
+                    
+                    <a class="product-image-link" href="products/product_1224.html" aria-label="비타민E 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl01508/v/55.jpg" alt="비타민E" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1224.html">비타민E</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩39,557</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1222">
+                    
+                    <a class="product-image-link" href="products/product_1222.html" aria-label="유기농 발효 비트 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl03326/v/8.jpg" alt="유기농 발효 비트" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1222.html">유기농 발효 비트</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 60정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩34,839</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status out-of-stock">
+                                품절
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1220">
+                    
+                    <a class="product-image-link" href="products/product_1220.html" aria-label="포다르코, (캡슐 1정당 500mg) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl03189/v/26.jpg" alt="포다르코, (캡슐 1정당 500mg)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1220.html">포다르코, (캡슐 1정당 500mg)</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 120정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩23,843</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1218">
+                    
+                    <a class="product-image-link" href="products/product_1218.html" aria-label="라벤더 수면 마스크, 1개 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl01307/v/21.jpg" alt="라벤더 수면 마스크, 1개" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1218.html">라벤더 수면 마스크, 1개</a>
+                        </h3>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩18,984</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1219">
+                    
+                    <a class="product-image-link" href="products/product_1219.html" aria-label="남극 크릴 오일 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl01026/v/51.jpg" alt="남극 크릴 오일" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1219.html">남극 크릴 오일</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 60정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩50,893</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1217">
+                    
+                    <a class="product-image-link" href="products/product_1217.html" aria-label="휴믹풀빅산 복합체 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl21365/v/8.jpg" alt="휴믹풀빅산 복합체" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1217.html">휴믹풀빅산 복합체</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩31,774</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1189">
+                    
+                    <a class="product-image-link" href="products/product_1189.html" aria-label="아연 플러스 셀레늄 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mcl/mcl03152/v/34.jpg" alt="아연 플러스 셀레늄" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Dr. Mercola</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1189.html">아연 플러스 셀레늄</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 90정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩31,775</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1153">
+                    
+                    <a class="product-image-link" href="products/product_1153.html" aria-label="Digest Spectrum® 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz29170/v/36.jpg" alt="Digest Spectrum®" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1153.html">Digest Spectrum®</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩18,387</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status out-of-stock">
+                                품절
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1167">
+                    
+                    <a class="product-image-link" href="products/product_1167.html" aria-label="MSM, 1,000mg 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/jrw/jrw19013/v/45.jpg" alt="MSM, 1,000mg" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Jarrow Formulas</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1167.html">MSM, 1,000mg</a>
+                        </h3>
+                        
+                        <div class="product-variant">베지 캡슐 200정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩49,402</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1152">
+                    
+                    <a class="product-image-link" href="products/product_1152.html" aria-label="Magnesium Motion, (캡슐 1정당 350mg) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz10126/v/68.jpg" alt="Magnesium Motion, (캡슐 1정당 350mg)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1152.html">Magnesium Motion, (캡슐 1정당 350mg)</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 120정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩45,695</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1154">
+                    
+                    <a class="product-image-link" href="products/product_1154.html" aria-label="Dailyassist® 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz14050/v/61.jpg" alt="Dailyassist®" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1154.html">Dailyassist®</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩14,885</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1141">
+                    
+                    <div class="sale-badge">15% ↓</div>
+                    
+                    <a class="product-image-link" href="products/product_1141.html" aria-label="빠르게 작용하는 베타인 HCI 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz10078/v/12.jpg" alt="빠르게 작용하는 베타인 HCI" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1141.html">빠르게 작용하는 베타인 HCI</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 60정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="original-price">₩16,873</span>
+                            
+                            <span class="current-price">₩14,343</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1132">
+                    
+                    <div class="sale-badge">15% ↓</div>
+                    
+                    <a class="product-image-link" href="products/product_1132.html" aria-label="Digest Basic® + 프로바이오틱 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz13050/v/36.jpg" alt="Digest Basic® + 프로바이오틱" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1132.html">Digest Basic® + 프로바이오틱</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="original-price">₩13,418</span>
+                            
+                            <span class="current-price">₩11,406</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1127">
+                    
+                    <a class="product-image-link" href="products/product_1127.html" aria-label="초모 함유 사과 식초, (캡슐 1정당 355mg) 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz10099/v/56.jpg" alt="초모 함유 사과 식초, (캡슐 1정당 355mg)" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1127.html">초모 함유 사과 식초, (캡슐 1정당 355mg)</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 120정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩55,632</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1125">
+                    
+                    <a class="product-image-link" href="products/product_1125.html" aria-label="Candidase 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz20142/v/26.jpg" alt="Candidase" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1125.html">Candidase</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐120정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩78,018</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1124">
+                    
+                    <a class="product-image-link" href="products/product_1124.html" aria-label="Digest 컴플리트 엔자임 포뮬라 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz98115/v/42.jpg" alt="Digest 컴플리트 엔자임 포뮬라" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1124.html">Digest 컴플리트 엔자임 포뮬라</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 240정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩74,516</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1121">
+                    
+                    <a class="product-image-link" href="products/product_1121.html" aria-label="ATPro 함유 Digest Gold 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz20212/v/63.jpg" alt="ATPro 함유 Digest Gold" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1121.html">ATPro 함유 Digest Gold</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 120정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩77,695</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1102">
+                    
+                    <a class="product-image-link" href="products/product_1102.html" aria-label="최대 효능, CLA 1250, 1,250mg 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/sre/sre01052/v/41.jpg" alt="최대 효능, CLA 1250, 1,250mg" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Sports Research</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1102.html">최대 효능, CLA 1250, 1,250mg</a>
+                        </h3>
+                        
+                        <div class="product-variant">소프트젤 180정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩43,442</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card" data-product-id="1130">
+                    
+                    <a class="product-image-link" href="products/product_1130.html" aria-label="GlutenEase®, 엑스트라 스트렝스 상세 보기">
+                    <div class="product-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz12010/v/36.jpg" alt="GlutenEase®, 엑스트라 스트렝스" loading="lazy">
+                        
+                    </div>
+                    </a>
+                    <div class="product-content">
+                        <div class="product-brand">Enzymedica</div>
+                        <h3 class="product-name">
+                            <a href="products/product_1130.html">GlutenEase®, 엑스트라 스트렝스</a>
+                        </h3>
+                        
+                        <div class="product-variant">캡슐 30정</div>
+                        
+                        <div class="price-group">
+                            
+                            <span class="current-price">₩25,815</span>
+                        </div>
+                        
+                        <div class="product-footer">
+                            <span class="stock-status in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination" id="pagination">
+                <!-- JavaScript로 동적 생성 -->
+            </div>
+        </section>
+    </div>  
+
+    <!-- 상품 요청 플로팅 버튼 -->
+    <div class="fab-container">
+        <button 
+            class="fab" 
+            id="requestProductFab" 
+            aria-label="상품 추가 요청" 
+            aria-describedby="fabTooltip"
+            title="상품 추가 요청"
+        >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </button>
+        <span class="fab-tooltip" id="fabTooltip" role="tooltip">상품 추가 요청</span>
+    </div>
+
+    <!-- 상품 요청 모달 -->
+    <div class="modal" id="requestModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>상품 추가 요청</h3>
+                <button class="modal-close" id="modalClose" aria-label="닫기">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">
+                    추적하고 싶은 iHerb 상품의 URL을 입력해주세요.<br>
+                    (상품의 공유 버튼을 통해 URL을 확인할 수 있습니다)<br>
+                    다음 날부터 가격 추적이 시작됩니다.
+                </p>
+                <form id="productRequestForm">
+                    <div class="form-group">
+                        <label for="productUrl">상품 URL</label>
+                        <input 
+                            type="text" 
+                            id="productUrl" 
+                            name="productUrl"
+                            placeholder="iHerb 상품 URL 또는 공유 텍스트를 입력하세요" 
+                            required
+                            class="form-input"
+                        />
+                        <!-- 
+                        <span class="form-hint">예: https://kr.iherb.com/pr/seeking-health-vitamin-d3-k2-60-capsules/109879</span>
+                        -->
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+                        <button type="submit" class="btn btn-primary" id="submitBtn">
+                            <span class="btn-text">요청하기</span>
+                            <span class="btn-loading" style="display: none;">
+                                <svg class="spinner" width="16" height="16" viewBox="0 0 24 24">
+                                    <circle class="spinner-circle" cx="12" cy="12" r="10" fill="none" stroke-width="3"></circle>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+                <div id="requestResult" class="request-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>비라임</h4>
+                <p>스마트한 건강 쇼핑을 위한 iHerb 가격 추적 서비스</p>
+            </div>
+            <div class="footer-section">
+                <h4>빠른 링크</h4>
+                <a href="#home">홈</a>
+                <a href="#deals">할인 상품</a>
+            </div>
+            <div class="footer-section">
+                <h4>문의</h4>
+                <p>서비스 관련 문의사항이 있으시면<br>아래 이메일로 연락주세요.</p>
+                <a href="mailto:support@example.com">blime.app.official@gmail.com</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BLime. All rights reserved.</p>
+            <p class="update-time">마지막 업데이트: 2026-05-05 02:03:10</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
