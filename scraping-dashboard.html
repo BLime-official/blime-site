@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크래핑 대시보드 - 비라임</title>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 스크래핑 대시보드</h1>
+        
+        <!-- 기준날짜 표시 -->
+        <div class="data-reference-date">
+            <h2>
+                📅 데이터 기준일시: <span class="date-value">2025-08-16 23:58:16</span>
+            </h2>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">472</div>
+                <div class="stat-label">전체 상품</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">472</div>
+                <div class="stat-label">오늘 수집</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-value">8</div>
+                <div class="stat-label">품절 상품</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-value">0.0%</div>
+                <div class="stat-label">성공률</div>
+            </div>
+        </div>
+    
+        <!-- Scraping Progress -->
+        <div class="section">
+            <h2>🔄 오늘의 스크래핑 진행 상황</h2>
+            <div class="progress-container">
+                <div class="overall-progress">
+                    <h3>전체 진행률: 97.75%</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 97.75%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>완료: 478 / 489</span>
+                    </div>
+                </div>
+                
+                <h3>단계별 진행 상황</h3>
+                <div class="iteration-progress">
+                    
+                    <div class="iteration-item">
+                        <div class="iteration-header">
+                            <span class="iteration-name">1차 시도 (우선순위 5)</span>
+                            <span class="iteration-stats">478/478 (100.0%)</span>
+                        </div>
+                        <div class="progress-bar small">
+                            <div class="progress-fill primary" 
+                                 style="width: 100.0%"></div>
+                        </div>
+                        <div class="iteration-details">
+                            <span class="badge success">완료: 478</span>
+                            <span class="badge danger">실패: 0</span>
+                            <span class="badge">대기: 0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="iteration-item">
+                        <div class="iteration-header">
+                            <span class="iteration-name">3차+ 시도 (우선순위 10)</span>
+                            <span class="iteration-stats">0/11 (0.0%)</span>
+                        </div>
+                        <div class="progress-bar small">
+                            <div class="progress-fill danger" 
+                                 style="width: 0.0%"></div>
+                        </div>
+                        <div class="iteration-details">
+                            <span class="badge success">완료: 0</span>
+                            <span class="badge danger">실패: 11</span>
+                            <span class="badge">대기: 0</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            <h3>⚠️ 문제 URL (연속 실패)</h3>
+            <div class="problem-urls">
+                <table class="problem-urls-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>우선순위</th>
+                            <th>연속 실패</th>
+                            <th>마지막 시도</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/california-gold-nutrition-liposomal-vitamin-c-orange-flavor-1-000-mg-30-packets-0-2-fl-oz-6-ml-each/75532</td>
+                            <td>10</td>
+                            <td class="failure-count">18회</td>
+                            <td>2025-08-16T14:57:25.257237</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/swanson-coq10-with-tocotrienols-600-mg-60-softgels/118124</td>
+                            <td>10</td>
+                            <td class="failure-count">18회</td>
+                            <td>2025-08-16T14:57:29.553160</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/jarrow-formulas-vegan-bilberry-grapeskin-polyphenols-120-veggie-capsules/168</td>
+                            <td>10</td>
+                            <td class="failure-count">18회</td>
+                            <td>2025-08-16T14:57:33.854806</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/super-nutrition-berberine-phytosome-550-mg-60-veggie-capsules/137780</td>
+                            <td>10</td>
+                            <td class="failure-count">18회</td>
+                            <td>2025-08-16T14:57:39.435525</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/maryruth-s-3-in-1-daily-menopause-support-unflavored-60-billion-cfu-0-5-oz-15-g-discontinued-item/138355</td>
+                            <td>10</td>
+                            <td class="failure-count">18회</td>
+                            <td>2025-08-16T14:57:43.752602</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/maryruth-s-3-in-1-daily-vaginal-support-unflavored-60-billion-cfu-0-5-oz-15-g-discontinued-item/138365</td>
+                            <td>10</td>
+                            <td class="failure-count">17회</td>
+                            <td>2025-08-16T14:57:48.704651</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/Jarrow-Formulas-MSM-1-000-mg-120-Tablets/239</td>
+                            <td>10</td>
+                            <td class="failure-count">17회</td>
+                            <td>2025-08-16T14:57:55.978529</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/Jarrow-Formulas-MSM-1-000-mg-100-Veggie-Caps/40605</td>
+                            <td>10</td>
+                            <td class="failure-count">17회</td>
+                            <td>2025-08-16T14:58:01.079585</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/Jarrow-Formulas-MSM-Powder-16-oz-454-g/240</td>
+                            <td>10</td>
+                            <td class="failure-count">17회</td>
+                            <td>2025-08-16T14:58:05.313731</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/swanson-n-acetyl-d-glucosamine-750-mg-60-veggie-caps/118637</td>
+                            <td>10</td>
+                            <td class="failure-count">17회</td>
+                            <td>2025-08-16T14:58:09.570768</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/Jarrow-Formulas-Prebiotics-XOS-GOS-90-Chewable-Tablets/73284</td>
+                            <td>10</td>
+                            <td class="failure-count">17회</td>
+                            <td>2025-08-16T14:58:14.262150</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        
+        <div class="timestamp">
+            마지막 업데이트: 2025-08-16 23:58:16
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>
