@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할인 상품 - 비라임</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+    <style>
+        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .breadcrumbs { font-size: 14px; color: var(--text-muted); }
+        .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        @media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+        /* 모바일(<=480px)에서도 메인과 동일하게 2열 유지 */
+        @media (max-width: 480px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        .empty { text-align: center; color: var(--text-muted); padding: 48px 0; }
+        .back-link { color: var(--primary); text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-container">
+        <div class="logo">
+          <a href="../index.html#home">
+            <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+          </a>
+        </div>
+        <nav class="nav">
+          <a href="../index.html#home" class="nav-link">홈</a>
+          <a href="../deals/" class="nav-link active">할인 상품</a>
+          <a href="../about/" class="nav-link">비라임 소개</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="page-header">
+        <h2 class="section-title">
+          <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+          할인 상품
+        </h2>
+        <a class="section-link" href="../index.html">← 메인으로</a>
+      </div>
+
+      
+      <section class="all-products-section" id="deals">
+        <div class="products-grid" id="products-grid">
+          
+          <div class="product-card" data-product-id="367">
+            <div class="sale-badge">66% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/spn/spn02393/v/10.jpg" alt="Super Immune+ 종합비타민, 비타민C, 비타민D, 베타글루칸 함유, 철분 무함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Super Nutrition</div>
+              <h3 class="product-name">Super Immune+ 종합비타민, 비타민C, 비타민D, 베타글루칸 함유, 철분 무함유</h3>
+              
+              <div class="product-variant">베지 캡슐 240정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩55,594</span>
+                <span class="current-price">₩19,115</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="409">
+            <div class="sale-badge">54% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/tss/tss23556/v/24.jpg" alt="엘더베리 바다 이끼" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">True Sea Moss</div>
+              <h3 class="product-name">엘더베리 바다 이끼</h3>
+              
+              <div class="product-variant">캡슐 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩26,485</span>
+                <span class="current-price">₩12,057</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="881">
+            <div class="sale-badge">50% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn02316/v/9.jpg" alt="l-세린, 무맛 분말 454g(b)" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">l-세린, 무맛 분말 454g(b)</h3>
+              
+              <div class="product-variant">1l</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩72,098</span>
+                <span class="current-price">₩36,049</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="400">
+            <div class="sale-badge">45% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/swv/swv02906/v/24.jpg" alt="천연 식품 K2, 맥시멈 스트렝스, 200mcg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Swanson</div>
+              <h3 class="product-name">천연 식품 K2, 맥시멈 스트렝스, 200mcg</h3>
+              
+              <div class="product-variant">소프트젤 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩48,343</span>
+                <span class="current-price">₩26,400</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="878">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01523/v/59.jpg" alt="L-글루타민, 1,000mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">L-글루타민, 1,000mg</h3>
+              
+              <div class="product-variant">베지 캡슐 240정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩60,523</span>
+                <span class="current-price">₩42,367</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="882">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01627/v/77.jpg" alt="OptiMSM® 플레이크, 992g()" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">OptiMSM® 플레이크, 992g()</h3>
+              
+              <div class="product-variant">35oz</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩73,943</span>
+                <span class="current-price">₩51,761</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="889">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01572/v/89.jpg" alt="세라펩타제, 단백질 분해 효소, 120,000SPU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">세라펩타제, 단백질 분해 효소, 120,000SPU</h3>
+              
+              <div class="product-variant">베지 캡슐 180정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩73,398</span>
+                <span class="current-price">₩51,379</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="880">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01790/v/51.jpg" alt="세인트존스워트 추출물, 300mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">세인트존스워트 추출물, 300mg</h3>
+              
+              <div class="product-variant">베지 캡슐 240정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩25,319</span>
+                <span class="current-price">₩17,724</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="875">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01680/v/75.jpg" alt="D-리보오스 분말, 무맛, 300g()" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">D-리보오스 분말, 무맛, 300g()</h3>
+              
+              <div class="product-variant">10.6oz</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩42,786</span>
+                <span class="current-price">₩29,951</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="348">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn10006/v/9.jpg" alt="아커만시아 300억" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">아커만시아 300억</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩65,623</span>
+                <span class="current-price">₩45,937</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="44">
+            <div class="sale-badge">30% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/car/car16900/v/8.jpg" alt="Elite DHA Gems, 1,000mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Carlson</div>
+              <h3 class="product-name">Elite DHA Gems, 1,000mg</h3>
+              
+              <div class="product-variant">소프트젤 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩29,984</span>
+                <span class="current-price">₩20,989</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="425">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01054/v/113.jpg" alt="LactoBif® 반려동물 프로바이오틱, 50억 CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 반려동물 프로바이오틱, 50억 CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩16,975</span>
+                <span class="current-price">₩12,732</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="347">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01334/v/117.jpg" alt="CranMax® LactoBif® 프로바이오틱, 250억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">CranMax® LactoBif® 프로바이오틱, 250억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩24,491</span>
+                <span class="current-price">₩18,369</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="256">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01904/v/118.jpg" alt="LactoBif® 65 프로바이오틱" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 65 프로바이오틱</h3>
+              
+              <div class="product-variant">베지 캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩37,959</span>
+                <span class="current-price">₩28,470</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="181">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01053/v/149.jpg" alt="LactoBif® 100 프로바이오틱, 1,000억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 100 프로바이오틱, 1,000억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩49,194</span>
+                <span class="current-price">₩36,896</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="182">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02524/v/21.jpg" alt="LactoBif® 100 프로바이오틱, 1,000억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 100 프로바이오틱, 1,000억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩79,677</span>
+                <span class="current-price">₩59,758</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="180">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn00963/v/172.jpg" alt="LactoBif® 5 프로바이오틱, 50억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 5 프로바이오틱, 50억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩14,822</span>
+                <span class="current-price">₩11,117</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="179">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02522/v/21.jpg" alt="LactoBif® 5 프로바이오틱, 50억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 5 프로바이오틱, 50억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩25,921</span>
+                <span class="current-price">₩19,441</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="178">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02523/v/22.jpg" alt="LactoBif® 30 프로바이오틱, 300억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 30 프로바이오틱, 300억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩55,337</span>
+                <span class="current-price">₩41,503</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="162">
+            <div class="sale-badge">25% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn00965/v/170.jpg" alt="LactoBif® 30 프로바이오틱, 300억CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">LactoBif® 30 프로바이오틱, 300억CFU</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩33,987</span>
+                <span class="current-price">₩25,491</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="883">
+            <div class="sale-badge">20% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01537/v/79.jpg" alt="노니 열매 분말" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">노니 열매 분말</h3>
+              
+              <div class="product-variant">베지 캡슐 360정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩48,662</span>
+                <span class="current-price">₩38,930</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="408">
+            <div class="sale-badge">20% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/tss/tss23516/v/25.jpg" alt="야생재배 바다이끼, (캡슐 1정당 400mg)" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">True Sea Moss</div>
+              <h3 class="product-name">야생재배 바다이끼, (캡슐 1정당 400mg)</h3>
+              
+              <div class="product-variant">캡슐 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩26,485</span>
+                <span class="current-price">₩21,188</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="329">
+            <div class="sale-badge">20% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02072/v/36.jpg" alt="꽃가루 추출 혼합물" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">꽃가루 추출 혼합물</h3>
+              
+              <div class="product-variant">베지 캡슐 90정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩41,645</span>
+                <span class="current-price">₩33,316</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="315">
+            <div class="sale-badge">20% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/phv/phv41001/v/24.jpg" alt="NMN Pro™, 순수 NMN 분말, 15g" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">ProHealth Longevity</div>
+              <h3 class="product-name">NMN Pro™, 순수 NMN 분말, 15g</h3>
+              
+              <div class="price-group">
+                <span class="original-price">₩67,291</span>
+                <span class="current-price">₩53,833</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="968">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/sns/sns01627/v/21.jpg" alt="석류 추출물, 500mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Source Naturals</div>
+              <h3 class="product-name">석류 추출물, 500mg</h3>
+              
+              <div class="product-variant">60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩11,777</span>
+                <span class="current-price">₩10,011</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="957">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/sns/sns02951/v/8.jpg" alt="Ultra-Mag™" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Source Naturals</div>
+              <h3 class="product-name">Ultra-Mag™</h3>
+              
+              <div class="product-variant">베지 캡슐 90정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩12,025</span>
+                <span class="current-price">₩10,222</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="874">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01574/v/77.jpg" alt="세라펩타아제, 단백질 분해 효소, 40,000SPU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">세라펩타아제, 단백질 분해 효소, 40,000SPU</h3>
+              
+              <div class="product-variant">베지 캡슐 180정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩47,375</span>
+                <span class="current-price">₩40,269</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="877">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01791/v/67.jpg" alt="밀크시슬 추출물, 175mg, 개" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">밀크시슬 추출물, 175mg, 개</h3>
+              
+              <div class="product-variant">베지 캡슐 90</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩14,564</span>
+                <span class="current-price">₩12,380</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="867">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn01550/v/134.jpg" alt="비타민K2(메나퀴논-7), (소프트젤 1정당 50mcg)" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">비타민K2(메나퀴논-7), (소프트젤 1정당 50mcg)</h3>
+              
+              <div class="product-variant">베지 소프트젤 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩15,403</span>
+                <span class="current-price">₩13,093</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="890">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lkn/lkn02009/v/29.jpg" alt="벤포티아민, 티아민 함유, 250mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Lake Avenue Nutrition</div>
+              <h3 class="product-name">벤포티아민, 티아민 함유, 250mg</h3>
+              
+              <div class="product-variant">베지 캡슐 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩31,828</span>
+                <span class="current-price">₩27,054</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="816">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mrm/mrm80012/v/9.jpg" alt="유기농 디톡스 및 클렌징 파우더, 복숭아 망고, 120g()" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">MRM Nutrition</div>
+              <h3 class="product-name">유기농 디톡스 및 클렌징 파우더, 복숭아 망고, 120g()</h3>
+              
+              <div class="product-variant">4.2oz</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩24,368</span>
+                <span class="current-price">₩20,713</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="801">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mrm/mrm51006/v/38.jpg" alt="프레그네놀론, 50mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">MRM Nutrition</div>
+              <h3 class="product-name">프레그네놀론, 50mg</h3>
+              
+              <div class="product-variant">60 식물성 캡슐</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩11,358</span>
+                <span class="current-price">₩9,655</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="509">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01126/v/125.jpg" alt="l-아르기닌, 500mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">l-아르기닌, 500mg</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩8,761</span>
+                <span class="current-price">₩7,447</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="464">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/par/par77828/v/49.jpg" alt="Earth's Blend, 원 데일리 슈퍼푸드 종합비타민, 철분 함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Paradise Herbs</div>
+              <h3 class="product-name">Earth's Blend, 원 데일리 슈퍼푸드 종합비타민, 철분 함유</h3>
+              
+              <div class="product-variant">베지 캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩13,961</span>
+                <span class="current-price">₩11,867</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="451">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/rdh/rdh00168/v/45.jpg" alt="KidneyAid™" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">RidgeCrest Herbals</div>
+              <h3 class="product-name">KidneyAid™</h3>
+              
+              <div class="product-variant">60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩27,717</span>
+                <span class="current-price">₩23,560</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="449">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/clf/clf08135/v/8.jpg" alt="남성용 맥스, 종합비타민 및 미네랄 복합체, 철분 무함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Country Life</div>
+              <h3 class="product-name">남성용 맥스, 종합비타민 및 미네랄 복합체, 철분 무함유</h3>
+              
+              <div class="product-variant">60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩28,290</span>
+                <span class="current-price">₩24,047</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="445">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02327/v/10.jpg" alt="오메가3 피쉬 오일, 노르웨이산 트리글리세리드, 천연 레몬 맛" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">오메가3 피쉬 오일, 노르웨이산 트리글리세리드, 천연 레몬 맛</h3>
+              
+              <div class="product-variant">500ml</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩64,470</span>
+                <span class="current-price">₩54,800</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="455">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02268/v/18.jpg" alt="에르고티오네인 버섯 복합체, 유기농 잎새버섯, 유기농 굴, 유기농 노루궁뎅이버섯 추출물, L-에르고티오네인 함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">에르고티오네인 버섯 복합체, 유기농 잎새버섯, 유기농 굴, 유기농 노루궁뎅이버섯 추출물, L-에르고티오네인 함유</h3>
+              
+              <div class="product-variant">베지 캡슐 90정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩33,835</span>
+                <span class="current-price">₩28,760</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="470">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/ctl/ctl40035/v/78.jpg" alt="프로바이오틱, 얼티밋 스트렝스 프로바이오틱, 200억 CFU, 1회 1정 섭취" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Culturelle</div>
+              <h3 class="product-name">프로바이오틱, 얼티밋 스트렝스 프로바이오틱, 200억 CFU, 1회 1정 섭취</h3>
+              
+              <div class="product-variant">베지 캡슐 20정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩44,026</span>
+                <span class="current-price">₩37,423</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="368">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02533/v/9.jpg" alt="Nicotinamide Riboside Tartrate(NR), 250mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">Nicotinamide Riboside Tartrate(NR), 250mg</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩22,666</span>
+                <span class="current-price">₩19,267</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="355">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02518/v/12.jpg" alt="프테로스틸벤 플러스, 야생 블루베리 분말 함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">프테로스틸벤 플러스, 야생 블루베리 분말 함유</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩23,214</span>
+                <span class="current-price">₩19,732</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="325">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01752/v/88.jpg" alt="토코트리에놀 복합체, 비타민E 함유, 피쉬 젤라틴" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">토코트리에놀 복합체, 비타민E 함유, 피쉬 젤라틴</h3>
+              
+              <div class="product-variant">소프트젤 150정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩56,390</span>
+                <span class="current-price">₩47,932</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="322">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/swv/swv14222/v/24.jpg" alt="쏘팔메토, 160mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Swanson</div>
+              <h3 class="product-name">쏘팔메토, 160mg</h3>
+              
+              <div class="product-variant">소프트젤 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩25,836</span>
+                <span class="current-price">₩21,961</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="283">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01291/v/122.jpg" alt="PQQ, 20mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">PQQ, 20mg</h3>
+              
+              <div class="product-variant">베지 소프트젤 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩17,045</span>
+                <span class="current-price">₩14,489</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="270">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01175/v/155.jpg" alt="유기농 스피룰리나, 피코시아닌, 엽록소 함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">유기농 스피룰리나, 피코시아닌, 엽록소 함유</h3>
+              
+              <div class="product-variant">60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩10,330</span>
+                <span class="current-price">₩8,781</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="139">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02266/v/39.jpg" alt="스페르미딘, 쌀배아추출물, 1mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">스페르미딘, 쌀배아추출물, 1mg</h3>
+              
+              <div class="product-variant">베지 캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩14,203</span>
+                <span class="current-price">₩12,073</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="102">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02021/v/33.jpg" alt="벤포티아민 + 알파리포산 및 L-류신" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">벤포티아민 + 알파리포산 및 L-류신</h3>
+              
+              <div class="product-variant">베지 캡슐 90정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩37,595</span>
+                <span class="current-price">₩31,956</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="89">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01838/v/73.jpg" alt="매스틱검, 500mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">매스틱검, 500mg</h3>
+              
+              <div class="product-variant">베지 캡슐 180정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩25,810</span>
+                <span class="current-price">₩21,939</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="74">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/nap/nap41007/v/12.jpg" alt="면역 프로바이오틱, 100억 CFU" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">NaturesPlus</div>
+              <h3 class="product-name">면역 프로바이오틱, 100억 CFU</h3>
+              
+              <div class="product-variant">캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩34,319</span>
+                <span class="current-price">₩29,172</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="70">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/mbm/mbm00430/v/60.jpg" alt="마그네슘시트레이트" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Metabolic Maintenance</div>
+              <h3 class="product-name">마그네슘시트레이트</h3>
+              
+              <div class="product-variant">캡슐 240정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩54,460</span>
+                <span class="current-price">₩46,291</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="16">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/vau/vau44613/v/24.jpg" alt="Youth, 비타민C 함유 프리미엄 안티에이징 믹스" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Vitauthority</div>
+              <h3 class="product-name">Youth, 비타민C 함유 프리미엄 안티에이징 믹스</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩40,330</span>
+                <span class="current-price">₩34,281</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="35">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01566/v/104.jpg" alt="EpiCor, 건조 효모 발효물, 500mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">EpiCor, 건조 효모 발효물, 500mg</h3>
+              
+              <div class="product-variant">베지 캡슐 120정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩56,026</span>
+                <span class="current-price">₩47,623</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="1180">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/jrw/jrw20010/v/39.jpg" alt="알파리포산 유지, 비오틴 함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Jarrow Formulas</div>
+              <h3 class="product-name">알파리포산 유지, 비오틴 함유</h3>
+              
+              <div class="product-variant">60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩29,885</span>
+                <span class="current-price">₩25,403</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="1148">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/enz/enz24140/v/45.jpg" alt="Allerase®" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Enzymedica</div>
+              <h3 class="product-name">Allerase®</h3>
+              
+              <div class="product-variant">캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩28,554</span>
+                <span class="current-price">₩24,271</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="1260">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/nfs/nfs01926/g/8.jpg" alt="RegenerLife®, NMN Serge, 500mg" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Natural Factors (내추럴 팩터스)</div>
+              <h3 class="product-name">RegenerLife®, NMN Serge, 500mg</h3>
+              
+              <div class="product-variant">베지 캡슐 30정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩33,629</span>
+                <span class="current-price">₩28,585</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="463">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/par/par77829/v/54.jpg" alt="Earth's Blend, 원 데일리 슈퍼푸드 종합비타민, 철분 함유" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Paradise Herbs</div>
+              <h3 class="product-name">Earth's Blend, 원 데일리 슈퍼푸드 종합비타민, 철분 함유</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩22,623</span>
+                <span class="current-price">₩19,230</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="444">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn02303/v/10.jpg" alt="노르웨이산 엑스트라 강도 오메가3 피쉬 오일, 천연 레몬 맛" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">노르웨이산 엑스트라 강도 오메가3 피쉬 오일, 천연 레몬 맛</h3>
+              
+              <div class="product-variant">200ml</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩67,526</span>
+                <span class="current-price">₩57,398</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="538">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/cgn/cgn01236/v/121.jpg" alt="Buffered Gold C, 골드 스탠더드 아스코르브산 나트륨(비타민C)" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">California Gold Nutrition</div>
+              <h3 class="product-name">Buffered Gold C, 골드 스탠더드 아스코르브산 나트륨(비타민C)</h3>
+              
+              <div class="product-variant">베지 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩9,236</span>
+                <span class="current-price">₩7,851</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="product-card" data-product-id="481">
+            <div class="sale-badge">15% ↓</div>
+            <div class="product-image">
+              
+              <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/qll/qll00318/v/23.jpg" alt="세레넬레, 스트레스 관리" loading="lazy">
+              
+            </div>
+            <div class="product-content">
+              <div class="product-brand">Quality of Life</div>
+              <h3 class="product-name">세레넬레, 스트레스 관리</h3>
+              
+              <div class="product-variant">식물성 캡슐 60정</div>
+              
+              <div class="price-group">
+                <span class="original-price">₩34,899</span>
+                <span class="current-price">₩29,665</span>
+              </div>
+              <div class="product-footer">
+                <span class="stock-status in-stock">
+                  재고있음
+                </span>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination" id="pagination"></div>
+      </section>
+      
+    </div>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2025 BLime. All rights reserved.</p>
+        <p class="update-time">마지막 업데이트: 2026-03-22 13:32:52</p>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>
+
