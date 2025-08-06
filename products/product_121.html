@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비라임 - iHerb 가격 추적 서비스</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/product_detail.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+                </a>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" aria-label="다크모드 전환">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 브레드크럼 -->
+        <nav class="breadcrumb">
+            <a href="../index.html">홈</a>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <span>Life Extension</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <span class="current">멜라토닌, 6 시간 타임 릴리즈, 300 마이크로그램, 100 베지캡</span>
+        </nav>
+
+        <!-- 상품 상세 정보 -->
+        <div class="product-detail">
+            <div class="product-detail-grid">
+                <!-- 이미지 섹션 -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/lex/lex17871/v/75.jpg" alt="멜라토닌, 6 시간 타임 릴리즈, 300 마이크로그램, 100 베지캡">
+                        
+                        
+                    </div>
+                </div>
+
+                <!-- 정보 섹션 -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <div class="brand-name">Life Extension</div>
+                        <h1 class="product-title">멜라토닌, 6 시간 타임 릴리즈, 300 마이크로그램, 100 베지캡</h1>
+                        
+                        <p class="product-description">Life Extension, 멜라토닌, 6 시간 타임 릴리즈, 300 마이크로그램, 100 베지캡</p>
+                        
+                    </div>
+
+                    <div class="price-section">
+                        
+                        <div class="price-current">₩13,297</div>
+                    </div>
+
+                    <div class="status-section">
+                        <div class="status-item">
+                            <span class="status-label">재고 상태</span>
+                            <span class="status-value in-stock">
+                                재고있음
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="https://www.iherb.com/pr/life-extension-melatonin-6-hour-timed-release-300-mcg-100-vegetarian-tablets/47832?rcode=DOI2225" target="_blank" class="btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 3h7a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H3z"></path>
+                                <path d="M21 3h-7a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h8z"></path>
+                            </svg>
+                            iHerb에서 구매하기
+                        </a>
+                        <div class="btn-wrapper">
+                            <button class="btn-secondary disabled" id="price-alert-btn" disabled>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                </svg>
+                                가격 알림 설정
+                            </button>
+                            <div class="tooltip">추후 모바일앱으로 알림 기능을 제공할 예정입니다.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 가격 통계 카드 -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon lowest">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">역대 최저가</div>
+                    <div class="stat-value">₩13,290</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon highest">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                        <polyline points="19 9 12 2 5 9"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">역대 최고가</div>
+                    <div class="stat-value">₩13,297</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon average">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">평균가</div>
+                    <div class="stat-value">₩13,295</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 가격 추이 차트 -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    가격 추이
+                </h2>
+                <div class="chart-controls">
+                    <button class="chart-period active" data-period="30">30일</button>
+                    <button class="chart-period" data-period="90">90일</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="priceHistoryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 유사 상품 섹션 제거됨 -->
+    </div>
+
+    <!-- 가격 알림 모달 -->
+    <div class="modal" id="price-alert-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>가격 알림 설정</h3>
+                <button class="modal-close" aria-label="닫기">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>원하시는 가격에 도달하면 알림을 보내드립니다.</p>
+                <form class="alert-form">
+                    <div class="form-group">
+                        <label for="alert-price">희망 가격</label>
+                        <input type="number" id="alert-price" placeholder="예: 11967" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="alert-email">알림 받을 이메일</label>
+                        <input type="email" id="alert-email" placeholder="your@email.com" required>
+                    </div>
+                    <button type="submit" class="submit-btn">알림 설정하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Popup -->
+    <div class="mobile-popup-backdrop" id="mobile-popup-backdrop"></div>
+    <div class="mobile-popup" id="mobile-popup">
+        <p>추후 모바일앱으로 알림 기능을 제공할 예정입니다.</p>
+        <button class="close-popup-btn" id="close-popup-btn">확인</button>
+    </div>
+
+    <script>
+        // 차트 데이터
+        const chartData = {"labels": ["2025-07-27", "2025-07-28", "2025-07-29", "2025-07-30", "2025-08-02", "2025-08-03", "2025-08-04", "2025-08-05", "2025-08-06", "2025-08-07", "2025-08-08", "2025-08-09", "2025-08-10", "2025-08-11"], "prices": [13290.0, 13290.0, 13290.0, 13290.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0], "original_prices": [13290.0, 13290.0, 13290.0, 13290.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0, 13297.0]};
+        const isOnSale = false;
+        const currentPrice = 13297.0;
+        const avgPrice = 13295.0;
+    </script>
+    <script src="../js/product_detail.js"></script>
+</body>
+</html>

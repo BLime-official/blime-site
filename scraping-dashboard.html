@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크래핑 대시보드 - 비라임</title>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 스크래핑 대시보드</h1>
+        
+        <!-- 기준날짜 표시 -->
+        <div class="data-reference-date">
+            <h2>
+                📅 데이터 기준일시: <span class="date-value">2026-03-02 08:51:33</span>
+            </h2>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">1194</div>
+                <div class="stat-label">전체 상품</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1183</div>
+                <div class="stat-label">오늘 수집</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-value">39</div>
+                <div class="stat-label">품절 상품</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-value">%</div>
+                <div class="stat-label">성공률</div>
+            </div>
+        </div>
+    
+        <!-- Scraping Progress -->
+        <div class="section">
+            <h2>🔄 오늘의 스크래핑 진행 상황</h2>
+            <div class="progress-container">
+                <div class="overall-progress">
+                    <h3>전체 진행률: %</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: %"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>완료:  / </span>
+                    </div>
+                </div>
+                
+                <h3>단계별 진행 상황</h3>
+                <div class="iteration-progress">
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+        
+        <div class="timestamp">
+            마지막 업데이트: 2026-03-02 08:51:33
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>

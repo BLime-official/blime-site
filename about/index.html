@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>비라임 소개 - 스마트 건강 쇼핑</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+  
+  <link rel="stylesheet" href="../css/main.css">
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-KKBT885WBS');
+  </script>
+  <style>
+    .about-hero { padding: 64px 24px 24px; text-align: center; }
+    .about-hero h1 { font-size: 32px; margin-bottom: 12px; }
+    .about-hero p { color: var(--text-muted); margin: 0 auto; max-width: 680px; }
+    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px auto 8px; max-width: 900px; }
+    .about-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
+    .about-card .value { font-size: 24px; font-weight: 700; }
+    .about-card .label { color: var(--text-muted); font-size: 14px; }
+    .about-sections { max-width: 960px; margin: 24px auto; padding: 0 24px; display: grid; gap: 16px; }
+    .about-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; }
+    .about-section .content { padding: 24px; }
+    .about-section h2 { margin: 0 0 8px; font-size: 22px; }
+    .about-section p { margin: 0; color: var(--text-muted); }
+    .about-section .visual { min-height: 200px; background: radial-gradient(1200px 600px at -10% -10%, rgba(255,153,0,0.1), transparent), radial-gradient(600px 300px at 110% 110%, rgba(0,200,255,0.08), transparent); display:flex; align-items:center; justify-content:center; }
+    .about-section .visual svg { width: 120px; height: 120px; stroke: var(--text-muted); opacity: 0.9; }
+    .about-badges { display:flex; gap:8px; margin-top:12px; flex-wrap: wrap; }
+    .badge { background: var(--chip-bg); color: var(--text-muted); border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; font-size: 12px; }
+    @media (max-width: 900px) { .about-section { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="../index.html#home">
+          <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+        </a>
+      </div>
+      <nav class="nav">
+        <a href="../index.html#home" class="nav-link">홈</a>
+        <a href="../deals/" class="nav-link">할인 상품</a>
+        <a href="../about/" class="nav-link active">비라임 소개</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="about-hero">
+      <div class="visual">
+        <img src="../assets/logo_small.png" alt="BLime" style="height:72px; opacity:0.9;">
+      </div>
+      <h1>비라임</h1>
+      <p>비라임은 iHerb 상품 가격을 매일 손수 사람의 손으로 추적해 최저가와 할인 정보를 한눈에 보여주는 서비스입니다. 원하시는 상품의 가격 추이를 확인해 보세요.</p>
+      <div class="about-stats">
+        <div class="about-card"><div class="value">1194</div><div class="label">추적 중인 상품</div></div>
+        <div class="about-card"><div class="value">42</div><div class="label">할인 중인 상품</div></div>
+        <div class="about-card"><div class="value">66%</div><div class="label">최대 할인율</div></div>
+      </div>
+    </section>
+
+    <section class="about-sections">
+      <div class="about-section">
+        <div class="content">
+          <h2>무엇을 하나요?</h2>
+          <p>iHerb 제품의 현재가·정가·할인율·재고를 수집해 카드형 UI로 제공합니다. 관심 상품의 상세 페이지에서 가격 변동 이력을 확인할 수 있습니다.</p>
+          <div class="about-badges">
+            <span class="badge">가격 추적</span>
+            <span class="badge">할인 모아보기</span>
+            <span class="badge">상세 가격 히스토리</span>
+          </div>
+        </div>
+        <div class="visual" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">
+            <polyline points="3 14 9 18 21 6"/>
+            <rect x="3" y="10" width="2" height="8" rx="1"/>
+            <rect x="7" y="12" width="2" height="6" rx="1"/>
+            <rect x="11" y="8" width="2" height="10" rx="1"/>
+            <path d="M20 13l-7 7-6-6 7-7h4l2 2z"/>
+            <circle cx="16" cy="8" r="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <div class="content">
+          <h2>어떻게 활용하나요?</h2>
+          <p>검색창에 제품명·브랜드를 입력해 찾고, 할인 상품 페이지에서 할인 중인 상품을 확인하세요. 표시되지 않는 상품이 있으면, 메인 페이지의 상품 추가 버튼으로 URL을 보내주세요.</p>
+          <div class="about-badges">
+            <span class="badge">검색과 필터</span>
+            <span class="badge">상품 요청</span>
+          </div>
+        </div>
+        <div class="visual" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">
+            <circle cx="10" cy="10" r="6"/>
+            <line x1="14.5" y1="14.5" x2="20" y2="20"/>
+            <path d="M20 3H4l4 6h8l4-6z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <div class="content">
+          <h2>모바일 앱</h2>
+          <p>모바일 앱에서는 사용자별 관심 상품만 트래킹하고, 할인 알림·가격 변동 알림을 푸시로 제공합니다. 원하는 목표가를 설정해 최적의 구매 타이밍을 놓치지 마세요.</p>
+          <div class="about-badges">
+            <span class="badge">개인화 트래킹</span>
+            <span class="badge">할인 알림</span>
+            <span class="badge">가격 변동 알림</span>
+          </div>
+        </div>
+        <div class="visual" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">
+            <rect x="7" y="2" width="10" height="20" rx="2"/>
+            <circle cx="12" cy="18" r="1"/>
+            <path d="M18.5 9a3.5 3.5 0 0 0-7 0v2.5l-1 1.5h9l-1-1.5V9"/>
+            <path d="M16 5.5a1.5 1.5 0 0 1 3 0"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2025 BLime. All rights reserved.</p>
+      <p class="update-time">마지막 업데이트: 2026-03-02 08:51:33</p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
+

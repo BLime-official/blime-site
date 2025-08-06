@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비라임 - iHerb 가격 추적 서비스</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+    
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/product_detail.css">
+    <link rel="stylesheet" href="../css/unit_price_component.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+                </a>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" aria-label="다크모드 전환">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 브레드크럼 -->
+        <nav class="breadcrumb">
+            <a href="../index.html">홈</a>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <span>Super Nutrition</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <span class="current">슈퍼 이뮨, 면역력 강화 종합비타민, 글루타치온 함유, 고효능 비타민, 미네랄, 허브</span>
+        </nav>
+
+        <!-- 상품 상세 정보 -->
+        <div class="product-detail">
+            <div class="product-detail-grid">
+                <!-- 이미지 섹션 -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        
+                        <img src="https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/spn/spn02015/v/62.jpg" alt="슈퍼 이뮨, 면역력 강화 종합비타민, 글루타치온 함유, 고효능 비타민, 미네랄, 허브">
+                        
+                        
+                    </div>
+                </div>
+
+                <!-- 정보 섹션 -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <div class="brand-name">Super Nutrition</div>
+                        <h1 class="product-title">슈퍼 이뮨, 면역력 강화 종합비타민, 글루타치온 함유, 고효능 비타민, 미네랄, 허브</h1>
+                        
+                        <p class="product-description">Super Nutrition, 슈퍼 이뮨, 면역력 강화 종합비타민, 글루타치온 함유, 고효능 비타민, 미네랄, 허브, 240정</p>
+                        
+                    </div>
+
+                    <div class="price-section">
+                        
+                        <div class="price-current">₩68,378</div>
+                    </div>
+
+                    <!-- 단위 가격 정보 섹션 -->
+                    
+
+                    <div class="status-section">
+                        <div class="status-item">
+                            <span class="status-label">재고 상태</span>
+                            <span class="status-value out-of-stock">
+                                품절
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="https://kr.iherb.com/pr/super-nutrition-super-immune-immune-strengthening-multivitamin-with-glutathione-high-potency-vitamins-minerals-and-herbs-240-tablets/105916?rcode=DOI2225" target="_blank" class="btn-primary">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 3h7a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H3z"></path>
+                                <path d="M21 3h-7a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h8z"></path>
+                            </svg>
+                            iHerb에서 구매하기
+                        </a>
+                        <div class="btn-wrapper">
+                            <button class="btn-secondary disabled" id="price-alert-btn" disabled>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                </svg>
+                                가격 알림 설정
+                            </button>
+                            <div class="tooltip">추후 모바일앱으로 알림 기능을 제공할 예정입니다.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 가격 통계 카드 -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon lowest">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">역대 최저가</div>
+                    <div class="stat-value">₩66,032</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon highest">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                        <polyline points="19 9 12 2 5 9"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">역대 최고가</div>
+                    <div class="stat-value">₩68,378</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon average">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-label">평균가</div>
+                    <div class="stat-value">₩67,547</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 가격 추이 차트 -->
+        <div class="chart-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    가격 추이
+                </h2>
+                <div class="chart-controls">
+                    <button class="chart-period active" data-period="30">30일</button>
+                    <button class="chart-period" data-period="90">90일</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="priceHistoryChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 유사 상품 섹션 제거됨 -->
+    </div>
+    <!-- Mobile Popup -->
+    <div class="mobile-popup-backdrop" id="mobile-popup-backdrop"></div>
+    <div class="mobile-popup" id="mobile-popup">
+        <p>추후 모바일앱으로 알림 기능을 제공할 예정입니다.</p>
+        <button class="close-popup-btn" id="close-popup-btn">확인</button>
+    </div>
+
+    <script>
+        // 차트 데이터
+        const chartData = {"labels": ["2025-10-19", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-25", "2025-10-26", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-01", "2025-11-02", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-08", "2025-11-09", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-15", "2025-11-16", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-22", "2025-11-23", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-11-29", "2025-11-30", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-06", "2025-12-07", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-13", "2025-12-14", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-27", "2025-12-28", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-01", "2026-01-02", "2026-01-03", "2026-01-04", "2026-01-05"], "prices": [66032.0, 66032.0, 66032.0, 66032.0, 66032.0, 66083.0, 66083.0, 66331.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66528.0, 66529.0, 66890.0, 67214.0, 67214.0, 67222.0, 67289.0, 67450.0, 67817.0, 67862.0, 67862.0, 67862.0, 67862.0, 67862.0, 67862.0, 67862.0, 68048.0, 68048.0, 68048.0, 68048.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68127.0, 68204.0, 68257.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0], "original_prices": [66032.0, 66032.0, 66032.0, 66032.0, 66032.0, 66083.0, 66083.0, 66331.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66444.0, 66528.0, 66529.0, 66890.0, 67214.0, 67214.0, 67222.0, 67289.0, 67450.0, 67817.0, 67862.0, 67862.0, 67862.0, 67862.0, 67862.0, 67862.0, 67862.0, 68048.0, 68048.0, 68048.0, 68048.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68107.0, 68127.0, 68204.0, 68257.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0, 68378.0]};
+        const isOnSale = false;
+        const currentPrice = 68378.0;
+        const avgPrice = 67547.0;
+    </script>
+    <script src="../js/product_detail.js"></script>
+    <script src="../js/unit_price_component.js"></script>
+</body>
+</html>
