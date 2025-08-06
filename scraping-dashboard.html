@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스크래핑 대시보드 - 비라임</title>
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-KKBT885WBS');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 스크래핑 대시보드</h1>
+        
+        <!-- 기준날짜 표시 -->
+        <div class="data-reference-date">
+            <h2>
+                📅 데이터 기준일시: <span class="date-value">2026-03-08 08:46:09</span>
+            </h2>
+        </div>
+        
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">1200</div>
+                <div class="stat-label">전체 상품</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">480</div>
+                <div class="stat-label">오늘 수집</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-value">47</div>
+                <div class="stat-label">품절 상품</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-value">100.0%</div>
+                <div class="stat-label">성공률</div>
+            </div>
+        </div>
+    
+        <!-- Scraping Progress -->
+        <div class="section">
+            <h2>🔄 오늘의 스크래핑 진행 상황</h2>
+            <div class="progress-container">
+                <div class="overall-progress">
+                    <h3>전체 진행률: 39.8%</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 39.8%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>완료: 480 / 1206</span>
+                    </div>
+                </div>
+                
+                <h3>단계별 진행 상황</h3>
+                <div class="iteration-progress">
+                    
+                    <div class="iteration-item">
+                        <div class="iteration-header">
+                            <span class="iteration-name">1차 시도 (우선순위 5)</span>
+                            <span class="iteration-stats">480/1200 (40.0%)</span>
+                        </div>
+                        <div class="progress-bar small">
+                            <div class="progress-fill primary" 
+                                 style="width: 40.0%"></div>
+                        </div>
+                        <div class="iteration-details">
+                            <span class="badge success">완료: 480</span>
+                            <span class="badge danger">실패: 0</span>
+                            <span class="badge">대기: 720</span>
+                        </div>
+                    </div>
+                    
+                    <div class="iteration-item">
+                        <div class="iteration-header">
+                            <span class="iteration-name">3차+ 시도 (우선순위 10)</span>
+                            <span class="iteration-stats">0/6 (0.0%)</span>
+                        </div>
+                        <div class="progress-bar small">
+                            <div class="progress-fill danger" 
+                                 style="width: 0.0%"></div>
+                        </div>
+                        <div class="iteration-details">
+                            <span class="badge success">완료: 0</span>
+                            <span class="badge danger">실패: 0</span>
+                            <span class="badge">대기: 6</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            <h3>⚠️ 문제 URL (연속 실패)</h3>
+            <div class="problem-urls">
+                <table class="problem-urls-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>우선순위</th>
+                            <th>연속 실패</th>
+                            <th>마지막 시도</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/quality-of-life-labs-serenelle-stress-management-60-vegicaps/50565</td>
+                            <td>10</td>
+                            <td class="failure-count">40회</td>
+                            <td>2026-03-07T12:30:23.091202+00:00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/now-foods-mk-7-plus-with-k1-mk-4-90-veg-capsules/116195</td>
+                            <td>10</td>
+                            <td class="failure-count">40회</td>
+                            <td>2026-03-07T12:30:23.062344+00:00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/jarrow-formulas-vegan-saccharomyces-boulardii-mos-5-billion-cfu-90-veggie-capsules/372</td>
+                            <td>10</td>
+                            <td class="failure-count">40회</td>
+                            <td>2026-03-07T12:30:45.688154+00:00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/jarrow-formulas-vegan-saccharomyces-boulardii-mos-5-billion-cfu-180-veggie-capsules/37658</td>
+                            <td>10</td>
+                            <td class="failure-count">39회</td>
+                            <td>2026-03-07T12:30:45.714831+00:00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/life-extension-daily-skin-defense-30-vegetarian-capsules/114466</td>
+                            <td>10</td>
+                            <td class="failure-count">39회</td>
+                            <td>2026-03-07T12:31:07.406363+00:00</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="url-cell">https://kr.iherb.com/pr/california-gold-nutrition-nmn-flavonoid-complex-with-apigenin-and-dihydroquercetin-60-veggie-capsules/104105</td>
+                            <td>10</td>
+                            <td class="failure-count">39회</td>
+                            <td>2026-03-07T12:31:07.438144+00:00</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        
+        <div class="timestamp">
+            마지막 업데이트: 2026-03-08 08:46:09
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>
