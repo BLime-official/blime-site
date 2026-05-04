@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관심상품 - 비라임</title>
+
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <script>
+    window.BLIME_SUPABASE_CONFIG = {
+      url: "https://owzhzchjhrpyreinicuq.supabase.co",
+      anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93emh6Y2hqaHJweXJlaW5pY3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTQ3NzIsImV4cCI6MjA3NTkzMDc3Mn0.XibDuV25pA9M7pxRCsxo5MR6aLa_nfOFS9vufnmHBF4",
+      requestFunctionUrl: ""
+    };
+  </script>
+</head>
+<body data-page="favorites">
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="../index.html#home">
+          <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+        </a>
+      </div>
+      <nav class="nav">
+        <a href="../index.html#home" class="nav-link">홈</a>
+        <a href="../deals/" class="nav-link">할인 상품</a>
+        <a href="../favorites/" class="nav-link active">관심상품</a>
+        <a href="../about/" class="nav-link">비라임 소개</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="다크모드 전환">
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container favorites-page">
+    <section class="favorites-header">
+      <h1 class="section-title">관심상품</h1>
+      <p class="favorites-description">로그인한 계정의 관심상품을 모아봅니다.</p>
+    </section>
+
+    <section class="favorites-login-panel" id="favorites-login-panel" hidden>
+      <h2>로그인이 필요합니다</h2>
+      <p>관심상품을 확인하려면 로그인해 주세요.</p>
+      <div class="favorite-auth-actions">
+        <button class="favorite-auth-provider" data-auth-provider="google">Google로 계속</button>
+        <button class="favorite-auth-provider" data-auth-provider="apple">Apple로 계속</button>
+      </div>
+    </section>
+
+    <section class="favorites-content" id="favorites-content" hidden>
+      <div class="products-grid" id="favorites-grid"></div>
+      <p class="favorites-empty" id="favorites-empty" hidden>아직 추가한 관심상품이 없습니다.</p>
+      <section class="favorites-missing" id="favorites-missing" hidden>
+        <h2>현재 표시할 수 없음</h2>
+        <ul id="favorites-missing-list"></ul>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2026 BLime. All rights reserved.</p>
+      <p class="update-time">마지막 업데이트: 2026-05-27 16:05:13</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/favorites.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

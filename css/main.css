@@ -472,6 +472,12 @@ section {
     overflow: hidden;
 }
 
+.product-image-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
 .product-image img {
     width: 100%;
     height: 100%;
@@ -528,6 +534,15 @@ section {
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1.4;
+}
+
+.product-name a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.product-name a:hover {
+    color: var(--primary-color);
 }
 
 /* New: Variant line (form_and_quantity) */
@@ -763,6 +778,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
     margin-top: 48px;
 }
@@ -795,6 +811,79 @@ section {
 .pagination button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.page-jump {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.page-jump-input {
+    width: 72px;
+    height: 40px;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.page-jump-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.page-jump-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+}
+
+.page-jump.invalid .page-jump-input {
+    border-color: var(--danger-color);
+    box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+}
+
+.page-jump-flash {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    z-index: 20;
+    min-width: max-content;
+    padding: 8px 10px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.3;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 4px);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.page-jump-flash::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 8px;
+    height: 8px;
+    background: var(--bg-primary);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    transform: translate(-50%, -4px) rotate(45deg);
+}
+
+.page-jump-flash.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
 }
 
 .page-info {
@@ -1227,6 +1316,51 @@ section {
     font-weight: bold;
 }
 
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.stats-grid .stat-card {
+    padding: 20px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stats-grid .stat-value {
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stats-grid .stat-label {
+    margin-top: 8px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.stats-grid .stat-card.success {
+    border-color: rgba(16, 185, 129, 0.35);
+}
+
+.stats-grid .stat-card.success .stat-value {
+    color: var(--success-color);
+}
+
+.stats-grid .stat-card.warning {
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.stats-grid .stat-card.warning .stat-value {
+    color: var(--warning-color);
+}
+
 /* Scraping Dashboard Specific Styles */
 .back-link {
     margin-bottom: 20px;
@@ -1340,6 +1474,27 @@ section {
     gap: 10px;
 }
 
+.new-products-chart-panel {
+    margin-top: 28px;
+}
+
+.chart-title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.chart-title-row h3 {
+    margin: 0;
+}
+
+.chart-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
 .badge {
     padding: 4px 12px;
     border-radius: 16px;
@@ -1445,7 +1600,21 @@ section {
 }
 
 @media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-title-row {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
         grid-template-columns: 1fr;
     }
 }
