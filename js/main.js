@@ -7,6 +7,54 @@ let allProducts = [];
 let filteredProducts = [];
 let currentCategory = 'all';
 
+const isDealsPage = () => window.location.pathname.includes('/deals/');
+
+const getProductsIndexUrl = () => isDealsPage() ? '../products_index.json' : 'products_index.json';
+
+const formatPrice = (price) => {
+    if (price === null || price === undefined || price === '') return 'N/A';
+    const number = Number(price);
+    if (Number.isNaN(number)) return String(price);
+    return Math.trunc(number).toLocaleString('ko-KR');
+};
+
+const escapeHtml = (value) => String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+
+const getProductDetailHref = (product) => {
+    const detailPath = product.detail_path || `products/product_${product.id}.html`;
+    return isDealsPage() && !detailPath.startsWith('../') ? `../${detailPath}` : detailPath;
+};
+
+const hydrateProductsFromDom = () => {
+    const productCards = document.querySelectorAll('#products-grid .product-card');
+    return Array.from(productCards).map((card, index) => {
+        const currentPriceText = card.querySelector('.current-price')?.textContent || '0';
+        const originalPriceText = card.querySelector('.original-price')?.textContent || '';
+        const detailHref = card.querySelector('a[href]')?.getAttribute('href') || '';
+        const normalizedDetailPath = detailHref.replace(/^\.\.\//, '');
+
+        return {
+            id: card.dataset.productId || index + 1,
+            name: card.querySelector('.product-name')?.textContent?.trim() || '',
+            brand: card.querySelector('.product-brand')?.textContent?.trim() || '',
+            form_and_quantity: card.querySelector('.product-variant')?.textContent?.trim() || '',
+            current_price: parseInt(currentPriceText.replace(/[^\d]/g, ''), 10) || 0,
+            original_price: parseInt(originalPriceText.replace(/[^\d]/g, ''), 10) || null,
+            availability: card.querySelector('.stock-status')?.textContent?.trim() || '',
+            is_on_sale: !!card.querySelector('.sale-badge'),
+            discount_percentage: parseInt(card.querySelector('.sale-badge')?.textContent?.match(/\d+/)?.[0] || '0', 10),
+            image_url: card.querySelector('.product-image img')?.getAttribute('src') || '',
+            unit_price_description: card.querySelector('.unit-price-text')?.textContent?.trim() || '',
+            detail_path: normalizedDetailPath || `products/product_${card.dataset.productId || index + 1}.html`
+        };
+    });
+};
+
 // Theme Management
 const initTheme = () => {
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -151,13 +199,11 @@ const initFilters = () => {
 const initProductCards = () => {
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.product-card');
-        if (card && !e.target.closest('.quick-view-btn')) {
-            const productId = card.dataset.productId;
-            const inDeals = window.location.pathname.includes('/deals/');
-            const target = inDeals
-                ? `../products/product_${productId}.html`
-                : `products/product_${productId}.html`;
-            window.location.href = target;
+        if (card && !e.target.closest('a, button, .quick-view-btn')) {
+            const target = card.querySelector('a[href]')?.getAttribute('href');
+            if (target) {
+                window.location.href = target;
+            }
         }
     });
     
@@ -213,13 +259,16 @@ const createProductCard = (product) => {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.dataset.productId = product.id;
+    const detailHref = getProductDetailHref(product);
+    const productName = product.name || '';
+    const displayName = product.name || product.full_text || '';
     
     const saleHtml = product.is_on_sale 
         ? `<div class="sale-badge">${product.discount_percentage}% ↓</div>` 
         : '';
     
     const imageHtml = product.image_url
-        ? `<img src="${product.image_url}" alt="${product.name}" loading="lazy">`
+        ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(productName)}" loading="lazy">`
         : `<div class="no-image">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -229,27 +278,32 @@ const createProductCard = (product) => {
           </div>`;
     
     const priceHtml = product.is_on_sale
-        ? `<span class="original-price">₩${product.original_price_formatted}</span>
-           <span class="current-price">₩${product.current_price_formatted}</span>`
-        : `<span class="current-price">₩${product.current_price_formatted || product.current_price}</span>`;
+        ? `<span class="original-price">₩${formatPrice(product.original_price)}</span>
+           <span class="current-price">₩${formatPrice(product.current_price)}</span>`
+        : `<span class="current-price">₩${formatPrice(product.current_price)}</span>`;
     
     const stockClass = product.availability?.trim() === '재고있음' ? 'in-stock' : 'out-of-stock';
     
     card.innerHTML = `
         ${saleHtml}
+        <a class="product-image-link" href="${escapeHtml(detailHref)}" aria-label="${escapeHtml(productName)} 상세 보기">
         <div class="product-image">
             ${imageHtml}
         </div>
+        </a>
         <div class="product-content">
-            <div class="product-brand">${product.brand || '-'}</div>
-            <h3 class="product-name">${product.full_text_without_brand || product.name}</h3>
-            ${product.form_and_quantity ? `<div class="product-variant">${product.form_and_quantity}</div>` : ''}
+            <div class="product-brand">${escapeHtml(product.brand || '-')}</div>
+            <h3 class="product-name">
+                <a href="${escapeHtml(detailHref)}">${escapeHtml(displayName)}</a>
+            </h3>
+            ${product.form_and_quantity ? `<div class="product-variant">${escapeHtml(product.form_and_quantity)}</div>` : ''}
             <div class="price-group">
                 ${priceHtml}
             </div>
+            ${product.unit_price_description ? `<div class="unit-price-summary"><span class="unit-price-text">${escapeHtml(product.unit_price_description)}</span></div>` : ''}
             <div class="product-footer">
                 <span class="stock-status ${stockClass}">
-                    ${product.availability}
+                    ${escapeHtml(product.availability || '')}
                 </span>
             </div>
         </div>
@@ -264,6 +318,31 @@ const updatePagination = () => {
     
     const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
     pagination.innerHTML = '';
+    if (totalPages === 0) return;
+
+    const goToPage = (page) => {
+        currentPage = page;
+        renderProducts();
+        updatePagination();
+        scrollToProducts();
+    };
+
+    const showPageJumpFlash = (wrapper, message) => {
+        const flash = wrapper.querySelector('.page-jump-flash');
+        flash.textContent = message;
+        wrapper.classList.add('invalid');
+        flash.classList.remove('show');
+
+        window.requestAnimationFrame(() => {
+            flash.classList.add('show');
+        });
+
+        clearTimeout(wrapper.pageJumpFlashTimer);
+        wrapper.pageJumpFlashTimer = setTimeout(() => {
+            flash.classList.remove('show');
+            wrapper.classList.remove('invalid');
+        }, 1800);
+    };
     
     // Previous button
     const prevBtn = document.createElement('button');
@@ -271,16 +350,13 @@ const updatePagination = () => {
     prevBtn.disabled = currentPage === 1;
     prevBtn.addEventListener('click', () => {
         if (currentPage > 1) {
-            currentPage--;
-            renderProducts();
-            updatePagination();
-            scrollToProducts();
+            goToPage(currentPage - 1);
         }
     });
     pagination.appendChild(prevBtn);
     
     // Page numbers
-    const startPage = Math.max(1, currentPage - 2);
+    const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
     const endPage = Math.min(totalPages, startPage + 4);
     
     for (let i = startPage; i <= endPage; i++) {
@@ -288,13 +364,41 @@ const updatePagination = () => {
         pageBtn.textContent = i;
         pageBtn.classList.toggle('active', i === currentPage);
         pageBtn.addEventListener('click', () => {
-            currentPage = i;
-            renderProducts();
-            updatePagination();
-            scrollToProducts();
+            goToPage(i);
         });
         pagination.appendChild(pageBtn);
     }
+
+    // Direct page jump
+    const pageJump = document.createElement('div');
+    pageJump.className = 'page-jump';
+    pageJump.innerHTML = `
+        <label class="sr-only" for="pageJumpInput">페이지 번호 입력</label>
+        <input id="pageJumpInput" class="page-jump-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="페이지" autocomplete="off" aria-describedby="pageJumpFlash">
+        <span id="pageJumpFlash" class="page-jump-flash" role="status" aria-live="polite"></span>
+    `;
+    const pageJumpInput = pageJump.querySelector('.page-jump-input');
+    pageJumpInput.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter') return;
+
+        event.preventDefault();
+        const rawValue = pageJumpInput.value.trim();
+        const targetPage = Number(rawValue);
+
+        if (!/^\d+$/.test(rawValue) || !Number.isInteger(targetPage)) {
+            showPageJumpFlash(pageJump, '숫자를 입력하세요');
+            return;
+        }
+
+        if (targetPage < 1 || targetPage > totalPages) {
+            showPageJumpFlash(pageJump, `1~${totalPages} 사이 숫자를 입력하세요`);
+            return;
+        }
+
+        pageJumpInput.value = '';
+        goToPage(targetPage);
+    });
+    pagination.appendChild(pageJump);
     
     // Page info
     const pageInfo = document.createElement('span');
@@ -308,10 +412,7 @@ const updatePagination = () => {
     nextBtn.disabled = currentPage === totalPages;
     nextBtn.addEventListener('click', () => {
         if (currentPage < totalPages) {
-            currentPage++;
-            renderProducts();
-            updatePagination();
-            scrollToProducts();
+            goToPage(currentPage + 1);
         }
     });
     pagination.appendChild(nextBtn);
@@ -464,6 +565,24 @@ const initProductRequest = () => {
         
         return null;
     };
+
+    const getSuccessMessage = (payload) => {
+        if (payload && typeof payload.message === 'string' && payload.message.trim()) {
+            return payload.message.trim();
+        }
+
+        const code = payload?.code || payload?.status;
+        if (code === 'accepted' || code === 'pending' || code === 'fetching') {
+            return '상품 추가 요청이 접수되었습니다. 가격 추적 준비가 시작됩니다.';
+        }
+        if (code === 'already_pending') {
+            return '이미 처리 중인 요청입니다.';
+        }
+        if (code === 'ready' || code === 'completed') {
+            return '상품이 등록되었습니다. 가격 추적이 시작됩니다.';
+        }
+        return '상품 추가 요청이 처리되었습니다.';
+    };
     
     // 폼 제출 처리
     const handleFormSubmit = async (e) => {
@@ -511,7 +630,7 @@ const initProductRequest = () => {
                 return;
             }
 
-            showResult(`✅ ${payload.message}`, true);
+            showResult(`✅ ${getSuccessMessage(payload)}`, true);
             
         } catch (error) {
             console.error('Error submitting request:', error);
@@ -561,6 +680,79 @@ const initViewToggle = () => {
     });
 };
 
+const initNewProductsChart = async () => {
+    const canvas = document.getElementById('newProductsChart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    let rows = Array.isArray(window.BLIME_NEW_PRODUCTS_DAILY)
+        ? window.BLIME_NEW_PRODUCTS_DAILY
+        : [];
+    if (rows.length === 0) {
+        try {
+            const response = await fetch('dashboard_data.json');
+            const payload = await response.json();
+            rows = Array.isArray(payload.new_products_daily)
+                ? payload.new_products_daily
+                : [];
+        } catch (error) {
+            rows = [];
+        }
+    }
+
+    const labels = rows.map(row => row.date);
+    const counts = rows.map(row => row.count);
+
+    new Chart(canvas, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: '신규 상품',
+                data: counts,
+                borderColor: '#004E89',
+                backgroundColor: 'rgba(0, 78, 137, 0.12)',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                tension: 0.35,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: context => `신규 상품 ${context.parsed.y}개`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 8
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+};
+
 // Smooth Scroll for Navigation
 const initSmoothScroll = () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -596,35 +788,31 @@ const initIntersectionObserver = () => {
 
 // Load Products Data
 const loadProducts = async () => {
+    const grid = document.getElementById('products-grid');
+    if (!grid) return false;
+    const fallbackProducts = hydrateProductsFromDom();
+
     try {
-        // In real implementation, this would fetch from an API
-        // For now, we'll use the products already rendered in HTML
-        // Only load products from the main products grid, not from hot deals section
-        const productCards = document.querySelectorAll('#products-grid .product-card');
-        allProducts = Array.from(productCards).map((card, index) => {
-            const priceText = card.querySelector('.current-price')?.textContent || '0';
-            const price = parseInt(priceText.replace(/[^\d]/g, ''));
-            const originalPriceText = card.querySelector('.original-price')?.textContent || '';
-            
-            return {
-                id: card.dataset.productId || index + 1,
-                name: card.querySelector('.product-name')?.textContent || '',
-                brand: card.querySelector('.product-brand')?.textContent || '',
-                full_text_without_brand: card.querySelector('.product-name')?.textContent || '',
-                form_and_quantity: card.querySelector('.product-variant')?.textContent || '',
-                current_price: price,
-                current_price_formatted: priceText.replace('₩', ''),
-                original_price_formatted: originalPriceText.replace('₩', ''),
-                availability: card.querySelector('.stock-status')?.textContent?.trim() || '',
-                is_on_sale: !!card.querySelector('.sale-badge'),
-                discount_percentage: card.querySelector('.sale-badge')?.textContent?.match(/\d+/)?.[0] || '0',
-                image_url: card.querySelector('.product-image img')?.src || ''
-            };
-        });
-        
+        const response = await fetch(getProductsIndexUrl());
+        if (!response.ok) {
+            throw new Error(`products_index.json ${response.status}`);
+        }
+        const products = await response.json();
+        if (!Array.isArray(products)) {
+            throw new Error('products_index.json must be an array');
+        }
+        allProducts = isDealsPage()
+            ? products
+                .filter(product => product.is_on_sale)
+                .sort((a, b) => (b.discount_percentage || 0) - (a.discount_percentage || 0))
+            : products;
         filteredProducts = [...allProducts];
+        return true;
     } catch (error) {
         console.error('Error loading products:', error);
+        allProducts = fallbackProducts;
+        filteredProducts = [...allProducts];
+        return false;
     }
 };
 
@@ -637,18 +825,17 @@ document.addEventListener('DOMContentLoaded', () => {
     initModal();
     initProductRequest();
     initViewToggle();
+    initNewProductsChart();
     initSmoothScroll();
     initIntersectionObserver();
     
     // Load products and initialize pagination
-    loadProducts().then(() => {
-        // Remove all original products from DOM
+    loadProducts().then((loaded) => {
+        if (!loaded) return;
         const grid = document.getElementById('products-grid');
         if (grid) {
             grid.innerHTML = '';
         }
-        
-        // Render first page
         renderProducts();
         updatePagination();
     });
