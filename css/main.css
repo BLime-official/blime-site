@@ -115,6 +115,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .logo {
@@ -152,6 +153,9 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav-link {
@@ -177,6 +181,7 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
+    margin-left: auto;
 }
 
 .theme-toggle {
@@ -579,6 +584,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 /* 단위 가격 표시 스타일 */
@@ -635,6 +641,56 @@ section {
 .quick-view-btn:hover {
     background: var(--primary-color);
     color: white;
+}
+
+.favorite-toggle-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    transition: all var(--transition-fast);
+}
+
+.favorite-toggle-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.favorite-toggle-btn .favorite-icon-filled {
+    display: none;
+}
+
+.favorite-toggle-btn.is-favorite {
+    background: rgba(255, 107, 53, 0.1);
+    border-color: rgba(255, 107, 53, 0.35);
+    color: var(--primary-color);
+}
+
+.favorite-toggle-btn.is-favorite .favorite-icon-outline {
+    display: none;
+}
+
+.favorite-toggle-btn.is-favorite .favorite-icon-filled {
+    display: block;
+}
+
+[data-favorite-error] {
+    display: block;
+    flex: 0 0 100%;
+    margin-top: 6px;
+    color: var(--danger-color);
+    font-size: 12px;
 }
 
 /* Products Grid */
@@ -982,6 +1038,103 @@ section {
     margin-bottom: 24px;
 }
 
+.favorite-auth-modal {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.favorite-auth-dialog,
+.favorite-auth-modal-dialog {
+    max-width: 420px;
+    border-radius: 16px;
+}
+
+.favorite-auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.favorite-google-signin {
+    display: flex;
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+}
+
+.favorite-auth-provider {
+    height: 44px;
+    width: 100%;
+    border: 1px solid #747775;
+    background: #ffffff;
+    border-radius: 4px;
+    color: #1f1f1f;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 18px 1fr 18px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 12px;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.favorite-auth-provider[hidden] {
+    display: none;
+}
+
+.favorite-auth-provider > span:last-child {
+    grid-column: 2;
+    text-align: center;
+}
+
+.favorite-auth-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: start;
+    width: 18px;
+    height: 18px;
+}
+
+.favorite-auth-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.favorite-auth-provider-google:hover {
+    background: #f8fafd;
+    border-color: #747775;
+}
+
+.favorite-auth-provider-apple {
+    border-color: #000000;
+    background: #000000;
+    border-radius: 15px;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.favorite-auth-provider-apple:hover {
+    background: #1f1f1f;
+    border-color: #1f1f1f;
+}
+
+.favorite-auth-provider:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.favorite-auth-provider:disabled {
+    cursor: not-allowed;
+    opacity: 0.48;
+}
+
 .monitor-form {
     display: flex;
     flex-direction: column;
@@ -1087,6 +1240,65 @@ section {
     margin-top: 8px;
     font-size: 12px;
     color: var(--text-tertiary);
+}
+
+.favorites-page {
+    min-height: calc(100vh - var(--header-height) - 96px);
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.favorites-header {
+    margin-bottom: 24px;
+}
+
+.favorites-description {
+    margin-top: 8px;
+    color: var(--text-secondary);
+}
+
+.favorites-login-panel,
+.favorites-empty,
+.favorites-missing {
+    padding: 24px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.favorites-login-panel {
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 32px;
+    text-align: center;
+}
+
+.favorites-login-panel h2,
+.favorites-missing h2 {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 20px;
+}
+
+.favorites-login-panel p,
+.favorites-empty {
+    color: var(--text-secondary);
+}
+
+.favorites-login-panel .favorite-auth-actions {
+    max-width: 320px;
+    margin: 18px auto 0;
+}
+
+.favorites-missing {
+    margin-top: 24px;
+}
+
+.favorites-missing ul {
+    margin: 12px 0 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
 }
 
 /* Responsive Design */

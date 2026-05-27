@@ -23,23 +23,449 @@
     gtag('config', 'G-KKBT885WBS');
   </script>
   <style>
-    .about-hero { padding: 64px 24px 24px; text-align: center; }
-    .about-hero h1 { font-size: 32px; margin-bottom: 12px; }
-    .about-hero p { color: var(--text-muted); margin: 0 auto; max-width: 680px; }
-    .about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px auto 8px; max-width: 900px; }
-    .about-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
-    .about-card .value { font-size: 24px; font-weight: 700; }
-    .about-card .label { color: var(--text-muted); font-size: 14px; }
-    .about-sections { max-width: 960px; margin: 24px auto; padding: 0 24px; display: grid; gap: 16px; }
-    .about-section { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 1.2fr 1fr; }
-    .about-section .content { padding: 24px; }
-    .about-section h2 { margin: 0 0 8px; font-size: 22px; }
-    .about-section p { margin: 0; color: var(--text-muted); }
-    .about-section .visual { min-height: 200px; background: radial-gradient(1200px 600px at -10% -10%, rgba(255,153,0,0.1), transparent), radial-gradient(600px 300px at 110% 110%, rgba(0,200,255,0.08), transparent); display:flex; align-items:center; justify-content:center; }
-    .about-section .visual svg { width: 120px; height: 120px; stroke: var(--text-muted); opacity: 0.9; }
-    .about-badges { display:flex; gap:8px; margin-top:12px; flex-wrap: wrap; }
-    .badge { background: var(--chip-bg); color: var(--text-muted); border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; font-size: 12px; }
-    @media (max-width: 900px) { .about-section { grid-template-columns: 1fr; } }
+    .about-main {
+      background: var(--bg-secondary);
+    }
+
+    .about-hero-shell {
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .about-hero-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 56px 24px 0;
+    }
+
+    .about-hero-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+      gap: 44px;
+      align-items: center;
+      padding-bottom: 34px;
+    }
+
+    .about-hero-logo {
+      height: 74px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 18px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+    }
+
+    .about-title {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 42px;
+      line-height: 1.24;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .about-lead {
+      margin: 18px 0 0;
+      max-width: 680px;
+      color: var(--text-secondary);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .about-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .about-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+
+    .about-cta-primary {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .about-cta-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .about-cta-secondary {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .about-cta-secondary:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      transform: translateY(-1px);
+    }
+
+    .about-checklist {
+      padding: 4px 0;
+    }
+
+    .about-checklist-title {
+      margin: 0 0 18px;
+      color: var(--text-primary);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .about-check-item {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 18px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .about-check-item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .about-check-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 185, 129, 0.14);
+      color: var(--success-color);
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .about-check-name {
+      color: var(--text-primary);
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .about-check-desc {
+      margin-top: 4px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .about-stats-band {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-primary);
+    }
+
+    .about-stat {
+      padding: 18px 20px 20px;
+      text-align: center;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .about-stat:last-child {
+      border-right: 0;
+    }
+
+    .about-stat-value {
+      color: var(--text-primary);
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .about-stat-label {
+      margin-top: 6px;
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .about-content {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 44px 24px 56px;
+    }
+
+    .about-block {
+      padding: 28px 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .about-block:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .about-block-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 28px;
+      align-items: flex-end;
+      margin-bottom: 22px;
+    }
+
+    .about-block-title {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .about-block-copy {
+      margin: 0;
+      max-width: 520px;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .about-info-grid,
+    .about-steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .about-info-item,
+    .about-step {
+      min-width: 0;
+      padding: 2px 0 0;
+    }
+
+    .about-info-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      background: rgba(255, 107, 53, 0.1);
+      color: var(--primary-color);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .about-info-title,
+    .about-step-title {
+      margin: 0 0 8px;
+      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .about-info-copy,
+    .about-step-copy {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .about-step-number {
+      margin-bottom: 10px;
+      color: var(--primary-color);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .about-mobile-app {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+      gap: 28px;
+      align-items: start;
+      margin-top: 12px;
+      padding: 26px 0 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .about-soon-pill {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .about-mobile-app-title {
+      margin: 0 0 10px;
+      color: var(--text-primary);
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .about-mobile-app-copy {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .about-soon-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .about-soon-item {
+      padding: 13px 0;
+      color: var(--text-primary);
+      font-size: 15px;
+      font-weight: 600;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .about-soon-item:first-child {
+      border-top: 0;
+    }
+
+    @media (max-width: 900px) {
+      .about-hero-content,
+      .about-mobile-app {
+        grid-template-columns: 1fr;
+      }
+
+      .about-block-header {
+        display: block;
+      }
+
+      .about-block-copy {
+        margin-top: 8px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .about-hero-inner {
+        padding: 32px 16px 0;
+      }
+
+      .about-hero-content {
+        gap: 24px;
+        padding-bottom: 24px;
+      }
+
+      .about-hero-logo {
+        height: 58px;
+        margin-bottom: 14px;
+      }
+
+      .about-title {
+        font-size: 30px;
+      }
+
+      .about-lead {
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .about-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .about-cta {
+        min-height: 46px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .about-checklist-title {
+        font-size: 20px;
+      }
+
+      .about-check-item {
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 11px;
+        padding: 14px 0;
+      }
+
+      .about-check-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        font-size: 18px;
+      }
+
+      .about-check-name {
+        font-size: 15px;
+      }
+
+      .about-check-desc {
+        font-size: 13px;
+      }
+
+      .about-stat {
+        padding: 14px 8px 15px;
+      }
+
+      .about-stat-value {
+        font-size: 20px;
+      }
+
+      .about-stat-label {
+        font-size: 11px;
+        line-height: 1.3;
+      }
+
+      .about-content {
+        padding: 28px 16px 40px;
+      }
+
+      .about-block {
+        padding: 24px 0;
+      }
+
+      .about-block-title {
+        font-size: 22px;
+      }
+
+      .about-info-grid,
+      .about-steps {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .about-info-item,
+      .about-step {
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .about-info-item:last-child,
+      .about-step:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .about-actions {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -56,90 +482,155 @@
         <a href="../favorites/" class="nav-link">관심상품</a>
         <a href="../about/" class="nav-link active">비라임 소개</a>
       </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" aria-label="다크모드 전환">
+          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="about-hero">
-      <div class="visual">
-        <img src="../assets/logo_small.png" alt="BLime" style="height:72px; opacity:0.9;">
-      </div>
-      <h1>비라임</h1>
-      <p>비라임은 iHerb 상품 가격을 매일 손수 사람의 손으로 추적해 최저가와 할인 정보를 한눈에 보여주는 서비스입니다. 원하시는 상품의 가격 추이를 확인해 보세요.</p>
-      <div class="about-stats">
-        <div class="about-card"><div class="value">1227</div><div class="label">추적 중인 상품</div></div>
-        <div class="about-card"><div class="value">89</div><div class="label">할인 중인 상품</div></div>
-        <div class="about-card"><div class="value">69%</div><div class="label">최대 할인율</div></div>
+  <main class="about-main">
+    <section class="about-hero-shell">
+      <div class="about-hero-inner">
+        <div class="about-hero-content">
+          <div class="about-hero-copy">
+            <img src="../assets/logo_small.png" alt="BLime" class="about-hero-logo">
+            <h1 class="about-title">운영자가 매일 직접 수작업으로 확인한 가격 정보를 제공합니다</h1>
+            <p class="about-lead">iHerb 상품은 할인, 재고, 판매 조건에 따라 가격이 자주 달라집니다. 비라임은 확인한 가격과 할인 정보를 보기 쉽게 정리해 더 차분하게 구매 시점을 판단할 수 있도록 돕습니다.</p>
+            <div class="about-actions" aria-label="소개 페이지 주요 이동 링크">
+              <a href="../index.html#home" class="about-cta about-cta-primary">상품 검색하기</a>
+              <a href="../deals/" class="about-cta about-cta-secondary">할인 상품 보기</a>
+            </div>
+          </div>
+          <div class="about-checklist" aria-labelledby="about-checklist-title">
+            <h2 id="about-checklist-title" class="about-checklist-title">매일 확인하는 항목</h2>
+            <div class="about-check-item">
+              <span class="about-check-icon" aria-hidden="true">✓</span>
+              <div>
+                <div class="about-check-name">현재가와 정가</div>
+                <div class="about-check-desc">가격 추이 그래프의 기준이 되는 금액</div>
+              </div>
+            </div>
+            <div class="about-check-item">
+              <span class="about-check-icon" aria-hidden="true">✓</span>
+              <div>
+                <div class="about-check-name">할인율과 할인 상품</div>
+                <div class="about-check-desc">할인 중인 상품을 별도 페이지로 정리</div>
+              </div>
+            </div>
+            <div class="about-check-item">
+              <span class="about-check-icon" aria-hidden="true">✓</span>
+              <div>
+                <div class="about-check-name">재고와 상품 상태</div>
+                <div class="about-check-desc">품절 여부와 표시 가능한 상태를 함께 확인</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-stats-band" aria-label="비라임 상품 통계">
+          <div class="about-stat">
+            <div class="about-stat-value">1231</div>
+            <div class="about-stat-label">추적 중인 상품</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-value">83</div>
+            <div class="about-stat-label">할인 중인 상품</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-value">69%</div>
+            <div class="about-stat-label">최대 할인율</div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="about-sections">
-      <div class="about-section">
-        <div class="content">
-          <h2>무엇을 하나요?</h2>
-          <p>iHerb 제품의 현재가·정가·할인율·재고를 수집해 카드형 UI로 제공합니다. 관심 상품의 상세 페이지에서 가격 변동 이력을 확인할 수 있습니다.</p>
-          <div class="about-badges">
-            <span class="badge">가격 추적</span>
-            <span class="badge">할인 모아보기</span>
-            <span class="badge">상세 가격 히스토리</span>
+    <div class="about-content">
+      <section class="about-block" aria-labelledby="about-confirm-title">
+        <div class="about-block-header">
+          <div>
+            <h2 id="about-confirm-title" class="about-block-title">무엇을 확인하나요?</h2>
           </div>
+          <p class="about-block-copy">가격을 판단할 때 필요한 기준만 추려서 상품 목록과 상세 페이지에 정리합니다.</p>
         </div>
-        <div class="visual" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">
-            <polyline points="3 14 9 18 21 6"/>
-            <rect x="3" y="10" width="2" height="8" rx="1"/>
-            <rect x="7" y="12" width="2" height="6" rx="1"/>
-            <rect x="11" y="8" width="2" height="10" rx="1"/>
-            <path d="M20 13l-7 7-6-6 7-7h4l2 2z"/>
-            <circle cx="16" cy="8" r="1"/>
-          </svg>
+        <div class="about-info-grid">
+          <article class="about-info-item">
+            <div class="about-info-icon" aria-hidden="true">₩</div>
+            <h3 class="about-info-title">가격 기준</h3>
+            <p class="about-info-copy">현재가, 정가, 할인율을 함께 보여줘 단순히 싸 보이는 가격인지 확인할 수 있습니다.</p>
+          </article>
+          <article class="about-info-item">
+            <div class="about-info-icon" aria-hidden="true">↗</div>
+            <h3 class="about-info-title">가격 히스토리</h3>
+            <p class="about-info-copy">상세 페이지에서 최고가, 최저가, 평균가와 최근 가격 흐름을 확인합니다.</p>
+          </article>
+          <article class="about-info-item">
+            <div class="about-info-icon" aria-hidden="true">%</div>
+            <h3 class="about-info-title">할인 모아보기</h3>
+            <p class="about-info-copy">현재 할인 중인 상품만 따로 모아 빠르게 비교할 수 있도록 정리합니다.</p>
+          </article>
         </div>
-      </div>
+      </section>
 
-      <div class="about-section">
-        <div class="content">
-          <h2>어떻게 활용하나요?</h2>
-          <p>검색창에 제품명·브랜드를 입력해 찾고, 할인 상품 페이지에서 할인 중인 상품을 확인하세요. 표시되지 않는 상품이 있으면, 메인 페이지의 상품 추가 버튼으로 URL을 보내주세요.</p>
-          <div class="about-badges">
-            <span class="badge">검색과 필터</span>
-            <span class="badge">상품 요청</span>
+      <section class="about-block" aria-labelledby="about-use-title">
+        <div class="about-block-header">
+          <div>
+            <h2 id="about-use-title" class="about-block-title">이렇게 활용하세요</h2>
           </div>
+          <p class="about-block-copy">검색에서 최종 구매 확인까지 이어지는 흐름을 짧게 정리했습니다.</p>
         </div>
-        <div class="visual" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">
-            <circle cx="10" cy="10" r="6"/>
-            <line x1="14.5" y1="14.5" x2="20" y2="20"/>
-            <path d="M20 3H4l4 6h8l4-6z"/>
-          </svg>
+        <div class="about-steps">
+          <article class="about-step">
+            <div class="about-step-number">01</div>
+            <h3 class="about-step-title">상품을 검색합니다</h3>
+            <p class="about-step-copy">제품명이나 브랜드명으로 원하는 상품을 찾아 가격 정보를 확인합니다.</p>
+          </article>
+          <article class="about-step">
+            <div class="about-step-number">02</div>
+            <h3 class="about-step-title">가격 흐름을 봅니다</h3>
+            <p class="about-step-copy">상세 페이지에서 현재가가 과거 가격과 비교해 어떤 위치인지 확인합니다.</p>
+          </article>
+          <article class="about-step">
+            <div class="about-step-number">03</div>
+            <h3 class="about-step-title">쇼핑몰에서 최종 확인합니다</h3>
+            <p class="about-step-copy">구매 전 iHerb에서 가격과 재고를 다시 확인하고 구매를 결정합니다.</p>
+          </article>
         </div>
-      </div>
+      </section>
 
-      <div class="about-section">
-        <div class="content">
-          <h2>모바일 앱</h2>
-          <p>모바일 앱에서는 사용자별 관심 상품만 트래킹하고, 할인 알림·가격 변동 알림을 푸시로 제공합니다. 원하는 목표가를 설정해 최적의 구매 타이밍을 놓치지 마세요.</p>
-          <div class="about-badges">
-            <span class="badge">개인화 트래킹</span>
-            <span class="badge">할인 알림</span>
-            <span class="badge">가격 변동 알림</span>
-          </div>
+      <section class="about-mobile-app" aria-labelledby="about-mobile-app-title">
+        <div>
+          <div class="about-soon-pill">준비 중</div>
+          <h2 id="about-mobile-app-title" class="about-mobile-app-title">모바일 앱</h2>
+          <p class="about-mobile-app-copy">모바일 앱은 아직 오픈 전입니다. 앱 오픈 전까지는 웹에서 가격 정보를 확인할 수 있으며, 출시 관련 안내는 준비되는 대로 공유하겠습니다.</p>
         </div>
-        <div class="visual" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">
-            <rect x="7" y="2" width="10" height="20" rx="2"/>
-            <circle cx="12" cy="18" r="1"/>
-            <path d="M18.5 9a3.5 3.5 0 0 0-7 0v2.5l-1 1.5h9l-1-1.5V9"/>
-            <path d="M16 5.5a1.5 1.5 0 0 1 3 0"/>
-          </svg>
+        <div class="about-soon-list" aria-label="모바일 앱 준비 기능">
+          <div class="about-soon-item">관심 상품 중심의 가격 확인 준비</div>
+          <div class="about-soon-item">알림 기능 제공 범위는 출시 후 안내</div>
+          <div class="about-soon-item">앱 오픈 전까지 웹에서 가격 확인 가능</div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <footer class="footer">
     <div class="footer-bottom">
       <p>&copy; 2026 BLime. All rights reserved.</p>
-      <p class="update-time">마지막 업데이트: 2026-05-27 16:05:13</p>
+      <p class="update-time">마지막 업데이트: 2026-06-03 16:05:54</p>
     </div>
   </footer>
 

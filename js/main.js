@@ -81,12 +81,7 @@ const initSearch = () => {
         // 검색 시 filter-chip 선택 해제
         const filterChips = document.querySelectorAll('.filter-chip');
         filterChips.forEach(chip => chip.classList.remove('active'));
-        // '전체' 칩을 활성화
-        const allChip = Array.from(filterChips).find(chip => chip.textContent.trim() === '전체');
-        if (allChip) {
-            allChip.classList.add('active');
-        }
-        currentCategory = '전체';
+        currentCategory = 'all';
         
         if (query === '') {
             filteredProducts = [...allProducts];
@@ -103,7 +98,7 @@ const initSearch = () => {
                     ${product.full_text || ''}
                     ${product.full_text_without_brand || ''}
                 `;
-                
+
                 // searchWithSynonyms 함수가 있으면 사용, 없으면 기본 검색
                 if (typeof searchWithSynonyms !== 'undefined') {
                     return searchWithSynonyms(searchableText, query);
@@ -158,34 +153,26 @@ const initFilters = () => {
             // Filter products
             const hotDealsSection = document.querySelector('.hot-deals-section');
             
-            if (category === '전체') {
-                filteredProducts = [...allProducts];
-                // Show hot deals section for 'all' category
-                if (hotDealsSection) {
-                    hotDealsSection.style.display = 'block';
+            // 카테고리(칩) 클릭 시에도 동의어 기반 검색 적용
+            filteredProducts = allProducts.filter(product => {
+                const searchableText = `
+                    ${product.name || ''}
+                    ${product.brand || ''}
+                    ${product.full_text || ''}
+                    ${product.full_text_without_brand || ''}
+                `;
+
+                // searchWithSynonyms 함수가 있으면 사용, 없으면 기본 검색
+                if (typeof searchWithSynonyms !== 'undefined') {
+                    return searchWithSynonyms(searchableText, category);
+                } else {
+                    // Fallback to basic search
+                    return searchableText.toLowerCase().includes(category.toLowerCase());
                 }
-            } else {
-                // 카테고리(칩) 클릭 시에도 동의어 기반 검색 적용
-                filteredProducts = allProducts.filter(product => {
-                    const searchableText = `
-                        ${product.name || ''}
-                        ${product.brand || ''}
-                        ${product.full_text || ''}
-                        ${product.full_text_without_brand || ''}
-                    `;
-                    
-                    // searchWithSynonyms 함수가 있으면 사용, 없으면 기본 검색
-                    if (typeof searchWithSynonyms !== 'undefined') {
-                        return searchWithSynonyms(searchableText, category);
-                    } else {
-                        // Fallback to basic search
-                        return searchableText.toLowerCase().includes(category.toLowerCase());
-                    }
-                });
-                // Hide hot deals section when filtering
-                if (hotDealsSection) {
-                    hotDealsSection.style.display = 'none';
-                }
+            });
+            // Hide hot deals section when filtering
+            if (hotDealsSection) {
+                hotDealsSection.style.display = 'none';
             }
             
             currentPage = 1;
@@ -199,23 +186,11 @@ const initFilters = () => {
 const initProductCards = () => {
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.product-card');
-        if (card && !e.target.closest('a, button, .quick-view-btn')) {
+        if (card && !e.target.closest('a, button')) {
             const target = card.querySelector('a[href]')?.getAttribute('href');
             if (target) {
                 window.location.href = target;
             }
-        }
-    });
-    
-    // Quick view buttons
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('.quick-view-btn')) {
-            e.preventDefault();
-            e.stopPropagation();
-            const card = e.target.closest('.product-card');
-            const productId = card.dataset.productId;
-            // Here you would implement quick view modal
-            console.log('Quick view for product:', productId);
         }
     });
 };
@@ -305,6 +280,14 @@ const createProductCard = (product) => {
                 <span class="stock-status ${stockClass}">
                     ${escapeHtml(product.availability || '')}
                 </span>
+                <button class="favorite-toggle-btn" data-favorite-toggle data-product-id="${escapeHtml(product.id)}" aria-label="관심상품 추가" aria-pressed="false" type="button">
+                    <svg class="favorite-icon-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <svg class="favorite-icon-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </button>
             </div>
         </div>
     `;

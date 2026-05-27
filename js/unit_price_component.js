@@ -361,14 +361,14 @@ class UnitPriceComponent {
 }
 
 // Add CSS for feedback animation
-const style = document.createElement('style');
-style.textContent = `
+const unitPriceFeedbackStyle = document.createElement('style');
+unitPriceFeedbackStyle.textContent = `
     @keyframes fadeInOut {
         0%, 100% { opacity: 0; transform: translateY(-5px); }
         20%, 80% { opacity: 1; transform: translateY(0); }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(unitPriceFeedbackStyle);
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {

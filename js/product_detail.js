@@ -213,51 +213,6 @@ const updateChartPeriod = (period) => {
     priceChart.update('active');
 };
 
-// Price Alert - Mobile Popup for disabled button
-const initPriceAlert = () => {
-    const alertBtn = document.getElementById('price-alert-btn');
-    const mobilePopup = document.getElementById('mobile-popup');
-    const mobilePopupBackdrop = document.getElementById('mobile-popup-backdrop');
-    const closePopupBtn = document.getElementById('close-popup-btn');
-    
-    // Check if device is mobile/touch device
-    const isMobile = window.matchMedia('(max-width: 768px)').matches || 
-                     'ontouchstart' in window || 
-                     navigator.maxTouchPoints > 0;
-    
-    if (isMobile && alertBtn) {
-        // Enable click on disabled button for mobile
-        alertBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            showMobilePopup();
-        });
-    }
-    
-    const showMobilePopup = () => {
-        mobilePopup?.classList.add('active');
-        mobilePopupBackdrop?.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    };
-    
-    const hideMobilePopup = () => {
-        mobilePopup?.classList.remove('active');
-        mobilePopupBackdrop?.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-    
-    // Close popup handlers
-    closePopupBtn?.addEventListener('click', hideMobilePopup);
-    mobilePopupBackdrop?.addEventListener('click', hideMobilePopup);
-    
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && mobilePopup?.classList.contains('active')) {
-            hideMobilePopup();
-        }
-    });
-};
-
 // Smooth animations on scroll
 const initScrollAnimations = () => {
     const observerOptions = {
@@ -279,8 +234,7 @@ const initScrollAnimations = () => {
     const elementsToAnimate = [
         '.product-gallery',
         '.product-info',
-        '.stats-cards .stat-card',
-        '.chart-section'
+        '.stats-cards .stat-card'
     ];
     
     elementsToAnimate.forEach(selector => {
@@ -354,15 +308,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initChartControls();
     // 초기 로드시 30일 보기로 필터 적용
     updateChartPeriod('30');
-    initPriceAlert();
     initScrollAnimations();
     initImageZoom();
     initButtonEffects();
 });
 
 // Add ripple effect styles
-const style = document.createElement('style');
-style.textContent = `
+const productDetailRippleStyle = document.createElement('style');
+productDetailRippleStyle.textContent = `
     .btn-primary, .btn-secondary {
         position: relative;
         overflow: hidden;
@@ -387,4 +340,4 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(productDetailRippleStyle);
