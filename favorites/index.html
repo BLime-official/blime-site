@@ -16,7 +16,7 @@
       url: "https://owzhzchjhrpyreinicuq.supabase.co",
       anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93emh6Y2hqaHJweXJlaW5pY3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTQ3NzIsImV4cCI6MjA3NTkzMDc3Mn0.XibDuV25pA9M7pxRCsxo5MR6aLa_nfOFS9vufnmHBF4",
       googleClientId: "537324725117-bkhkf5t5imndh67oiitj8g4cms95rneu.apps.googleusercontent.com",
-      requestFunctionUrl: ""
+      requestFunctionUrl: "https://owzhzchjhrpyreinicuq.supabase.co/functions/v1/request-product-url"
     };
   </script>
 </head>
@@ -35,22 +35,15 @@
         <a href="../about/" class="nav-link">비라임 소개</a>
       </nav>
       <div class="header-actions">
-        <button class="theme-toggle" aria-label="다크모드 전환">
-          <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
+        <div class="account-menu" data-account-menu data-favorites-href="../favorites/" data-deals-href="../deals/">
+          <button class="account-menu-button" data-account-menu-button type="button" aria-label="계정 및 설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="account-menu-panel">
+            <svg class="account-menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M20 21a8 8 0 0 0-16 0"></path>
+            </svg>
+          </button>
+          <div class="account-menu-panel" id="account-menu-panel" data-account-menu-panel role="menu" hidden></div>
+        </div>
       </div>
     </div>
   </header>
@@ -63,7 +56,7 @@
 
     <section class="favorites-login-panel" id="favorites-login-panel" hidden>
       <h2>로그인이 필요합니다</h2>
-      <p>관심상품을 확인하려면 로그인해 주세요.</p>
+      <p class="favorite-auth-notice">비라임은 로그인 상태 확인, 이용자 구분, 관심상품 목록 관리 목적으로만 로그인 기능을 이용합니다. 닉네임, 이름, 프로필 사진 또는 프로필 이미지 등은 활용하지 않으며, 제공에 동의하지 않으셔도 이용 가능합니다.</p>
       <div class="favorite-auth-actions">
         <button class="favorite-auth-provider favorite-auth-provider-google" data-auth-provider="google" type="button">
           <span class="favorite-auth-icon favorite-auth-icon-google" aria-hidden="true">
@@ -76,13 +69,21 @@
           </span>
           <span>Google로 계속</span>
         </button>
-        <button class="favorite-auth-provider favorite-auth-provider-apple" data-auth-provider="apple" type="button" disabled aria-disabled="true">
-          <span class="favorite-auth-icon favorite-auth-icon-apple" aria-hidden="true">
+        <button class="favorite-auth-provider favorite-auth-provider-kakao" data-auth-provider="kakao" type="button">
+          <span class="favorite-auth-icon favorite-auth-icon-kakao" aria-hidden="true">
             <svg viewBox="0 0 24 24" focusable="false">
-              <path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"></path>
+              <path fill="currentColor" d="M12 4C6.48 4 2 7.57 2 11.98c0 2.86 1.9 5.37 4.76 6.78l-.83 3.04c-.07.26.22.47.44.31l3.65-2.43c.64.09 1.3.14 1.98.14 5.52 0 10-3.57 10-7.98S17.52 4 12 4z"></path>
             </svg>
           </span>
-          <span>Apple로 계속</span>
+          <span>카카오 로그인</span>
+        </button>
+        <button class="favorite-auth-provider favorite-auth-provider-naver" data-auth-provider="naver" type="button">
+          <span class="favorite-auth-icon favorite-auth-icon-naver" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path fill="currentColor" d="M5 4h5.1l4.8 6.9V4H19v16h-5.1L9.1 13.1V20H5V4z"></path>
+            </svg>
+          </span>
+          <span>네이버 로그인</span>
         </button>
       </div>
     </section>
@@ -97,15 +98,105 @@
     </section>
   </main>
 
+  
+  <!-- 상품 요청 플로팅 버튼 -->
+<div class="fab-container">
+    <button
+        class="fab"
+        id="requestProductFab"
+        type="button"
+        aria-label="상품 추가 요청"
+        title="상품 추가 요청"
+    >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span class="fab-label">상품 추가 요청</span>
+    </button>
+</div>
+
+<!-- 상품 요청 모달 -->
+<div class="modal" id="requestModal">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>상품 추가 요청</h3>
+            <button class="modal-close" id="modalClose" aria-label="닫기">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-description">
+                추적하고 싶은 iHerb 상품의 URL을 입력해주세요.<br>
+                <span class="request-guide-line">
+                    상품의 공유 버튼을 통해 URL을 확인할 수 있습니다.
+                    <button type="button" class="request-guide-toggle" id="requestGuideToggle" aria-expanded="false" aria-controls="requestGuidePanel">
+                        방법 확인하기
+                    </button>
+                </span><br>
+                다음 날부터 가격 추적이 시작됩니다.
+            </p>
+            <div class="request-guide-panel" id="requestGuidePanel" hidden>
+                <div class="request-guide-image-wrap">
+                    <img src="../assets/url-copy-method.png" alt="iHerb 상품 공유 버튼으로 URL을 복사하는 방법" class="request-guide-image" loading="eager">
+                </div>
+            </div>
+            <form id="productRequestForm">
+                <div class="form-group">
+                    <label for="productUrl">상품 URL</label>
+                    <input
+                        type="text"
+                        id="productUrl"
+                        name="productUrl"
+                        placeholder="iHerb 상품 링크(URL)를 입력하세요"
+                        required
+                        class="form-input"
+                    />
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">요청하기</span>
+                        <span class="btn-loading" style="display: none;">
+                            <svg class="spinner" width="16" height="16" viewBox="0 0 24 24">
+                                <circle class="spinner-circle" cx="12" cy="12" r="10" fill="none" stroke-width="3"></circle>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </form>
+            <div id="requestResult" class="request-result"></div>
+        </div>
+    </div>
+</div>
+
   <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section footer-brand">
+        <h4>비라임</h4>
+        <p>스마트한 건강 쇼핑을 위한 iHerb 가격 추적 서비스</p>
+      </div>
+      <nav class="footer-support-links" aria-label="고객 지원 링크">
+        <a href="../privacy/">개인정보처리방침</a>
+        <span class="footer-support-separator" aria-hidden="true">|</span>
+        <a href="mailto:blime.app.official@gmail.com">문의하기</a>
+      </nav>
+    </div>
     <div class="footer-bottom">
       <p>&copy; 2026 BLime. All rights reserved.</p>
-      <p class="update-time">마지막 업데이트: 2026-06-03 16:05:54</p>
+      <p class="update-time">마지막 업데이트: 2026-06-14 16:41:39</p>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/theme.js"></script>
   <script src="../js/favorites.js"></script>
+  <script src="../js/account_menu.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

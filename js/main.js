@@ -30,6 +30,36 @@ const getProductDetailHref = (product) => {
     return isDealsPage() && !detailPath.startsWith('../') ? `../${detailPath}` : detailPath;
 };
 
+const getProductSearchableText = (product) => `
+    ${product.name || ''}
+    ${product.brand || ''}
+    ${product.full_text || ''}
+    ${product.full_text_without_brand || ''}
+    ${product.form_and_quantity || ''}
+`;
+
+const scoreProductForQuery = (product, query) => {
+    if (typeof scoreSearchMatch !== 'undefined') {
+        return scoreSearchMatch(product, query);
+    }
+
+    const searchableText = getProductSearchableText(product);
+    if (typeof searchWithSynonyms !== 'undefined') {
+        return searchWithSynonyms(searchableText, query) ? 1 : 0;
+    }
+    return searchableText.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
+};
+
+const filterAndRankProducts = (products, query) => products
+    .map((product, index) => ({
+        product,
+        index,
+        score: scoreProductForQuery(product, query)
+    }))
+    .filter(result => result.score > 0)
+    .sort((a, b) => (b.score - a.score) || (a.index - b.index))
+    .map(result => result.product);
+
 const hydrateProductsFromDom = () => {
     const productCards = document.querySelectorAll('#products-grid .product-card');
     return Array.from(productCards).map((card, index) => {
@@ -55,20 +85,6 @@ const hydrateProductsFromDom = () => {
     });
 };
 
-// Theme Management
-const initTheme = () => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    const themeToggle = document.querySelector('.theme-toggle');
-    themeToggle?.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-};
-
 // Search Functionality with Synonym Support
 const initSearch = () => {
     const searchInput = document.querySelector('.search-input');
@@ -90,23 +106,7 @@ const initSearch = () => {
                 hotDealsSection.style.display = 'block';
             }
         } else {
-            // 동의어 기반 검색 사용
-            filteredProducts = allProducts.filter(product => {
-                const searchableText = `
-                    ${product.name || ''} 
-                    ${product.brand || ''} 
-                    ${product.full_text || ''}
-                    ${product.full_text_without_brand || ''}
-                `;
-
-                // searchWithSynonyms 함수가 있으면 사용, 없으면 기본 검색
-                if (typeof searchWithSynonyms !== 'undefined') {
-                    return searchWithSynonyms(searchableText, query);
-                } else {
-                    // Fallback to basic search
-                    return searchableText.toLowerCase().includes(query);
-                }
-            });
+            filteredProducts = filterAndRankProducts(allProducts, query);
             // Hide hot deals section when searching
             if (hotDealsSection) {
                 hotDealsSection.style.display = 'none';
@@ -139,6 +139,7 @@ const initSearch = () => {
 // Category Filter
 const initFilters = () => {
     const filterChips = document.querySelectorAll('.filter-chip');
+    const searchInput = document.querySelector('.search-input');
     
     filterChips.forEach(chip => {
         chip.addEventListener('click', () => {
@@ -148,28 +149,15 @@ const initFilters = () => {
             
             // Get category
             const category = chip.textContent.trim();
+            if (searchInput) {
+                searchInput.value = category;
+            }
             currentCategory = category;
             
             // Filter products
             const hotDealsSection = document.querySelector('.hot-deals-section');
             
-            // 카테고리(칩) 클릭 시에도 동의어 기반 검색 적용
-            filteredProducts = allProducts.filter(product => {
-                const searchableText = `
-                    ${product.name || ''}
-                    ${product.brand || ''}
-                    ${product.full_text || ''}
-                    ${product.full_text_without_brand || ''}
-                `;
-
-                // searchWithSynonyms 함수가 있으면 사용, 없으면 기본 검색
-                if (typeof searchWithSynonyms !== 'undefined') {
-                    return searchWithSynonyms(searchableText, category);
-                } else {
-                    // Fallback to basic search
-                    return searchableText.toLowerCase().includes(category.toLowerCase());
-                }
-            });
+            filteredProducts = filterAndRankProducts(allProducts, category);
             // Hide hot deals section when filtering
             if (hotDealsSection) {
                 hotDealsSection.style.display = 'none';
@@ -271,7 +259,7 @@ const createProductCard = (product) => {
             <h3 class="product-name">
                 <a href="${escapeHtml(detailHref)}">${escapeHtml(displayName)}</a>
             </h3>
-            ${product.form_and_quantity ? `<div class="product-variant">${escapeHtml(product.form_and_quantity)}</div>` : ''}
+            <div class="product-variant">${escapeHtml(product.form_and_quantity || '')}</div>
             <div class="price-group">
                 ${priceHtml}
             </div>
@@ -464,13 +452,23 @@ const initProductRequest = () => {
     const productUrlInput = document.getElementById('productUrl');
     const submitBtn = document.getElementById('submitBtn');
     const requestResult = document.getElementById('requestResult');
+    const requestGuideToggle = document.getElementById('requestGuideToggle');
+    const requestGuidePanel = document.getElementById('requestGuidePanel');
     
     // 플로팅 버튼이 없으면 종료
     if (!requestProductFab) return;
+    if (!requestModal || !productRequestForm || !productUrlInput || !submitBtn || !requestResult) return;
 
     const requestConfig = window.BLIME_SUPABASE_CONFIG || {};
     const requestFunctionUrl = requestConfig.requestFunctionUrl || '';
     const anonKey = requestConfig.anonKey || '';
+
+    const setGuideOpen = (isOpen) => {
+        if (!requestGuideToggle || !requestGuidePanel) return;
+        requestGuideToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        requestGuidePanel.hidden = !isOpen;
+        requestGuideToggle.textContent = isOpen ? '방법 접기' : '방법 확인하기';
+    };
     
     // 모달 열기
     const openModal = () => {
@@ -484,6 +482,7 @@ const initProductRequest = () => {
         productRequestForm.reset();
         requestResult.innerHTML = '';
         requestResult.className = 'request-result';
+        setGuideOpen(false);
     };
     
     // 로딩 상태 설정
@@ -633,6 +632,10 @@ const initProductRequest = () => {
     modalClose?.addEventListener('click', closeModal);
     modalOverlay?.addEventListener('click', closeModal);
     cancelBtn?.addEventListener('click', closeModal);
+    requestGuideToggle?.addEventListener('click', () => {
+        const isOpen = requestGuideToggle.getAttribute('aria-expanded') === 'true';
+        setGuideOpen(!isOpen);
+    });
     productRequestForm?.addEventListener('submit', handleFormSubmit);
     
     // ESC 키로 모달 닫기
@@ -801,7 +804,6 @@ const loadProducts = async () => {
 
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
     initSearch();
     initFilters();
     initProductCards();

@@ -701,7 +701,89 @@ a.btn-secondary {
     }
     
     .stats-cards {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0;
+        padding: 12px 0;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+
+    .stats-cards .stat-card {
+        min-width: 0;
+        min-height: 72px;
+        padding: 0 8px;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0;
+    }
+
+    .stats-cards .stat-card:nth-child(1) {
+        --stat-accent: var(--danger-color);
+    }
+
+    .stats-cards .stat-card:nth-child(2) {
+        --stat-accent: #3B82F6;
+    }
+
+    .stats-cards .stat-card:nth-child(3) {
+        --stat-accent: #FB923C;
+    }
+
+    .stats-cards .stat-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .stats-cards .stat-card + .stat-card {
+        border-left: 1px solid var(--border-color);
+    }
+
+    .stats-cards .stat-icon {
+        display: none;
+    }
+
+    .stats-cards .stat-info {
+        flex: 0 1 auto;
+        min-width: 0;
+        text-align: center;
+    }
+
+    .stats-cards .stat-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        line-height: 1.2;
+        color: var(--stat-accent);
+        white-space: nowrap;
+    }
+
+    .stats-cards .stat-label::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        flex: 0 0 6px;
+        border-radius: 999px;
+        background: var(--stat-accent);
+    }
+
+    .stats-cards .stat-value {
+        font-size: clamp(16px, 4.4vw, 19px);
+        line-height: 1.15;
+        letter-spacing: 0;
+        color: var(--text-primary);
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
     }
     
     /* related-grid removed */

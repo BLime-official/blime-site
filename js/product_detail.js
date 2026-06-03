@@ -1,19 +1,5 @@
 // Product Detail Page JavaScript
 
-// Theme Management
-const initTheme = () => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    
-    const themeToggle = document.querySelector('.theme-toggle');
-    themeToggle?.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-};
-
 // Price Chart
 let priceChart = null;
 let fullChartData = null;
@@ -303,7 +289,6 @@ const initButtonEffects = () => {
 
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
     initPriceChart();
     initChartControls();
     // 초기 로드시 30일 보기로 필터 적용
