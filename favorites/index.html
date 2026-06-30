@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관심상품 - 비라임</title>
+
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="../css/main.css">
+  <script>
+    window.BLIME_SUPABASE_CONFIG = {
+      url: "https://owzhzchjhrpyreinicuq.supabase.co",
+      anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93emh6Y2hqaHJweXJlaW5pY3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTQ3NzIsImV4cCI6MjA3NTkzMDc3Mn0.XibDuV25pA9M7pxRCsxo5MR6aLa_nfOFS9vufnmHBF4",
+      googleClientId: "537324725117-bkhkf5t5imndh67oiitj8g4cms95rneu.apps.googleusercontent.com",
+      requestFunctionUrl: "https://owzhzchjhrpyreinicuq.supabase.co/functions/v1/request-product-url"
+    };
+  </script>
+</head>
+<body data-page="favorites">
+  <header class="header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="../index.html#home">
+          <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+        </a>
+      </div>
+      <nav class="nav">
+        <a href="../index.html#home" class="nav-link">홈</a>
+        <a href="../deals/" class="nav-link">가격 기회</a>
+        <a href="../favorites/" class="nav-link active">관심상품</a>
+      </nav>
+      <div class="header-actions">
+        
+        
+<div class="settings-menu" data-settings-menu>
+  <button class="account-menu-button" data-settings-menu-button type="button" aria-label="설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="settings-menu-panel">
+    <svg class="account-menu-icon" data-icon="sliders-horizontal" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <line x1="21" x2="14" y1="4" y2="4"></line>
+  <line x1="10" x2="3" y1="4" y2="4"></line>
+  <line x1="21" x2="12" y1="12" y2="12"></line>
+  <line x1="8" x2="3" y1="12" y2="12"></line>
+  <line x1="21" x2="16" y1="20" y2="20"></line>
+  <line x1="12" x2="3" y1="20" y2="20"></line>
+  <line x1="14" x2="14" y1="2" y2="6"></line>
+  <line x1="8" x2="8" y1="10" y2="14"></line>
+  <line x1="16" x2="16" y1="18" y2="22"></line>
+  
+</svg>
+  </button>
+  <div class="account-menu-panel settings-menu-panel" id="settings-menu-panel" data-settings-menu-panel role="menu" hidden>
+    <button class="account-menu-item" data-settings-action="theme" type="button" role="menuitem">테마 전환</button>
+    <a class="account-menu-item" href="../about/" role="menuitem">비라임 소개</a>
+    <a class="account-menu-item" href="../privacy/" role="menuitem">개인정보처리방침</a>
+    <a class="account-menu-item" href="mailto:blime.app.official@gmail.com" role="menuitem">문의하기</a>
+  </div>
+</div>
+        <div class="account-menu" data-account-menu data-favorites-href="../favorites/" data-deals-href="../deals/">
+          <button class="account-menu-button" data-account-menu-button type="button" aria-label="계정 및 설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="account-menu-panel">
+            <svg class="account-menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M20 21a8 8 0 0 0-16 0"></path>
+            </svg>
+          </button>
+          <div class="account-menu-panel" id="account-menu-panel" data-account-menu-panel role="menu" hidden></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container favorites-page">
+    <section class="favorites-header">
+      <h1 class="section-title">관심상품</h1>
+      <p class="favorites-description">관심상품을 등록하고 편하게 가격 변화를 확인합니다.</p>
+    </section>
+
+    <section class="favorites-login-panel" id="favorites-login-panel" hidden>
+      <h2>로그인이 필요합니다</h2>
+      <p class="favorite-auth-notice">비라임은 로그인 상태 확인, 이용자 구분, 관심상품 목록 관리 목적으로만 로그인 기능을 이용합니다. 닉네임, 이름, 프로필 사진 또는 프로필 이미지 등은 활용하지 않으며, 제공에 동의하지 않으셔도 이용 가능합니다.</p>
+      <div class="favorite-auth-actions">
+        <button class="favorite-auth-provider favorite-auth-provider-google" data-auth-provider="google" type="button">
+          <span class="favorite-auth-icon favorite-auth-icon-google" aria-hidden="true">
+            <svg viewBox="0 0 18 18" focusable="false">
+              <path fill="#4285F4" d="M17.64 9.204c0-.638-.057-1.252-.164-1.841H9v3.482h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"></path>
+              <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.583-5.036-3.71H.958v2.332A8.997 8.997 0 0 0 9 18z"></path>
+              <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.958A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.958 4.042l3.006-2.332z"></path>
+              <path fill="#EA4335" d="M9 3.58c1.322 0 2.508.454 3.44 1.346l2.582-2.582C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .958 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"></path>
+            </svg>
+          </span>
+          <span>Google로 계속</span>
+        </button>
+        <button class="favorite-auth-provider favorite-auth-provider-kakao" data-auth-provider="kakao" type="button">
+          <span class="favorite-auth-icon favorite-auth-icon-kakao" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path fill="currentColor" d="M12 4C6.48 4 2 7.57 2 11.98c0 2.86 1.9 5.37 4.76 6.78l-.83 3.04c-.07.26.22.47.44.31l3.65-2.43c.64.09 1.3.14 1.98.14 5.52 0 10-3.57 10-7.98S17.52 4 12 4z"></path>
+            </svg>
+          </span>
+          <span>카카오 로그인</span>
+        </button>
+        <button class="favorite-auth-provider favorite-auth-provider-naver" data-auth-provider="naver" type="button">
+          <span class="favorite-auth-icon favorite-auth-icon-naver" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path fill="currentColor" d="M5 4h5.1l4.8 6.9V4H19v16h-5.1L9.1 13.1V20H5V4z"></path>
+            </svg>
+          </span>
+          <span>네이버 로그인</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="favorites-content" id="favorites-content" hidden>
+      <div class="products-grid" id="favorites-grid"></div>
+      <p class="favorites-empty" id="favorites-empty" hidden>아직 추가한 관심상품이 없습니다.</p>
+      <section class="favorites-missing" id="favorites-missing" hidden>
+        <h2>현재 표시할 수 없음</h2>
+        <ul id="favorites-missing-list"></ul>
+      </section>
+    </section>
+  </main>
+
+  
+  
+<!-- 상품 요청 플로팅 버튼 -->
+<div class="fab-container">
+    <button
+        class="fab"
+        id="requestProductFab"
+        type="button"
+        aria-label="상품 추가 요청"
+        title="상품 추가 요청"
+    >
+        <svg class="fab-icon" data-icon="package-plus" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M16 16h6"></path>
+  <path d="M19 13v6"></path>
+  <path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+  <path d="m7.5 4.27 9 5.15"></path>
+  <path d="M3.29 7 12 12l8.71-5"></path>
+  <path d="M12 22V12"></path>
+  
+</svg>
+        <span class="fab-label">상품 추가 요청</span>
+    </button>
+</div>
+
+<!-- 상품 요청 모달 -->
+<div class="modal" id="requestModal">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>상품 추가 요청</h3>
+            <button class="modal-close" id="modalClose" aria-label="닫기">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="modal-description">
+                추적하고 싶은 iHerb 상품의 URL을 입력해주세요.<br>
+                <span class="request-guide-line">
+                    상품의 공유 버튼을 통해 URL을 확인할 수 있습니다.
+                    <button type="button" class="request-guide-toggle" id="requestGuideToggle" aria-expanded="false" aria-controls="requestGuidePanel">
+                        방법 확인하기
+                    </button>
+                </span><br>
+                다음 날부터 가격 추적이 시작됩니다.
+            </p>
+            <div class="request-guide-panel" id="requestGuidePanel" hidden>
+                <div class="request-guide-image-wrap">
+                    <img src="../assets/url-copy-method.png" alt="iHerb 상품 공유 버튼으로 URL을 복사하는 방법" class="request-guide-image" loading="eager">
+                </div>
+            </div>
+            <form id="productRequestForm">
+                <div class="form-group">
+                    <label for="productUrl">상품 URL</label>
+                    <input
+                        type="text"
+                        id="productUrl"
+                        name="productUrl"
+                        placeholder="iHerb 상품 링크(URL)를 입력하세요"
+                        required
+                        class="form-input"
+                    />
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">요청하기</span>
+                        <span class="btn-loading" style="display: none;">
+                            <svg class="spinner" width="16" height="16" viewBox="0 0 24 24">
+                                <circle class="spinner-circle" cx="12" cy="12" r="10" fill="none" stroke-width="3"></circle>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </form>
+            <div id="requestResult" class="request-result"></div>
+        </div>
+    </div>
+</div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section footer-brand">
+        <h4>비라임</h4>
+        <p>스마트한 건강 쇼핑을 위한 iHerb 가격 추적 서비스</p>
+      </div>
+      <nav class="footer-support-links" aria-label="고객 지원 링크">
+        <a href="../privacy/">개인정보처리방침</a>
+        <span class="footer-support-separator" aria-hidden="true">|</span>
+        <a href="mailto:blime.app.official@gmail.com">문의하기</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 BLime. All rights reserved.</p>
+      <p class="update-time">마지막 업데이트: 2026-07-02 11:23:49</p>
+    </div>
+  </footer>
+
+  
+  
+  
+<nav class="mobile-bottom-nav" data-mobile-nav aria-label="모바일 주요 메뉴">
+  <a class="mobile-bottom-nav-item" href="../index.html#home" data-mobile-nav-item="home">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="house" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .71-1.53l7-6a2 2 0 0 1 2.58 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">홈</span>
+  </a>
+  <a class="mobile-bottom-nav-item" href="../deals/" data-mobile-nav-item="deals">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="badge-percent" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
+  <path d="m15 9-6 6"></path>
+  <path d="M9 9h.01"></path>
+  <path d="M15 15h.01"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">할인</span>
+  </a>
+  <a class="mobile-bottom-nav-item" href="../search/" data-mobile-nav-item="search">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="search" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <circle cx="11" cy="11" r="8"></circle>
+  <path d="m21 21-4.3-4.3"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">검색</span>
+  </a>
+  <a class="mobile-bottom-nav-item active" href="../favorites/" data-mobile-nav-item="favorites" aria-current="page">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M19.5 12.6 12 20l-7.5-7.4A5 5 0 0 1 12 6a5 5 0 0 1 7.5 6.6Z"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">관심</span>
+  </a>
+  <button class="mobile-bottom-nav-item" type="button" data-mobile-nav-item="account" data-mobile-account-trigger aria-haspopup="menu" aria-expanded="false">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="circle-user-round" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M18 20a6 6 0 0 0-12 0"></path>
+  <circle cx="12" cy="10" r="4"></circle>
+  <circle cx="12" cy="12" r="10"></circle>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">계정</span>
+  </button>
+</nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/favorites.js"></script>
+  <script src="../js/account_menu.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
