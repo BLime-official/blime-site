@@ -3,33 +3,18 @@
     let favoriteButtonObserver = null;
     let favoriteRefreshToken = 0;
 
+    // 페이지는 body에 사이트 루트까지의 상대 경로(data-site-root)를 적어 둔다.
+    function sitePath(path) {
+        return `${document.body?.dataset.siteRoot ?? ""}${path}`;
+    }
+
     function productsIndexPath() {
-        const path = window.location.pathname;
-        if (/\/(deals|price-drops|products|favorites)\//.test(path)) {
-            return "../products_index.json";
-        }
-        return "products_index.json";
+        return sitePath("products_index.json");
     }
 
     function productIdValue(productId) {
         const numericId = Number(productId);
         return Number.isFinite(numericId) ? numericId : productId;
-    }
-
-    function escapeHtml(value) {
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#39;");
-    }
-
-    function formatPrice(price) {
-        if (price === null || price === undefined || price === "") return "N/A";
-        const number = Number(price);
-        if (!Number.isFinite(number)) return escapeHtml(price);
-        return number.toLocaleString("ko-KR");
     }
 
     function getSupabaseClient() {
@@ -185,50 +170,16 @@
         }
     }
 
-    function productCard(product) {
-        const productId = String(product.id);
-        const detailPath = product.detail_path || `products/product_${escapeHtml(productId)}.html`;
-        const image = product.image_url
-            ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}" loading="lazy">`
-            : `<div class="no-image"></div>`;
-        const saleBadge = product.is_on_sale && product.discount_percentage
-            ? `<div class="sale-badge">${escapeHtml(product.discount_percentage)}% ↓</div>`
-            : "";
-
-        return `
-            <div class="product-card" data-product-id="${escapeHtml(productId)}">
-                ${saleBadge}
-                <a class="product-image-link" href="../${escapeHtml(detailPath)}" aria-label="${escapeHtml(product.name)} 상세 보기">
-                    <div class="product-image">${image}</div>
-                </a>
-                <div class="product-content">
-                    <div class="product-brand">${escapeHtml(product.brand || "-")}</div>
-                    <h3 class="product-name">
-                        <a href="../${escapeHtml(detailPath)}">${escapeHtml(product.full_text || product.name)}</a>
-                    </h3>
-                    <div class="product-variant">${escapeHtml(product.form_and_quantity || "")}</div>
-                    <div class="price-group">
-                        <span class="current-price">₩${formatPrice(product.current_price)}</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="stock-status ${product.availability === "재고있음" ? "in-stock" : "out-of-stock"}">
-                            ${escapeHtml(product.availability || "")}
-                        </span>
-                        <button class="favorite-toggle-btn is-favorite" data-favorite-toggle data-product-id="${escapeHtml(productId)}" aria-label="관심상품 제거" aria-pressed="true" type="button">
-                            제거
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
     function renderMissingFavorites(productIds) {
         const missingSection = document.getElementById("favorites-missing");
         const missingList = document.getElementById("favorites-missing-list");
         if (!missingSection || !missingList) return;
 
-        missingList.innerHTML = productIds.map((productId) => `<li>${escapeHtml(productId)}</li>`).join("");
+        missingList.replaceChildren(...productIds.map((productId) => {
+            const item = document.createElement("li");
+            item.textContent = productId;
+            return item;
+        }));
         missingSection.hidden = productIds.length === 0;
     }
 
@@ -269,7 +220,8 @@
 
             hideLoginPanel();
             if (content) content.hidden = false;
-            grid.innerHTML = favoriteProducts.map(productCard).join("");
+            // 카드는 다른 목록과 같은 모양이다(cards.js). 별 버튼은 아래 syncFavoriteButtons가 눌린 상태로 맞춘다.
+            grid.replaceChildren(...favoriteProducts.map((product) => window.BLIME_CARDS.productCard(product)));
             if (empty) {
                 empty.textContent = "아직 추가한 관심상품이 없습니다.";
                 empty.hidden = favoriteProducts.length !== 0 || missingIds.length !== 0;

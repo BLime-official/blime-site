@@ -1,0 +1,67 @@
+/* 쿠폰 페이지(coupons.html)만 쓰는 스타일. 홈의 쿠폰 배너는 home.css에 있다. base.css 다음에 싣는다. */
+
+/* Coupon page */
+.coupon-page { max-width: 1200px; padding-top: 32px; padding-bottom: 48px; }
+.coupon-hero { margin-bottom: 24px; }
+.coupon-hero h1 { color: var(--text-primary); font-size: 32px; }
+.coupon-hero p { margin-top: 8px; color: var(--text-secondary); }
+.coupon-type-tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--border-color); }
+.coupon-type-tabs button,
+.coupon-status-tabs button { min-height: 44px; border: 0; background: transparent; color: var(--text-secondary); font: inherit; font-weight: 700; cursor: pointer; }
+.coupon-type-tabs button[aria-selected="true"] { border-bottom: 2px solid var(--primary-color); color: var(--primary-color); }
+.coupon-status-tabs { display: inline-flex; gap: 4px; margin: 16px 0 20px; padding: 4px; border-radius: 8px; background: var(--bg-tertiary); }
+.coupon-status-tabs button { padding: 0 14px; border-radius: 6px; }
+.coupon-status-tabs button[aria-selected="true"] { background: var(--bg-primary); color: var(--text-primary); box-shadow: var(--shadow-sm); }
+.coupon-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.coupon-card { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 16px; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-primary); box-shadow: var(--shadow-sm); }
+.coupon-card-visual { position: relative; width: 104px; height: 104px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 8px; background: rgba(255, 107, 53, 0.08); }
+.coupon-card-visual img { width: 100%; height: 100%; object-fit: contain; }
+.coupon-card-visual span { position: absolute; max-width: 86px; overflow: hidden; text-overflow: ellipsis; color: var(--primary-color); font-size: 11px; font-weight: 800; }
+.coupon-card--automatic-offer { grid-template-columns: 72px minmax(0, 1fr); column-gap: 14px; }
+.coupon-card--automatic-offer .coupon-card-visual { width: 72px; height: 72px; align-self: start; }
+.coupon-card--automatic-offer .coupon-card-visual img { width: 52px; height: 52px; object-fit: contain; }
+.coupon-card-summary { min-width: 0; }
+.coupon-card-summary h2 { margin-top: 8px; color: var(--text-primary); font-size: 18px; line-height: 1.35; }
+.coupon-period,
+.coupon-condition { margin-top: 8px; color: var(--text-secondary); line-height: 1.5; }
+.coupon-benefit,
+.coupon-uncertain,
+.coupon-chips span { display: inline-flex; border-radius: 999px; font-size: 12px; font-weight: 700; }
+.coupon-benefit { padding: 4px 8px; background: rgba(255, 107, 53, 0.1); color: var(--primary-color); }
+.coupon-uncertain { margin-top: 6px; padding: 3px 7px; background: var(--bg-tertiary); color: var(--text-secondary); }
+.coupon-condition,
+.coupon-chips,
+.coupon-code-row,
+.automatic-offer-label { grid-column: 2; }
+.coupon-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.coupon-chips span { padding: 4px 8px; background: var(--bg-tertiary); color: var(--text-secondary); }
+.coupon-code-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding: 10px 12px; border: 1px dashed rgba(255, 107, 53, 0.55); border-radius: 8px; }
+.coupon-code-row code { min-width: 0; overflow-wrap: anywhere; color: var(--text-primary); font-weight: 800; }
+.coupon-code-row button { min-height: 36px; display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--primary-color); cursor: pointer; }
+.coupon-card--code { grid-template-columns: 132px minmax(0, 1fr); column-gap: 18px; row-gap: 0; }
+.coupon-card--code .coupon-card-visual { width: 132px; height: 132px; align-self: start; }
+.coupon-card--code .coupon-card-visual img { width: 100%; height: 100%; object-fit: contain; }
+.coupon-card--code .coupon-card-visual-code { max-width: 104px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 14px; font-weight: 900; letter-spacing: 0.4px; transform: none; }
+.coupon-card--code .coupon-code-row { display: flex; align-items: center; gap: 9px; width: min(100%, 275px); margin-top: 12px; padding: 6px 6px 6px 12px; border: 1px dashed rgba(255, 107, 53, 0.55); border-radius: 7px; }
+.coupon-card--code .coupon-code-row button { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 36px; width: 36px; min-height: 36px; padding: 0; border: 0; border-radius: 5px; background: var(--primary-color); color: #fff; cursor: pointer; }
+.coupon-card--code .coupon-code-row .coupon-copy-icon { width: 18px; height: 18px; }
+.coupon-card--code .coupon-condition,
+.coupon-card--code .coupon-chips { grid-column: 1 / -1; }
+.coupon-card.is-expired { background: var(--bg-secondary); opacity: 0.72; }
+.coupon-empty { padding: 56px 16px; text-align: center; color: var(--text-tertiary); }
+
+@media (max-width: 768px) {
+    .coupon-page { padding-top: 20px; }
+    .coupon-hero h1 { font-size: 26px; }
+    .coupon-list { grid-template-columns: 1fr; }
+    .coupon-card { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; padding: 14px; }
+    .coupon-card-visual { width: 72px; height: 72px; }
+    .coupon-card-visual span { max-width: 62px; font-size: 9px; }
+    .coupon-card--code { grid-template-columns: 96px minmax(0, 1fr); column-gap: 12px; row-gap: 0; }
+    .coupon-card--code .coupon-card-visual { width: 96px; height: 96px; align-self: start; }
+    .coupon-card--code .coupon-card-visual-code { max-width: 76px; font-size: 11px; }
+    .coupon-condition,
+    .coupon-chips,
+    .coupon-code-row,
+    .automatic-offer-label { grid-column: 1 / -1; }
+}

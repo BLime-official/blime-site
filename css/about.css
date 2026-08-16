@@ -1,0 +1,402 @@
+/* 소개 페이지(about.html)만 쓰는 스타일. 예전에는 템플릿의 인라인 스타일이었다. base.css 다음에 싣는다. */
+
+.about-main {
+    background: var(--bg-secondary);
+}
+
+.about-hero-shell {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.about-hero-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 24px 0;
+}
+
+.about-hero-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+    gap: 44px;
+    align-items: center;
+    padding-bottom: 34px;
+}
+
+.about-hero-logo {
+    height: 74px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+.about-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 42px;
+    line-height: 1.24;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.about-lead {
+    margin: 18px 0 0;
+    max-width: 680px;
+    color: var(--text-secondary);
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.about-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+
+.about-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+}
+
+.about-cta-primary {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.about-cta-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.about-cta-secondary {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.about-cta-secondary:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.about-checklist {
+    padding: 4px 0;
+}
+
+.about-checklist-title {
+    margin: 0 0 18px;
+    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.about-check-item {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.about-check-item:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.about-check-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(16, 185, 129, 0.14);
+    color: var(--success-color);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.about-check-name {
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.about-check-desc {
+    margin-top: 4px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.about-content {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 44px 24px 56px;
+}
+
+.about-block {
+    padding: 28px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.about-block:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.about-block-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 28px;
+    align-items: flex-end;
+    margin-bottom: 22px;
+}
+
+.about-block-title {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.about-block-copy {
+    margin: 0;
+    max-width: 520px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.about-info-grid,
+.about-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.about-info-item,
+.about-step {
+    min-width: 0;
+    padding: 2px 0 0;
+}
+
+.about-info-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.about-info-title,
+.about-step-title {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.about-info-copy,
+.about-step-copy {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.about-step-number {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.about-mobile-app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+    gap: 28px;
+    align-items: start;
+    margin-top: 12px;
+    padding: 26px 0 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.about-soon-pill {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.about-mobile-app-title {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.about-mobile-app-copy {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.about-soon-list {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.about-soon-item {
+    padding: 13px 0;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+    border-top: 1px solid var(--border-color);
+}
+
+.about-soon-item:first-child {
+    border-top: 0;
+}
+
+@media (max-width: 900px) {
+    .about-hero-content,
+    .about-mobile-app {
+        grid-template-columns: 1fr;
+    }
+
+    .about-block-header {
+        display: block;
+    }
+
+    .about-block-copy {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-hero-inner {
+        padding: 32px 16px 0;
+    }
+
+    .about-hero-content {
+        gap: 24px;
+        padding-bottom: 24px;
+    }
+
+    .about-hero-logo {
+        height: 58px;
+        margin-bottom: 14px;
+    }
+
+    .about-title {
+        font-size: 30px;
+    }
+
+    .about-lead {
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    .about-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .about-cta {
+        min-height: 46px;
+        padding: 0 12px;
+        font-size: 14px;
+    }
+
+    .about-checklist-title {
+        font-size: 20px;
+    }
+
+    .about-check-item {
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 11px;
+        padding: 14px 0;
+    }
+
+    .about-check-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        font-size: 18px;
+    }
+
+    .about-check-name {
+        font-size: 15px;
+    }
+
+    .about-check-desc {
+        font-size: 13px;
+    }
+
+    .about-content {
+        padding: 28px 16px 40px;
+    }
+
+    .about-block {
+        padding: 24px 0;
+    }
+
+    .about-block-title {
+        font-size: 22px;
+    }
+
+    .about-info-grid,
+    .about-steps {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .about-info-item,
+    .about-step {
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .about-info-item:last-child,
+    .about-step:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .about-actions {
+        grid-template-columns: 1fr;
+    }
+}

@@ -33,7 +33,7 @@
             <path fill="currentColor" d="M5 4h5.1l4.8 6.9V4H19v16h-5.1L9.1 13.1V20H5V4z"></path>
         </svg>
     `;
-    const loginUsageNotice = "비라임은 로그인 상태 확인, 이용자 구분, 관심상품 목록 관리 목적으로만 로그인 기능을 이용합니다. 닉네임, 이름, 프로필 이미지 등은 활용하지 않으며, 제공에 동의하지 않으셔도 이용 가능합니다.";
+    const loginUsageNotice = "비라임은 로그인 상태 확인, 이용자 구분, 관심상품 목록 관리, 가격 보기 설정 저장 목적으로만 로그인 기능을 이용합니다. 닉네임, 이름, 프로필 이미지 등은 활용하지 않으며, 제공에 동의하지 않으셔도 이용 가능합니다.";
 
     function authProviderButton(provider, label, icon) {
         return `
@@ -126,9 +126,11 @@
             const fallback = actions.querySelector('[data-auth-provider="google"]');
             if (!fallback) return;
 
+            // 버튼을 그릴 때까지 숨긴다. Google 스크립트를 못 받으면(콘텐츠 차단기 등) 대체 버튼만 보인다.
             const slot = document.createElement("div");
             slot.className = "favorite-google-signin";
             slot.dataset.googleSignin = "true";
+            slot.hidden = true;
             fallback.insertAdjacentElement("beforebegin", slot);
         });
     }
@@ -208,6 +210,7 @@
             }
 
             slots.forEach((slot) => {
+                slot.hidden = false;
                 googleIdentity.accounts.id.renderButton(slot, {
                     type: "standard",
                     theme: "outline",
@@ -333,6 +336,26 @@
         }
     }
 
+    // 로그아웃한다. 이 기기에서 로그아웃됐으면 true다. supabase-js 2는 서버가 로그아웃을 거절해도(5xx 포함) 이 기기의
+    // 세션을 지우므로, 결과는 서버 응답이 아니라 세션이 남았는지로 정한다(2026-09-27 결정, D16). 예전 메뉴는 세션이
+    // 지워졌는데도 로그인 상태로 "로그아웃에 실패했습니다."를 보였다.
+    async function signOut() {
+        if (!supabaseClient) return false;
+        try {
+            await supabaseClient.auth.signOut();
+        } catch (error) {
+            // 아래에서 세션이 남았는지 본다.
+        }
+        try {
+            const { data } = await supabaseClient.auth.getSession();
+            if (data?.session) return false;
+        } catch (error) {
+            return false;
+        }
+        await refreshSessionState();
+        return true;
+    }
+
     function notifyAuthState(user) {
         window.dispatchEvent(new CustomEvent("blime:auth-state-changed", {
             detail: { isLoggedIn: !!user, user: user || null },
@@ -404,16 +427,66 @@
                         <li>복구할 수 없습니다</li>
                     </ul>
                     <p class="account-delete-rejoin-note">같은 소셜 계정으로 다시 가입할 수 있습니다.</p>
+                    <p class="account-delete-progress" data-account-delete-progress role="status" hidden>소셜 연동을 해제하는 중입니다…</p>
                     <p class="account-menu-error" data-account-delete-error hidden></p>
                     <div class="account-delete-actions">
                         <button class="account-delete-cancel" data-account-delete-close type="button">취소</button>
-                        <button class="account-delete-confirm" data-account-delete-confirm type="button">탈퇴하기</button>
+                        <button class="account-delete-confirm" data-account-delete-confirm type="button">
+                            <span class="account-delete-spinner" aria-hidden="true"></span>
+                            <span data-account-delete-confirm-label>탈퇴하기</span>
+                        </button>
                     </div>
                 </div>
             </section>
         `;
         document.body.appendChild(modal);
         return modal;
+    }
+
+    // 탈퇴 한 번에 네트워크 왕복이 여러 번 일어난다(신원 조회 → 소셜 연동 해제 →
+    // 계정 삭제). 그 사이 화면이 멈춘 것처럼 보이지 않도록 진행 상태를 드러낸다.
+    const deleteProgressNoticeDelayMs = 2000;
+    const deleteSuccessDwellMs = 600;
+    let deleteProgressTimer = null;
+
+    function setDeleteBusy(state) {
+        const modal = document.getElementById("account-delete-modal");
+        if (!modal) return;
+
+        const confirmButton = modal.querySelector("[data-account-delete-confirm]");
+        const label = modal.querySelector("[data-account-delete-confirm-label]");
+        const progress = modal.querySelector("[data-account-delete-progress]");
+        const closers = modal.querySelectorAll("button[data-account-delete-close]");
+        const backdrop = modal.querySelector("[data-account-delete-close]:not(button)");
+
+        clearTimeout(deleteProgressTimer);
+
+        if (state) {
+            confirmButton?.setAttribute("data-state", state);
+        } else {
+            confirmButton?.removeAttribute("data-state");
+        }
+        if (confirmButton) confirmButton.disabled = state !== null;
+        if (label) {
+            label.textContent = state === "loading"
+                ? "처리 중…"
+                : state === "success" ? "탈퇴 완료" : "탈퇴하기";
+        }
+
+        // 처리 중에는 서버가 이미 삭제를 진행하고 있어 되돌릴 수단이 없다.
+        closers.forEach((button) => { button.disabled = state !== null; });
+        if (backdrop) backdrop.dataset.locked = state !== null ? "true" : "false";
+
+        if (progress) {
+            if (state === "loading") {
+                // 빨리 끝나면 굳이 띄우지 않는다. 느릴 때만 이유를 설명한다.
+                deleteProgressTimer = setTimeout(() => {
+                    progress.hidden = false;
+                }, deleteProgressNoticeDelayMs);
+            } else {
+                progress.hidden = true;
+            }
+        }
     }
 
     function setDeleteModalError(message) {
@@ -431,8 +504,7 @@
             favoritesLine.textContent = deleteModalFavoritesLine(options.favoritesCount);
         }
         setDeleteModalError("");
-        const confirmButton = modal.querySelector("[data-account-delete-confirm]");
-        if (confirmButton) confirmButton.disabled = false;
+        setDeleteBusy(null);
         modal.hidden = false;
         modal.classList.add("active");
     }
@@ -446,7 +518,8 @@
 
     // 연동 해제에 실패하면 계정을 남겨 두므로, 원인을 알려 재시도를 유도한다.
     const deleteFailureMessages = {
-        unlink_failed: "카카오 연동 해제에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+        // 카카오와 네이버 모두 이 코드로 온다(delete-account handler.ts). 예전 문구는 카카오만 말했다.
+        unlink_failed: "소셜 로그인 연동 해제에 실패했습니다. 잠시 후 다시 시도해 주세요.",
         identity_lookup_failed: "계정 정보를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.",
     };
 
@@ -461,6 +534,9 @@
             return;
         }
 
+        setDeleteModalError("");
+        setDeleteBusy("loading");
+
         let accessToken = "";
         try {
             const { data } = await supabaseClient.auth.getSession();
@@ -469,12 +545,14 @@
             accessToken = "";
         }
         if (!accessToken) {
+            setDeleteBusy(null);
             setDeleteModalError("로그인이 만료되었습니다. 다시 로그인 후 시도해 주세요.");
             return;
         }
 
         let succeeded = false;
         let failureCode = "";
+        let naverManualDisconnect = false;
         try {
             const response = await fetch(deleteAccountFunctionUrl(), {
                 method: "POST",
@@ -486,11 +564,13 @@
             const payload = await response.json().catch(() => null);
             succeeded = Boolean(response.ok && payload?.success);
             if (!succeeded) failureCode = payload?.code || "";
+            naverManualDisconnect = Boolean(payload?.naverManualDisconnect);
         } catch (error) {
             succeeded = false;
         }
 
         if (!succeeded) {
+            setDeleteBusy(null);
             setDeleteModalError(deleteFailureMessage(failureCode));
             return;
         }
@@ -501,28 +581,36 @@
             // 서버 측 계정은 이미 삭제됨 — 로컬 세션 정리 실패는 흐름을 막지 않는다.
         }
 
+        // 삭제는 끝났지만 세션 정리와 화면 전환이 남았다. 마지막 구간이 다시
+        // 멈춘 것처럼 보이지 않도록 완료를 눈으로 확인시킨 뒤 이동한다.
+        setDeleteBusy("success");
+        await new Promise((resolve) => setTimeout(resolve, deleteSuccessDwellMs));
+
         hideDeleteAccountModal();
         await refreshSessionState();
+
+        // 토큰이 없거나 만료된 네이버 가입자는 서버가 연동을 대신 끊지 못한다.
+        // 이용자가 직접 정리할 수 있게 안내를 덧붙인다.
+        const completionMessage = naverManualDisconnect
+            ? "회원 탈퇴가 완료되었습니다. 네이버 앱 연결은 네이버 ID 관리 페이지에서 직접 해제해 주세요."
+            : "회원 탈퇴가 완료되었습니다.";
 
         // 탈퇴 후 계정 화면에 그대로 남으면 로그인 패널이 뜨고, 다시 로그인하면
         // 곧바로 계정 화면으로 돌아와 "탈퇴가 안 된 것처럼" 보인다. 홈으로 보낸다.
         const homeHref = deleteAccountOptions.homeHref;
         if (homeHref) {
-            markPendingFlash("회원 탈퇴가 완료되었습니다.");
+            markPendingFlash(completionMessage);
             window.location.assign(homeHref);
             return;
         }
-        showFlash("회원 탈퇴가 완료되었습니다.");
+        showFlash(completionMessage);
     }
 
     async function handleDeleteAccountConfirm(confirmButton) {
+        // 잠금 해제는 performDeleteAccount가 결과에 따라 처리한다. 성공 시에는
+        // 화면이 전환되므로 버튼을 되돌리면 안 된다.
         if (confirmButton.disabled) return;
-        confirmButton.disabled = true;
-        try {
-            await performDeleteAccount();
-        } finally {
-            confirmButton.disabled = false;
-        }
+        await performDeleteAccount();
     }
 
     function confirmDeleteAccount(options = {}) {
@@ -535,6 +623,7 @@
         showFlash,
         getClient: () => supabaseClient,
         getCurrentUser: currentUser,
+        signOut,
         confirmDeleteAccount,
     };
 
@@ -587,6 +676,8 @@
 
         const deleteCloseButton = event.target.closest("[data-account-delete-close]");
         if (deleteCloseButton) {
+            // 처리 중에는 배경 클릭으로도 닫히지 않는다.
+            if (deleteCloseButton.disabled || deleteCloseButton.dataset.locked === "true") return;
             hideDeleteAccountModal();
             return;
         }
