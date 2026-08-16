@@ -1,0 +1,276 @@
+/* 검색 페이지(search.html)만 쓰는 스타일. base.css 다음에 싣는다.
+   위쪽 규칙은 모든 너비에 걸리고 값은 PC 기준이다. 768px 이하(휴대폰)에서만 다른 값은 그 아래 미디어 쿼리가 덮는다.
+   PC 폭(769px 이상)에만 걸리는 규칙(뒤로 가기 숨김, 인기 검색어 정렬, 격자의 3열·4열)은 맨 아래에 있다.
+   손가락 화면((pointer: coarse))에만 걸리는 정렬 칸의 글자 크기는 휴대폰 규칙 바로 뒤에 있다. */
+
+/* 페이지 바깥: 가운데에 최대 1200px로 둔다. 위 여백은 PC 32px, 휴대폰 20px이다(좌우는 24px, 16px). */
+.mobile-search-page {
+    display: block;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 32px 24px 48px;
+}
+
+/* 검색창 줄은 폭이 넓은 화면에서도 640px을 넘지 않고 가운데에 둔다. */
+.mobile-search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.mobile-search-input {
+    height: 48px;
+    padding: 0 52px 0 16px;
+    font-size: 16px;
+}
+
+.mobile-search-submit {
+    right: 6px;
+    width: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-search-submit-icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+
+.mobile-search-filter-title {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.mobile-search-empty {
+    margin-top: 48px;
+    padding: 32px 16px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.mobile-search-empty-icon {
+    display: flex;
+    justify-content: center;
+    color: var(--text-tertiary);
+    font-size: 34px;
+    line-height: 1;
+}
+
+.mobile-search-empty-svg {
+    width: 36px;
+    height: 36px;
+}
+
+.mobile-search-empty-title {
+    margin-top: 12px;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.mobile-search-empty-copy {
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+/* 쪽을 바꾸면 product_list.js가 이 영역의 위쪽으로 스크롤한다. 헤더가 고정이라 헤더 높이와 16px만큼 아래에 서게 한다
+   (base.css의 같은 값은 main [id]에만 걸려서 id가 없는 이 영역에는 안 닿는다). */
+.mobile-search-results {
+    margin-top: 28px;
+    scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+/* 결과 머리: 제목과 정렬 칸을 한 줄에 양 끝으로 둔다. 제목이 길어도 정렬 칸에 닿지 않게 간격을 둔다. */
+.search-results-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* display를 가진 규칙(머리의 flex 등)이 UA의 [hidden]을 이기므로 숨김은 따로 적는다. 결과가 없으면 머리를 숨기고 결과 없음 문장을 보인다. */
+.search-results-head[hidden],
+.search-no-results[hidden],
+.search-status[hidden] {
+    display: none;
+}
+
+/* 제목은 줄을 바꾸지 않는다. 긴 검색어는 검색어만 말줄임으로 줄어야 하므로, 제목(머리의 칸)과 따옴표 묶음은
+   min-width: 0으로 자기 내용보다 좁아질 수 있게 한다. 둘 중 하나라도 빠지면 제목이 정렬 칸을 화면 밖으로 밀어낸다. */
+.search-results-title {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* 여는 따옴표, 검색어, 닫는 따옴표는 한 묶음이다. 제목의 간격이 따옴표 안쪽에 빈칸을 만들지 않게 묶음 안에는 간격이 없다. */
+.search-results-quoted {
+    display: flex;
+    min-width: 0;
+}
+
+.search-results-query {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-results-title b {
+    color: var(--primary-color);
+    font-size: 15px;
+}
+
+.search-sort {
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 14px;
+}
+
+/* 받는 동안 줄과 불러오지 못함 줄(.search-status)은 결과 없음 문장과 같은 모양이다.
+   문장은 검색어를 그대로 담는다. 공백이나 -, /가 없는 긴 검색어는 줄을 바꿀 곳이 없어 문장 밖으로 넘치므로 낱말 안에서도 줄을 바꾼다. */
+.search-no-results,
+.search-status {
+    padding: 48px 16px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 16px;
+    overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .mobile-search-page {
+        min-height: calc(100vh - var(--header-height));
+        padding: 20px 16px 8px;
+    }
+
+    .mobile-search-shell {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    /* 누름 영역은 40px이다. 줄어들지 않게 한다(예전에는 검색창에 밀려 390px 화면에서 32~34px로 그려졌다). */
+    .mobile-search-back {
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0;
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    .mobile-search-back-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .mobile-search-filters {
+        justify-content: flex-start;
+        margin-top: 18px;
+    }
+
+    .mobile-search-filter-title {
+        flex: 0 0 100%;
+    }
+
+    .mobile-search-results {
+        margin-top: 20px;
+    }
+
+    /* 결과 격자는 휴대폰 구간 전체(768px 이하)에서 2열이다. base.css의 auto-fill(칸 최소 280px)에 맡기면 칸 두 개가 안 들어가는
+       481~611px 폭에서 한 칸이 화면 폭만큼 넓어진다. 간격은 base.css의 480px 이하 값(12px)과 같게 둔다. */
+    .mobile-search-results .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .search-results-head {
+        margin-bottom: 12px;
+    }
+
+    .search-results-title {
+        gap: 4px;
+        font-size: 17px;
+    }
+
+    .search-results-title b {
+        font-size: 14px;
+    }
+
+    /* 16px보다 작은 글자는 iOS Safari가 칸을 눌렀을 때 화면을 확대한다(검색창 .mobile-search-input과 같다). 높이와 좌우 여백은 그대로 둔다. */
+    .search-sort {
+        height: 32px;
+        padding: 0 6px;
+        font-size: 16px;
+    }
+
+    .search-no-results,
+    .search-status {
+        padding: 40px 8px;
+        font-size: 15px;
+    }
+}
+
+/* 가로로 든 iPhone(812~956px)과 iPad는 768px보다 넓어 위 휴대폰 규칙에 걸리지 않는다. 그래도 16px보다 작은 글자는
+   iOS Safari가 칸을 눌렀을 때 화면을 확대하므로, 손가락 화면((pointer: coarse))이면 너비와 상관없이 16px로 한다(글자만 키운다).
+   위 768px 이하의 16px 줄은 그대로 둔다. 좁은 창은 마우스여도 휴대폰 배치를 쓰고, 터치 없이 휴대폰 크기만 흉내 낸 화면은 coarse에 맞지 않는다. */
+@media (pointer: coarse) {
+    .search-sort {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 769px) {
+    /* 뒤로 가기는 하단 내비가 있는 휴대폰 화면의 것이다. PC에는 헤더가 있어 숨긴다. */
+    .mobile-search-back {
+        display: none;
+    }
+
+    /* 인기 검색어는 검색창 아래 가운데에 제목과 한 줄로 둔다. */
+    .mobile-search-filters {
+        justify-content: center;
+        align-items: center;
+        margin-top: 16px;
+    }
+
+    .mobile-search-filter-title {
+        margin-right: 4px;
+    }
+}
+
+/* 결과 격자의 열 수: 1025px 이상 4열, 769~1024px 3열. 768px 이하의 2열은 위 휴대폰 규칙에 있다. */
+@media (min-width: 1025px) {
+    .mobile-search-results .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .mobile-search-results .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}

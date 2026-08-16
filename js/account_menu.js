@@ -2,12 +2,9 @@
     const menus = Array.from(document.querySelectorAll("[data-account-menu]"));
     const settingsMenus = Array.from(document.querySelectorAll("[data-settings-menu]"));
 
-    function accountPageHref() {
-        return (
-            document.querySelector('[data-mobile-nav-item="account"]')?.getAttribute("href")
-            || menus[0]?.dataset.accountHref
-            || "/account/"
-        );
+    // 페이지는 body에 사이트 루트까지의 상대 경로(data-site-root)를 적어 둔다.
+    function sitePath(path) {
+        return `${document.body?.dataset.siteRoot ?? ""}${path}`;
     }
 
     async function showAccountMenu() {
@@ -19,7 +16,7 @@
             return "loginShown";
         }
 
-        window.location.assign(accountPageHref());
+        window.location.assign(sitePath("account/"));
         return "navigated";
     }
 
@@ -120,22 +117,17 @@
         });
     }
 
+    // 로그아웃 결과는 auth.js가 이 기기에 세션이 남았는지로 정한다. 세션이 남은 경우에만 실패로 알린다.
     async function handleLogout(menu) {
-        try {
-            const client = window.BLIME_AUTH?.getClient?.();
-            if (!client?.auth?.signOut) throw new Error("Missing signOut");
-
-            const { error } = await client.auth.signOut();
-            if (error) throw error;
-
-            await window.BLIME_AUTH?.refreshSessionState?.();
-            await refreshMenus();
-            setAccountOpen(menu, false);
-            window.BLIME_AUTH?.showFlash?.("로그아웃되었습니다.");
-        } catch (error) {
+        const signedOut = await window.BLIME_AUTH?.signOut?.();
+        if (!signedOut) {
             renderMenu(menu, true, "로그아웃에 실패했습니다.");
             setAccountOpen(menu, true);
+            return;
         }
+        await refreshMenus();
+        setAccountOpen(menu, false);
+        window.BLIME_AUTH?.showFlash?.("로그아웃되었습니다.");
     }
 
     async function handleAction(menu, action) {
@@ -146,17 +138,17 @@
         }
 
         if (action === "account") {
-            window.location.href = menu.dataset.accountHref || "/account/";
+            window.location.href = sitePath("account/");
             return;
         }
 
         if (action === "favorites") {
-            window.location.href = menu.dataset.favoritesHref || "/favorites/";
+            window.location.href = sitePath("favorites/");
             return;
         }
 
         if (action === "deals") {
-            window.location.href = menu.dataset.dealsHref || "/deals/";
+            window.location.href = sitePath("deals/");
             return;
         }
 
