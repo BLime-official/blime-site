@@ -1,0 +1,780 @@
+/* 생체나이 계산기(phenoage.html)만 쓰는 스타일. base.css 다음에 싣는다.
+ * 값은 승인된 시안(docs/superpowers/specs/2026-11-03-phenoage-calculator/mock/phenoage.css)이다. 색은 사이트 토큰, 건강 색(--health-ink,
+ * --health-wash: 홈의 건강 구역과 같이 써서 base.css에 있다), 아래 이 페이지의 세 토큰만 쓴다.
+ * 시안과 다른 점:
+ *   - 결과의 뜻 한 줄(.pheno-result-read)이 없다(결정 11).
+ *   - 결과 맨 아래 줄(.pheno-result-foot)은 --text-secondary다. 시안의 --text-tertiary는 흰 바탕에서 2.54:1이라 4.5:1에 못 미친다.
+ *     칸 이름 옆 영문 약어(.pheno-abbr), 결과 자리 안내(.pheno-placeholder), 막대 눈금(.pheno-bar-scale)도 같은 까닭으로
+ *     --text-secondary다(2026-11-05 사용자 결정).
+ *   - 스크립트가 꺼지면 단추 위에 한 줄(.pheno-noscript)을 보인다(2026-11-05 사용자 결정).
+ *   - 결과(.pheno-result)에 고정 헤더만큼 스크롤 여백을 둔다. 휴대폰에서 결과로 내려갈 때 헤더 밑에 숨지 않는다.
+ * 시안에서 겪은 두 가지:
+ *   - 전역 section { margin-bottom: 64px }(base.css)는 이 페이지 안에서 0으로 둔다. 사이는 이 파일의 규칙이 정한다.
+ *   - 960px 아래의 한 줄 배치는 flex로 쌓는다. grid의 minmax(0, 1fr) 한 칸으로 하면 안내 칸의 줄 높이가 실제보다 크게 잡혀 빈틈이 생겼다.
+ */
+
+/* 이 페이지만 쓰는 색: 오류 글자와 바탕, '차이가 아주 큽니다' 안내의 바탕. 라이트가 먼저, 다크가 뒤다. */
+:root,
+[data-theme="light"] {
+    --pheno-danger-ink: #B91C1C;
+    --pheno-danger-wash: rgba(239, 68, 68, 0.08);
+    --pheno-check-wash: rgba(245, 158, 11, 0.12);
+}
+
+[data-theme="dark"] {
+    --pheno-danger-ink: #FCA5A5;
+    --pheno-danger-wash: rgba(239, 68, 68, 0.16);
+    --pheno-check-wash: rgba(245, 158, 11, 0.16);
+}
+
+.pheno-main [hidden] {
+    display: none !important;
+}
+
+/* 전역 section { margin-bottom: 64px }(base.css)를 이 페이지에서는 쓰지 않는다. 사이는 아래 규칙이 정한다. */
+.pheno-main section {
+    margin-bottom: 0;
+}
+
+/* 한글은 낱말 단위로 줄을 바꾼다('/µL이면'이 '/'와 'µL이면'으로 갈리지 않게). 긴 영문·식은 넘치지 않게 끊는다. */
+.pheno-main {
+    background: var(--bg-secondary);
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.pheno-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px 56px;
+}
+
+.pheno-head {
+    margin-bottom: 24px;
+}
+
+.pheno-eyebrow {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--health-ink);
+}
+
+.pheno-title {
+    margin: 0;
+    font-size: 32px;
+    line-height: 1.25;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.pheno-lead {
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.pheno-privacy {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin: 14px 0 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--health-wash);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.pheno-privacy svg {
+    flex: none;
+    margin-top: 2px;
+    color: var(--health-ink);
+}
+
+.pheno-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 24px;
+    align-items: start;
+}
+
+.pheno-form {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 6px 24px 24px;
+}
+
+.pheno-group {
+    border: 0;
+    margin: 0;
+    padding: 18px 0 18px;
+    border-bottom: 1px solid var(--border-color);
+    min-width: 0;
+}
+
+.pheno-group:last-of-type {
+    border-bottom: 0;
+    padding-bottom: 4px;
+}
+
+.pheno-group legend {
+    float: left;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.pheno-fields {
+    clear: both;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+}
+
+.pheno-field > label:first-child {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.pheno-abbr {
+    margin-left: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.pheno-group legend .pheno-abbr {
+    font-size: 13px;
+}
+
+.pheno-input {
+    display: flex;
+    align-items: stretch;
+    height: 46px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-primary);
+    overflow: hidden;
+}
+
+.pheno-input:focus-within {
+    border-color: var(--health-ink);
+    box-shadow: 0 0 0 3px var(--health-wash);
+}
+
+.pheno-input input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    padding: 0 12px;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+}
+
+.pheno-unit {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    border-left: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.pheno-unit-select {
+    flex: none;
+    border: 0;
+    border-left: 1px solid var(--border-color);
+    border-radius: 0;
+    padding: 0 30px 0 12px;
+    background: var(--bg-secondary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.pheno-unit-select:invalid,
+.pheno-unit-select.is-empty {
+    color: var(--text-tertiary);
+}
+
+/* 16px보다 작은 글자는 iOS Safari가 칸을 눌렀을 때 화면을 확대한다. CRP 단위는 꼭 골라야 하므로, 손가락 화면((pointer: coarse))이면
+   단위 칸도 입력 칸처럼 16px로 한다(base.css의 헤더 검색창, search.css의 정렬 칸과 같다). 마우스 화면은 시안대로 14px다. */
+@media (pointer: coarse) {
+    .pheno-unit-select {
+        font-size: 16px;
+    }
+}
+
+.pheno-hint {
+    margin: 6px 0 0;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+
+.pheno-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.pheno-check input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--health-ink);
+}
+
+.pheno-error {
+    margin: 6px 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+    font-weight: 600;
+    color: var(--pheno-danger-ink);
+}
+
+/* 오류가 떠도 도움말은 그대로 둔다('eGFR이 아니라…'가 오류의 실마리다, 11-03 결정 14). */
+.pheno-field.is-error .pheno-input {
+    border-color: var(--danger-color);
+}
+
+.pheno-summary {
+    margin: 16px 0 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--pheno-danger-wash);
+    color: var(--pheno-danger-ink);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+/* 스크립트가 꺼진 방문자에게만 보이는 단추 위 한 줄(<noscript>) */
+.pheno-noscript {
+    margin: 16px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.pheno-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.pheno-actions button {
+    min-height: 48px;
+    border-radius: 12px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.pheno-submit {
+    padding: 0 28px;
+    border: 0;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pheno-submit:hover {
+    background: var(--primary-dark);
+}
+
+.pheno-example {
+    padding: 0 16px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.pheno-clear {
+    padding: 0 12px;
+    border: 0;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* sticky가 화면을 따라가는 것은 base.css의 가로 넘침 막기(html, body { overflow-x: clip })가 스크롤 상자를 만들지 않아서다.
+ * clip을 모르는 브라우저(Safari 15 이하)는 hidden을 써 body가 스크롤 상자가 되므로, 오른쪽 칸이 붙지 않고 함께 스크롤된다. */
+.pheno-side {
+    position: sticky;
+    top: calc(var(--header-height) + 16px);
+    display: grid;
+    gap: 16px;
+}
+
+.pheno-guide {
+    padding: 18px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-primary);
+}
+
+.pheno-guide h2 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.pheno-guide p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.pheno-guide b {
+    color: var(--text-primary);
+}
+
+.pheno-placeholder {
+    padding: 28px 20px;
+    border: 1.5px dashed var(--border-color);
+    border-radius: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.pheno-result {
+    order: -1;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-sm);
+    scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+.pheno-result-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.pheno-tag {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pheno-result-age {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin: 4px 0 0;
+    color: var(--health-ink);
+}
+
+.pheno-result-age strong {
+    font-size: 52px;
+    line-height: 1.1;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.pheno-result-age span {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.pheno-result-diff {
+    margin: 6px 0 0;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.pheno-result-diff b {
+    font-weight: 800;
+}
+
+.pheno-result-note {
+    margin: 10px 0 0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.pheno-result-note.is-check {
+    background: var(--pheno-check-wash);
+}
+
+.pheno-result-foot {
+    margin: 12px 0 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.pheno-result.is-stale .pheno-result-age,
+.pheno-result.is-stale .pheno-result-diff,
+.pheno-result.is-stale .pheno-bar {
+    opacity: 0.35;
+}
+
+.pheno-stale {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 8px 8px 8px 12px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.pheno-recalc {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--primary-color);
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* 나이 막대(결정 3의 B안). 막대와 점, 눈금은 스크립트가 그린다. */
+.pheno-bar {
+    margin: 4px 0 0;
+}
+
+.pheno-bar-track {
+    position: relative;
+    height: 8px;
+    margin: 34px 6px 30px;
+    border-radius: 999px;
+    background: var(--bg-tertiary);
+}
+
+.pheno-bar-span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 999px;
+    background: var(--health-wash);
+    outline: 1px solid var(--health-ink);
+    outline-offset: -1px;
+    opacity: 0.6;
+}
+
+.pheno-bar-mark {
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    border: 3px solid var(--bg-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.pheno-bar-mark.is-pheno {
+    background: var(--health-ink);
+}
+
+.pheno-bar-mark.is-age {
+    background: var(--text-tertiary);
+}
+
+.pheno-bar-mark span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.pheno-bar-mark.is-pheno span {
+    bottom: 18px;
+    color: var(--health-ink);
+}
+
+.pheno-bar-mark.is-age span {
+    top: 18px;
+    color: var(--text-secondary);
+}
+
+.pheno-bar-mark.is-start span {
+    left: -6px;
+    transform: none;
+}
+
+.pheno-bar-mark.is-end span {
+    left: auto;
+    right: -6px;
+    transform: none;
+}
+
+.pheno-bar-scale {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.pheno-about {
+    margin-top: 40px;
+}
+
+.pheno-about > h2 {
+    margin: 0 0 14px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.pheno-about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.pheno-about-grid article {
+    padding: 16px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--bg-primary);
+}
+
+.pheno-about-grid h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.pheno-about-grid p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+}
+
+.pheno-more {
+    margin-top: 10px;
+    padding: 0 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--bg-primary);
+}
+
+.pheno-more summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    list-style: none;
+    cursor: pointer;
+}
+
+.pheno-more summary::-webkit-details-marker {
+    display: none;
+}
+
+.pheno-more summary::after {
+    content: "+";
+    color: var(--text-tertiary);
+    font-weight: 600;
+}
+
+.pheno-more[open] summary::after {
+    content: "−";
+}
+
+.pheno-more ul,
+.pheno-more p {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+}
+
+.pheno-more ul {
+    padding-left: 18px;
+}
+
+.pheno-more li + li {
+    margin-top: 6px;
+}
+
+.pheno-table {
+    width: 100%;
+    margin: 0 0 12px;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+}
+
+.pheno-table th,
+.pheno-table td {
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+    vertical-align: top;
+}
+
+.pheno-table th {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.pheno-more .pheno-formula {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 959px) {
+    /* 한 줄일 때는 flex로 쌓는다(grid의 minmax(0, 1fr) 한 칸은 안내 칸의 줄 높이를 실제보다 크게 잡아 빈틈이 생겼다). */
+    .pheno-layout {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .pheno-side {
+        display: contents;
+    }
+
+    .pheno-guide {
+        order: -1;
+    }
+
+    .pheno-form {
+        order: 0;
+    }
+
+    .pheno-result {
+        order: 1;
+    }
+
+    .pheno-placeholder {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .pheno-container {
+        padding: 20px 16px 40px;
+    }
+
+    .pheno-title {
+        font-size: 26px;
+    }
+
+    .pheno-lead {
+        font-size: 15px;
+    }
+
+    .pheno-guide {
+        padding: 14px 16px;
+        border-radius: 14px;
+    }
+
+    .pheno-form {
+        padding: 2px 16px 18px;
+        border-radius: 14px;
+    }
+
+    .pheno-fields {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .pheno-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pheno-submit {
+        grid-column: 1 / -1;
+    }
+
+    .pheno-result {
+        border-radius: 14px;
+    }
+
+    .pheno-result-age strong {
+        font-size: 46px;
+    }
+
+    .pheno-about {
+        margin-top: 32px;
+    }
+
+    .pheno-about > h2 {
+        font-size: 20px;
+    }
+
+    .pheno-about-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+}
+
+/* 관련 글: 계산기와 관련 있다고 표시한 건강 글(건강 글 설계 '계산기의 관련 글'). 글 카드(.health-list, .health-post-card)는 base.css의
+ * 공용 부품이고 여기는 구역의 자리만 정한다. 값은 승인된 3차 시안(docs/superpowers/specs/2026-11-07-supplement-research-blog/mock/health.css)이다. */
+.pheno-related {
+    margin: 40px 0 0;
+}
+
+.pheno-related h2 {
+    margin: 0 0 12px;
+    font-size: 20px;
+}

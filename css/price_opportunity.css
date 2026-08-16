@@ -1,0 +1,13 @@
+/* 가격 내림 목록(benefit_drops.html)과 쿠팡 비교 목록(compare.html)이 쓰는 스타일: 상품 격자의 열 수. base.css 다음에 싣는다.
+ * 머리(제목·탭)와 구분 버튼, 안내 줄, 빈 안내, 본문 여백(.benefit-page)은 혜택 세 페이지가 같이 쓰는 .benefit-* 부품이라 base.css에 있다.
+ * 정가 하락 카드의 배지와 최고 정가 줄, 쿠팡 비교 카드의 배지·가격 두 줄·적용가 칩은 홈도 같이 쓰는 카드 부품이라 base.css에 있다. 판매처 색 토큰(--store-*)도 base.css에 있다.
+ * 카드의 바닥 줄 맞춤(.products-grid > .product-card)은 검색·관심상품의 카드도 받는 규칙이라 base.css에 있다. */
+
+/* 상품 격자의 열 수. 예전에는 두 템플릿에 같은 인라인 스타일로 있었다.
+   예전의 `.container { padding: 24px }`는 지웠다. 이 파일이 base.css 뒤에 와서 본문의 위아래·휴대폰 좌우 여백(.benefit-page, .container)을
+   덮었고, 그러면 휴대폰의 탭 줄(-16px로 화면 끝까지 닿는다)이 8px 모자라고 탭을 옮길 때 제목 자리가 뛰었다. */
+.products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+/* 모바일(<=480px)에서도 메인과 동일하게 2열 유지 */
+@media (max-width: 480px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
