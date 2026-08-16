@@ -1,0 +1,261 @@
+/* 계정 페이지(account.html)만 쓰는 스타일. 탈퇴 확인 창은 auth.js가 만들어 base.css에 있다.
+ * base.css 다음에 싣는다. */
+
+.account-page {
+    min-height: calc(100vh - var(--header-height) - 96px);
+    max-width: 560px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+/* 768px 이하에서는 쿠폰 페이지·검색 화면처럼 위 여백을 20px로 줄인다. 아래는 데스크톱과 같다.
+   (예전에는 모바일 공용 .container 규칙이 위아래 여백을 0으로 덮어 제목이 헤더에 붙었다. 2026-09-27 수정) */
+@media (max-width: 768px) {
+    .account-page {
+        padding-top: 20px;
+    }
+}
+
+.account-header {
+    margin-bottom: 24px;
+}
+
+.account-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.account-content[hidden] {
+    display: none;
+}
+
+.account-card {
+    padding: 20px 24px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.account-card-title {
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.account-info-list {
+    margin: 0;
+}
+
+.account-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.account-info-row dt {
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.account-info-row dd {
+    margin: 0;
+    color: var(--text-primary);
+    text-align: right;
+    word-break: break-all;
+}
+
+/* 가격 보기 카드(iHerb 할인 적용가 보기, 운영값이 있을 때만 있다). 표면과 바깥 여백은 .account-card 그대로다.
+   section이 아니라 div라서 전역 section의 아래 여백(64px)을 받지 않는다. 이 화면에는 판매처 토큰(--store-iherb)이 없어 초록 #458500을 값으로 쓴다. */
+.price-view-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.price-view-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    /* 좁은 폭에서 단어 가운데(쿠|팡)가 끊어지지 않게 띄어쓰기에서만 줄을 바꾼다. */
+    word-break: keep-all;
+}
+
+.price-view-label {
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.price-view-help {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* 스위치 52x32, 손잡이 26px(가장자리에서 3px). 켜짐은 iHerb 초록이다. 저장하는 동안(account.js가 잠근다)에도 모양은 그대로 둔다.
+   꺼짐은 두 테마 모두 진한 회색 #7C8591이다. 흰 카드 3.74:1, 다크 카드(#111827) 4.75:1, 흰 손잡이 3.74:1로 모두 3:1을 넘는다(테두리색은 1.24:1이었다). */
+.price-view-switch {
+    position: relative;
+    flex: none;
+    width: 52px;
+    height: 32px;
+    border: 0;
+    border-radius: 16px;
+    background: #7C8591;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background 0.15s ease-out;
+}
+
+.price-view-switch::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s ease-out;
+}
+
+.price-view-switch[aria-checked="true"] {
+    background: #458500;
+}
+
+.price-view-switch[aria-checked="true"]::after {
+    transform: translateX(20px);
+}
+
+.price-view-switch:focus-visible {
+    outline: 2px solid #458500;
+    outline-offset: 2px;
+}
+
+.price-view-switch:disabled {
+    cursor: progress;
+}
+
+/* account/#price-view로 들어온 사람에게 카드를 2초 동안 짚는다(account.js가 is-highlight를 붙였다 뗀다). */
+.price-view-card.is-highlight {
+    box-shadow: 0 0 0 2px #458500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .price-view-switch,
+    .price-view-switch::after {
+        transition: none;
+    }
+}
+
+.account-favorites-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.account-favorites-link:hover,
+.account-favorites-link:focus-visible {
+    background: var(--bg-tertiary);
+}
+
+.account-favorites-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.account-favorites-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.account-logout-button {
+    min-height: 44px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.account-logout-button:hover,
+.account-logout-button:focus-visible {
+    background: var(--bg-tertiary);
+}
+
+/* 형제 카드와 같은 표면을 쓴다. 위험 신호는 영역이 아니라 실행 버튼이 진다. */
+.account-danger-zone {
+    margin-top: 8px;
+    padding: 20px 24px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.account-danger-title {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.account-danger-description {
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 페이지에서 유일하게 빨간 채움 — 되돌릴 수 없는 행동은 이것뿐이다. */
+.account-delete-button {
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--danger-color);
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease-out;
+}
+
+.account-delete-button:hover,
+.account-delete-button:focus-visible {
+    background: #DC2626;
+}
+
+/* 로그인하지 않은 방문자에게 가격 보기를 알리는 한 줄(운영값이 있을 때만 있다). 로그인 패널(base.css)의 로그인 버튼 묶음 아래에서 구분선으로 시작한다. */
+.account-login-teaser {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.account-login-teaser strong {
+    color: #458500;
+    font-weight: 700;
+}
+
+[data-theme="dark"] .account-login-teaser strong {
+    color: #8BC34A;
+}

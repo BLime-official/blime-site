@@ -1,0 +1,111 @@
+/* 검색 페이지(search.html)만 쓰는 스타일: 휴대폰 검색 화면. base.css 다음에 싣는다. */
+
+@media (max-width: 768px) {
+    .mobile-search-page {
+        display: block;
+        min-height: calc(100vh - var(--header-height));
+        padding: 20px 16px 8px;
+    }
+
+    .mobile-search-shell {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    .mobile-search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* 누름 영역은 40px이다. 줄어들지 않게 한다(예전에는 검색창에 밀려 390px 화면에서 32~34px로 그려졌다). */
+    .mobile-search-back {
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0;
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    .mobile-search-back-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .mobile-search-input {
+        height: 48px;
+        padding: 0 52px 0 16px;
+        font-size: 16px;
+    }
+
+    .mobile-search-submit {
+        right: 6px;
+        width: 40px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-search-submit-icon {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+    }
+
+    .mobile-search-filters {
+        justify-content: flex-start;
+        margin-top: 18px;
+    }
+
+    .mobile-search-filter-title {
+        flex: 0 0 100%;
+        color: var(--text-secondary);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .mobile-search-empty {
+        margin-top: 48px;
+        padding: 32px 16px;
+        color: var(--text-secondary);
+        text-align: center;
+    }
+
+    .mobile-search-empty-icon {
+        display: flex;
+        justify-content: center;
+        color: var(--text-tertiary);
+        font-size: 34px;
+        line-height: 1;
+    }
+
+    .mobile-search-empty-svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .mobile-search-empty-title {
+        margin-top: 12px;
+        color: var(--text-primary);
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .mobile-search-empty-copy {
+        margin-top: 6px;
+        font-size: 14px;
+    }
+
+    .mobile-search-results {
+        margin-top: 20px;
+    }
+}

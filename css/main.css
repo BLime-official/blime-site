@@ -1749,16 +1749,19 @@ section {
     background: var(--bg-tertiary);
 }
 
+/* 형제 카드와 같은 표면을 쓴다. 위험 신호는 영역이 아니라 실행 버튼이 진다. */
 .account-danger-zone {
-    margin-top: 16px;
+    margin-top: 8px;
     padding: 20px 24px;
-    border: 1px solid var(--danger-color);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
+    box-shadow: var(--shadow-sm);
 }
 
 .account-danger-title {
     margin-bottom: 8px;
-    color: var(--danger-color);
+    color: var(--text-primary);
     font-size: 16px;
 }
 
@@ -1766,24 +1769,26 @@ section {
     margin-bottom: 16px;
     color: var(--text-secondary);
     font-size: 14px;
+    line-height: 1.6;
 }
 
+/* 페이지에서 유일하게 빨간 채움 — 되돌릴 수 없는 행동은 이것뿐이다. */
 .account-delete-button {
-    min-height: 40px;
-    padding: 0 16px;
-    border: 1px solid var(--danger-color);
-    border-radius: 10px;
-    background: transparent;
-    color: var(--danger-color);
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--danger-color);
+    color: #ffffff;
     font: inherit;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s ease-out;
 }
 
 .account-delete-button:hover,
 .account-delete-button:focus-visible {
-    background: var(--danger-color);
-    color: #ffffff;
+    background: #DC2626;
 }
 
 .account-delete-modal {
@@ -1842,9 +1847,61 @@ section {
     cursor: pointer;
 }
 
+.account-delete-confirm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
 .account-delete-confirm:disabled {
-    opacity: 0.6;
     cursor: default;
+}
+
+/* 대기(취소 등)와 진행 중은 다르게 보여야 한다. 진행 중은 흐려지지 않는다. */
+.account-delete-cancel:disabled,
+.modal-close:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.account-delete-confirm[data-state="loading"] {
+    opacity: 0.85;
+}
+
+.account-delete-confirm[data-state="success"] {
+    background: var(--success-color);
+}
+
+.account-delete-spinner {
+    display: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: account-delete-spin 0.7s linear infinite;
+}
+
+.account-delete-confirm[data-state="loading"] .account-delete-spinner {
+    display: inline-block;
+}
+
+@keyframes account-delete-spin {
+    to { transform: rotate(360deg); }
+}
+
+.account-delete-progress {
+    margin: 0 0 12px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .account-delete-spinner {
+        animation-duration: 1.6s;
+    }
 }
 
 .favorites-header {
@@ -1994,6 +2051,27 @@ section {
         font-size: 11px;
         font-weight: 700;
         line-height: 1.2;
+    }
+
+    /* 스크롤 자동 숨김 - 상태 토글은 js/mobile_nav_autohide.js가 담당한다.
+       transform만 쓰므로 body 하단 패딩과 컨테이너 상단 마진은 그대로 두어
+       레이아웃 시프트가 생기지 않는다. */
+    .mobile-bottom-nav,
+    .fab-container {
+        transition: transform var(--transition-base), bottom var(--transition-base);
+    }
+
+    body.mobile-chrome-hidden .header {
+        transform: translateY(-100%);
+    }
+
+    /* 하단바 그림자(blur 24px)가 화면 하단에 얼룩으로 남지 않도록 더 밀어낸다. */
+    body.mobile-chrome-hidden .mobile-bottom-nav {
+        transform: translateY(calc(100% + 24px));
+    }
+
+    body.mobile-chrome-hidden .fab-container {
+        bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px));
     }
 
     .mobile-home-shell {
@@ -2373,31 +2451,41 @@ section {
 }
 
 /* Scraping Dashboard Styles */
-.data-reference-date {
-    text-align: center;
-    margin: 20px 0;
-    padding: 15px;
-    background-color: var(--bg-tertiary);
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+.scraping-dashboard-page .container {
+    padding-top: 32px;
 }
 
-.data-reference-date h2 {
-    margin: 0;
+/* 제목과 기준일시를 한 줄에 두고, 폭이 모자라면 기준일시가 제목 아래로 내려간다. */
+.dashboard-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 24px;
+    margin-bottom: 24px;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+}
+
+.data-reference-date {
     color: var(--text-secondary);
-    font-size: 1.2rem;
+    font-size: 0.9375rem;
 }
 
 .data-reference-date .date-value {
     color: var(--secondary-color);
-    font-weight: bold;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
-    margin: 24px 0;
+    margin-bottom: 24px;
 }
 
 .stats-grid .stat-card {
@@ -2516,43 +2604,58 @@ section {
     font-size: 0.875rem;
 }
 
+.progress-container > h3 {
+    margin-top: 24px;
+}
+
 .iteration-progress {
-    margin-top: 20px;
+    margin-top: 12px;
 }
 
 .iteration-item {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     padding: 16px;
     background: var(--bg-secondary);
     border-radius: 8px;
     border: 1px solid var(--border-color);
 }
 
+.iteration-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 이름과 수치가 한 줄에 안 들어가면 수치가 통째로 다음 줄로 내려간다(글자 중간에서 깨지지 않게). */
 .iteration-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
+    gap: 2px 12px;
     margin-bottom: 10px;
 }
 
 .iteration-name {
     font-weight: 600;
     color: var(--text-primary);
+    white-space: nowrap;
 }
 
 .iteration-stats {
     color: var(--text-secondary);
     font-size: 0.875rem;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
 }
 
 .iteration-details {
     margin-top: 10px;
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .new-products-chart-panel {
-    margin-top: 28px;
+    margin-top: 32px;
 }
 
 .chart-title-row {
@@ -2591,14 +2694,30 @@ section {
     color: var(--danger-color);
 }
 
+.problem-urls {
+    margin-top: 32px;
+}
+
+/* 고정 레이아웃: 숫자 열 폭을 먼저 정하고 남는 폭을 URL 열이 쓴다. 긴 URL이 열을 밀어내
+   표가 카드 밖으로 나가는 일이 없다. */
 .problem-urls-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
-    margin-top: 16px;
+    margin-top: 12px;
 }
 
 .problem-urls-table thead {
     background: var(--bg-tertiary);
+}
+
+.problem-urls-table th:nth-child(2),
+.problem-urls-table th:nth-child(3) {
+    width: 96px;
+}
+
+.problem-urls-table th:nth-child(4) {
+    width: 128px;
 }
 
 .problem-urls-table th,
@@ -2615,16 +2734,36 @@ section {
     text-transform: uppercase;
 }
 
-.url-cell {
-    max-width: 400px;
+.url-cell,
+.url-cell a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
+.url-cell a {
+    display: block;
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.url-cell a:hover {
+    text-decoration: underline;
+}
+
 .failure-count {
     color: var(--danger-color);
     font-weight: 600;
+}
+
+.last-attempt-cell {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 값 앞 라벨은 표 머리글이 숨는 모바일 카드에서만 보인다. */
+.problem-urls-table .cell-label {
+    display: none;
 }
 
 .error-log {
@@ -2690,13 +2829,9 @@ section {
     }
 }
 
-@media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.chart-container {
+/* 스크래핑 대시보드 전용 차트 박스. 상세 페이지도 `.chart-container` 를 쓰므로
+   전역으로 두면 그쪽 차트까지 박스 안의 박스가 된다 — 반드시 패널 아래로 한정한다. */
+.new-products-chart-panel .chart-container {
     position: relative;
     height: 300px;
     background: var(--bg-secondary);
@@ -2705,8 +2840,144 @@ section {
     border: 1px solid var(--border-color);
 }
 
-.chart-container canvas {
+.new-products-chart-panel .chart-container canvas {
     max-height: 100%;
+}
+
+/* 스크래핑 대시보드 모바일: 요약 카드는 2x2, 문제 URL 표는 행마다 카드 한 장. */
+@media (max-width: 768px) {
+    /* 하단 탭바가 없는 페이지라, 모바일 공통 규칙이 탭바 자리로 비워 두는 여백을 되돌린다. */
+    body.scraping-dashboard-page {
+        padding-bottom: 0;
+    }
+
+    .scraping-dashboard-page .container {
+        padding-top: 20px;
+    }
+
+    .dashboard-header {
+        margin-bottom: 16px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .data-reference-date {
+        font-size: 0.875rem;
+    }
+
+    .stats-grid {
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .stats-grid .stat-card {
+        padding: 16px;
+    }
+
+    .stats-grid .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .section {
+        margin-bottom: 24px;
+        padding: 16px;
+    }
+
+    .section h2 {
+        font-size: 1.25rem;
+    }
+
+    .iteration-item {
+        padding: 12px;
+    }
+
+    .new-products-chart-panel,
+    .problem-urls {
+        margin-top: 24px;
+    }
+
+    .new-products-chart-panel .chart-container {
+        height: 220px;
+        padding: 12px 8px;
+    }
+
+    .problem-urls-table,
+    .problem-urls-table tbody {
+        display: block;
+    }
+
+    .problem-urls-table thead {
+        display: none;
+    }
+
+    /* 첫 줄 상품 slug, 둘째 줄 연속 실패 · 우선순위, 셋째 줄 마지막 시도 */
+    .problem-urls-table tr {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-areas:
+            "url url"
+            "failures priority"
+            "attempt attempt";
+        gap: 4px 6px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .problem-urls-table tr:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .problem-urls-table td {
+        padding: 0;
+        border-bottom: 0;
+        font-size: 0.875rem;
+    }
+
+    .problem-urls-table .url-cell {
+        grid-area: url;
+    }
+
+    .problem-urls-table .url-cell a {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        font-size: 0.9375rem;
+        font-weight: 600;
+    }
+
+    .problem-urls-table .failure-count {
+        grid-area: failures;
+    }
+
+    .problem-urls-table .priority-cell {
+        grid-area: priority;
+    }
+
+    .problem-urls-table .priority-cell::before {
+        content: "·";
+        margin-right: 6px;
+        color: var(--text-tertiary);
+    }
+
+    .problem-urls-table .last-attempt-cell {
+        grid-area: attempt;
+    }
+
+    .problem-urls-table .cell-label {
+        display: inline;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .timestamp {
+        margin-top: 24px;
+    }
 }
 
 /* 플로팅 액션 버튼 (FAB) */
@@ -3341,6 +3612,17 @@ section {
     .privacy-summary,
     .privacy-section {
         padding: 20px;
+    }
+}
+
+/* 모션 최소화 설정에서는 상·하단바를 애니메이션 없이 즉시 전환한다.
+   .header의 `transition: all`을 덮어야 하므로 모든 transition 정의 뒤에 둔다.
+   (앱 모드 블록은 모든 미디어쿼리 뒤에 와야 하므로 그 앞자리가 마지막 위치다.) */
+@media (prefers-reduced-motion: reduce) {
+    .header,
+    .mobile-bottom-nav,
+    .fab-container {
+        transition: none;
     }
 }
 

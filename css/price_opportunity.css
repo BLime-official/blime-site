@@ -1,0 +1,75 @@
+/* 할인·정가 하락 페이지(discounts.html, price_drops.html)가 같이 쓰는 스타일: 머리글과 탭, 목록 폭과 열 수.
+ * 정가 하락 카드의 배지와 최고 정가 줄은 카드 부품이라 base.css에 있다. base.css 다음에 싣는다. */
+
+/* Price Opportunity Pages */
+.opportunity-header {
+    margin-bottom: 16px;
+}
+
+.section-eyebrow {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.section-description {
+    margin: 8px 0 0;
+    color: var(--text-secondary);
+}
+
+.opportunity-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.opportunity-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all var(--transition-fast);
+}
+
+.opportunity-tab:hover,
+.opportunity-tab.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+@media (max-width: 480px) {
+    .opportunity-header {
+        margin-bottom: 14px;
+    }
+
+    .opportunity-tabs {
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+
+    .opportunity-tab {
+        flex: 1 1 0;
+        min-height: 40px;
+        padding: 0 10px;
+        font-size: 14px;
+    }
+}
+
+/* 목록 폭과 열 수. 예전에는 두 템플릿에 같은 인라인 스타일로 있었다.
+   빈 목록 안내는 관심상품·검색 화면의 빈 안내와 같은 보조 글자색이다(예전에는 정의되지 않은 --text-muted라 본문 색이었다). */
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1024px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+/* 모바일(<=480px)에서도 메인과 동일하게 2열 유지 */
+@media (max-width: 480px) { .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+.empty { text-align: center; color: var(--text-secondary); padding: 48px 0; }
