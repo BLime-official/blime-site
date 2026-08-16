@@ -1,0 +1,154 @@
+/* 계정 페이지(account.html)만 쓰는 스타일. 탈퇴 확인 창은 auth.js가 만들어 base.css에 있다.
+ * base.css 다음에 싣는다. */
+
+.account-page {
+    min-height: calc(100vh - var(--header-height) - 96px);
+    max-width: 560px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+/* 768px 이하에서는 쿠폰 페이지·검색 화면처럼 위 여백을 20px로 줄인다. 아래는 데스크톱과 같다.
+   (예전에는 모바일 공용 .container 규칙이 위아래 여백을 0으로 덮어 제목이 헤더에 붙었다. 2026-09-27 수정) */
+@media (max-width: 768px) {
+    .account-page {
+        padding-top: 20px;
+    }
+}
+
+.account-header {
+    margin-bottom: 24px;
+}
+
+.account-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.account-content[hidden] {
+    display: none;
+}
+
+.account-card {
+    padding: 20px 24px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.account-card-title {
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.account-info-list {
+    margin: 0;
+}
+
+.account-info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.account-info-row dt {
+    color: var(--text-secondary);
+    flex-shrink: 0;
+}
+
+.account-info-row dd {
+    margin: 0;
+    color: var(--text-primary);
+    text-align: right;
+    word-break: break-all;
+}
+
+.account-favorites-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.account-favorites-link:hover,
+.account-favorites-link:focus-visible {
+    background: var(--bg-tertiary);
+}
+
+.account-favorites-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.account-favorites-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.account-logout-button {
+    min-height: 44px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.account-logout-button:hover,
+.account-logout-button:focus-visible {
+    background: var(--bg-tertiary);
+}
+
+/* 형제 카드와 같은 표면을 쓴다. 위험 신호는 영역이 아니라 실행 버튼이 진다. */
+.account-danger-zone {
+    margin-top: 8px;
+    padding: 20px 24px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.account-danger-title {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.account-danger-description {
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 페이지에서 유일하게 빨간 채움 — 되돌릴 수 없는 행동은 이것뿐이다. */
+.account-delete-button {
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--danger-color);
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease-out;
+}
+
+.account-delete-button:hover,
+.account-delete-button:focus-visible {
+    background: #DC2626;
+}

@@ -76,18 +76,12 @@
         error.hidden = !message;
     }
 
+    // 로그아웃 결과는 auth.js가 이 기기에 세션이 남았는지로 정한다. 세션이 남은 경우에만 실패로 알린다.
     async function handleLogout() {
         setLogoutError("");
-        try {
-            const client = window.BLIME_AUTH?.getClient?.();
-            if (!client?.auth?.signOut) throw new Error("Missing signOut");
-
-            const { error } = await client.auth.signOut();
-            if (error) throw error;
-
-            await window.BLIME_AUTH?.refreshSessionState?.();
+        if (await window.BLIME_AUTH?.signOut?.()) {
             window.BLIME_AUTH?.showFlash?.("로그아웃되었습니다.");
-        } catch (error) {
+        } else {
             setLogoutError("로그아웃에 실패했습니다.");
         }
     }
