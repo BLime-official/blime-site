@@ -1,0 +1,440 @@
+/* 검색 페이지(search.html)만 쓰는 스타일. base.css 다음에 싣는다.
+   위쪽 규칙은 모든 너비에 걸리고 값은 PC 기준이다. 768px 이하(휴대폰)에서만 다른 값은 그 아래 미디어 쿼리가 덮는다.
+   PC 폭(769px 이상)에만 걸리는 규칙(검색창 줄·뒤로 가기 숨김, 인기 검색어 정렬, 격자의 3열·4열)은 맨 아래에 있다. 앱 모드는 그 폭에서도 검색창 줄을 둔다.
+   손가락 화면((pointer: coarse))에만 걸리는 정렬 칸의 글자 크기는 휴대폰 규칙 바로 뒤에 있다.
+   검색어가 없을 때의 전체 상품 머리(.search-browse-title, .search-browse-sort, 웹 개편 3단계)는 결과 머리와 같은 규칙을 같이 쓴다.
+   결과 끝의 요청 한 줄(.search-request-line, .search-request-link)은 홈도 같이 쓰는 부품이라 base.css에 있다. */
+
+/* 페이지 바깥: 가운데에 최대 1200px로 둔다. 위 여백은 PC 32px, 휴대폰 20px이다(좌우는 24px, 16px). */
+.mobile-search-page {
+    display: block;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 32px 24px 48px;
+}
+
+/* 검색창 줄은 640px을 넘지 않고 가운데에 둔다. 휴대폰 화면(768px 이하)의 것이다. 769px 이상의 브라우저에는 줄이 없고 헤더 검색창을 쓴다(맨 아래).
+   앱 모드는 헤더 검색창이 없어 모든 폭에서 이 줄을 쓴다. */
+.mobile-search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.mobile-search-input {
+    height: 48px;
+    padding: 0 52px 0 16px;
+    font-size: 16px;
+}
+
+.mobile-search-submit {
+    right: 6px;
+    width: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-search-submit-icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+
+.mobile-search-filter-title {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* 쪽을 바꾸면 product_list.js가 이 영역의 위쪽으로 스크롤한다. 헤더가 고정이라 헤더 높이와 16px만큼 아래에 서게 한다
+   (base.css의 같은 값은 main [id]에만 걸려서 id가 없는 이 영역에는 안 닿는다). */
+.mobile-search-results {
+    margin-top: 28px;
+    scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
+/* 쪽 번호 칸은 결과가 없을 때와 링크 카드일 때 비어 있다. 비었어도 base.css의 위 여백(48px)이 남아 카드 아래가 벌어지므로 감춘다. */
+.mobile-search-results .pagination:empty {
+    display: none;
+}
+
+/* 결과 머리: 제목과 정렬 칸을 한 줄에 양 끝으로 둔다. 제목이 길어도 정렬 칸에 닿지 않게 간격을 둔다.
+   검색어가 없을 때의 전체 상품 머리도 같은 상자(.search-results-head)다. 제목과 정렬 칸만 이름이 따로다(.search-browse-*). */
+.search-results-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* display를 가진 규칙(머리의 flex 등)이 UA의 [hidden]을 이기므로 숨김은 따로 적는다. 결과가 없으면 머리를 숨기고 결과 없음 문장을 보인다. */
+.search-results-head[hidden],
+.search-no-results[hidden],
+.search-status[hidden] {
+    display: none;
+}
+
+/* 제목은 줄을 바꾸지 않는다. 긴 검색어는 검색어만 말줄임으로 줄어야 하므로, 제목(머리의 칸)과 따옴표 묶음은
+   min-width: 0으로 자기 내용보다 좁아질 수 있게 한다. 둘 중 하나라도 빠지면 제목이 정렬 칸을 화면 밖으로 밀어낸다. */
+.search-results-title,
+.search-browse-title {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* 전체 상품 머리의 '전체 상품' 글자도 자리가 모자라면 말줄임으로 줄어 개수와 정렬 칸을 밀어내지 않는다(시안). */
+.search-browse-title > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 여는 따옴표, 검색어, 닫는 따옴표는 한 묶음이다. 제목의 간격이 따옴표 안쪽에 빈칸을 만들지 않게 묶음 안에는 간격이 없다. */
+.search-results-quoted {
+    display: flex;
+    min-width: 0;
+}
+
+.search-results-query {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-results-title b,
+.search-browse-title b {
+    color: var(--primary-text);
+    font-size: 15px;
+}
+
+.search-sort,
+.search-browse-sort {
+    flex: 0 0 auto;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 14px;
+}
+
+/* 받는 동안 줄과 불러오지 못함 줄(.search-status)은 결과 없음 문장과 같은 모양이다.
+   문장은 검색어를 그대로 담는다. 공백이나 -, /가 없는 긴 검색어는 줄을 바꿀 곳이 없어 문장 밖으로 넘치므로 낱말 안에서도 줄을 바꾼다. */
+.search-no-results,
+.search-status {
+    padding: 48px 16px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 16px;
+    overflow-wrap: break-word;
+}
+
+/* 결과 없음 줄 바로 아래에 요청 카드가 온다. 아래 여백을 줄여 줄과 카드가 한 묶음으로 보이게 한다(시안). */
+.mobile-search-results .search-no-results {
+    padding-bottom: 20px;
+}
+
+/* 상품 추가 요청 입구 셋 (웹 개편 2단계). 모두 마크업에서 hidden으로 시작하고, static/js/product_list.js가 상태에 맞춰 하나씩 보인다.
+   결과 끝 줄(results), 결과 없음 카드(no-results), 링크 카드(link). 카드와 줄의 버튼은 data-request-open이라 요청 창(base.css의 #requestModal)을 연다.
+   결과 끝 줄의 모양은 홈도 같이 쓰는 부품이라 base.css에 있고, 이 파일에는 카드 둘의 모양이 있다.
+   색은 기존 토큰을 쓴다. 주황 테두리와 바탕만 --primary-color(#FF6B35)를 옅게 푼 rgba 값이다(시안. 바탕 0.06은 home.css의 .home-coupon과 같다). */
+
+/* 결과 없음 카드와 링크 카드: 아이콘 칸 | 본문 | 버튼의 한 줄이다. 결과 영역 가운데에 최대 760px로 선다. */
+.search-request-card {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 18px;
+    border: 1px solid rgba(255, 107, 53, 0.35);
+    border-radius: 14px;
+    background: rgba(255, 107, 53, 0.06);
+    text-align: left;
+}
+
+/* display를 가진 규칙(카드의 grid)이 UA의 [hidden]을 이기므로 숨김은 따로 적는다. 줄(.search-request-line)의 것은 base.css에 있다. */
+.search-request-card[hidden] {
+    display: none;
+}
+
+.search-request-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--bg-primary);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.search-request-body {
+    min-width: 0;
+}
+
+.search-request-title {
+    display: block;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.search-request-copy {
+    margin-top: 4px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* 붙여 넣은 링크: 한 줄로 두고 끝을 말줄임으로 자른다(긴 링크가 카드나 문서를 가로로 넓히지 않게). 전체 링크는 요청 창의 입력칸에서 본다. */
+.search-request-url {
+    display: block;
+    margin-top: 8px;
+    padding: 6px 10px;
+    border: 1px dashed var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-request-button {
+    height: 44px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--cta-500);
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.search-request-button:hover {
+    background: var(--cta-600);
+}
+
+/* 결과 없음: 요청 카드 다음에 인기 검색어가 온다(시안). 마크업에서는 인기 검색어가 결과 영역보다 앞에 있고, 칩을 두 벌 그리지 않으려고 CSS order로
+   자리를 바꾼다. product_list.js가 셸의 data-search-state에 지금 상태를 적는다. 셸을 세로 배치(flex)로 바꾸면 위아래 여백이 겹치지 않으므로,
+   결과 영역 아래 여백(section의 64px)은 없애고 카드와 인기 검색어 사이를 시안의 22px로 둔다(768px 이하는 칩 줄의 위 안쪽 여백 4px를 빼 18px다.
+   아래 휴대폰 규칙). 키보드 초점은 마크업 순서(인기 검색어가 먼저)를 따른다. */
+.mobile-search-shell[data-search-state="no-results"] {
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-search-shell[data-search-state="no-results"] .mobile-search-results {
+    margin-bottom: 0;
+}
+
+.mobile-search-shell[data-search-state="no-results"] .mobile-search-filters {
+    order: 1;
+    margin-top: 22px;
+}
+
+/* 링크 카드 화면에는 인기 검색어가 없다(시안). */
+.mobile-search-shell[data-search-state="link"] .mobile-search-filters {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-search-page {
+        min-height: calc(100vh - var(--header-height));
+        padding: 20px 16px 8px;
+    }
+
+    .mobile-search-shell {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    /* 누름 영역은 40px이다. 줄어들지 않게 한다(예전에는 검색창에 밀려 390px 화면에서 32~34px로 그려졌다). */
+    .mobile-search-back {
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0;
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    .mobile-search-back-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 인기 검색어는 제목과 칩이 한 줄이고 옆으로 넘긴다(웹 개편 3단계, 설계 문서·승인 시안 search-v1. 2단계까지는 제목 아래 두 줄로 감겼다).
+       줄은 페이지 좌우 여백(16px)을 넘어 화면 끝까지 닿고, 안쪽 여백 16px로 제목이 여백 자리에서 시작한다. 스크롤바는 보이지 않는다.
+       align-items: center가 없으면 13px 제목 상자가 칩 높이로 늘어나 글자가 위에 붙는다.
+       줄은 스크롤 상자라 안쪽 상자(padding box) 밖에 그려진 것을 자른다. 키보드 초점 테두리(:focus-visible, 2px 선 + 2px 띄움)가 칩 밖 4px까지
+       나가므로 위아래 안쪽 여백을 4px로 두고, 늘어난 만큼 바깥 여백을 줄여(위 14px → 10px, 아래 0 → -2px) 칩과 그 아래 내용은 시안
+       (margin: 14px -16px 0; padding: 0 16px 2px)의 자리 그대로다. 결과 없음 상태의 위 여백도 4px 줄인다(아래 규칙). */
+    .mobile-search-filters {
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-x: auto;
+        margin: 10px -16px -2px;
+        padding: 4px 16px;
+        scrollbar-width: none;
+    }
+
+    /* 결과 없음 상태(셸이 세로 배치, 위쪽 규칙의 22px): 칩 줄의 위 안쪽 여백 4px만큼 줄여 칩이 카드 아래 22px(시안)에 그대로 선다.
+       명시도가 위쪽 규칙과 같고 뒤에 오므로 이 폭에서 이긴다. 아래 여백 -2px로 셸의 높이도 그대로다. PC 폭의 줄에는 안쪽 여백이 없어 22px 그대로다. */
+    .mobile-search-shell[data-search-state="no-results"] .mobile-search-filters {
+        margin-top: 18px;
+    }
+
+    .mobile-search-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-search-filter-title {
+        flex: 0 0 auto;
+        margin-right: 2px;
+        white-space: nowrap;
+    }
+
+    .mobile-search-filters .filter-chip {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    .mobile-search-results {
+        margin-top: 20px;
+    }
+
+    /* 결과 격자는 휴대폰 구간 전체(768px 이하)에서 2열이다. base.css의 auto-fill(칸 최소 280px)에 맡기면 칸 두 개가 안 들어가는
+       481~611px 폭에서 한 칸이 화면 폭만큼 넓어진다. 간격은 base.css의 480px 이하 값(12px)과 같게 둔다. */
+    .mobile-search-results .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .search-results-head {
+        margin-bottom: 12px;
+    }
+
+    .search-results-title,
+    .search-browse-title {
+        gap: 4px;
+        font-size: 17px;
+    }
+
+    .search-results-title b,
+    .search-browse-title b {
+        font-size: 14px;
+    }
+
+    /* 16px보다 작은 글자는 iOS Safari가 칸을 눌렀을 때 화면을 확대한다(검색창 .mobile-search-input과 같다). 높이와 좌우 여백은 그대로 둔다. */
+    .search-sort,
+    .search-browse-sort {
+        height: 32px;
+        padding: 0 6px;
+        font-size: 16px;
+    }
+
+    .search-no-results,
+    .search-status {
+        padding: 40px 8px;
+        font-size: 15px;
+    }
+
+    /* 요청 카드: 아이콘 칸 | 본문 한 줄 아래에 버튼이 한 줄 전체로 선다. 줄의 휴대폰 값은 base.css에 있다. */
+    .search-request-card {
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .search-request-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .search-request-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+/* 가로로 든 iPhone(812~956px)과 iPad는 768px보다 넓어 위 휴대폰 규칙에 걸리지 않는다. 그래도 16px보다 작은 글자는
+   iOS Safari가 칸을 눌렀을 때 화면을 확대하므로, 손가락 화면((pointer: coarse))이면 너비와 상관없이 16px로 한다(글자만 키운다).
+   위 768px 이하의 16px 줄은 그대로 둔다. 좁은 창은 마우스여도 휴대폰 배치를 쓰고, 터치 없이 휴대폰 크기만 흉내 낸 화면은 coarse에 맞지 않는다. */
+@media (pointer: coarse) {
+    .search-sort,
+    .search-browse-sort {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 769px) {
+    /* 뒤로 가기는 하단 내비가 있는 휴대폰 화면의 것이다. PC에는 헤더가 있어 숨긴다. */
+    .mobile-search-back {
+        display: none;
+    }
+
+    /* 검색창 줄도 휴대폰 화면의 것이다. PC 브라우저에는 헤더 검색창이 있어(partials/site_header.html, 검색 페이지에서는 검색어가 남고 테두리가 강조된다)
+       줄을 두지 않고 검색창 하나로 쓴다. 앱 모드(html.app-mode)는 헤더 검색창을 숨기므로(base.css 끝) 줄을 그대로 둔다. 앱의 검색 탭이 이 페이지를
+       열고, 가로로 든 휴대폰(812~956px)과 태블릿도 이 폭에 든다. */
+    html:not(.app-mode) .mobile-search-bar {
+        display: none;
+    }
+
+    /* 인기 검색어는 가운데에 제목과 한 줄로 둔다. 위에 검색창 줄이 없어 페이지 위 여백(32px) 바로 아래에서 시작한다. */
+    .mobile-search-filters {
+        justify-content: center;
+        align-items: center;
+        margin-top: 0;
+    }
+
+    /* 앱 모드는 위에 검색창 줄이 있으니 그 아래 16px에서 시작한다(웹 개편 전과 같다). 결과 없음 상태의 22px(위쪽 규칙)은 더 구체적이라 그대로 이긴다. */
+    html.app-mode .mobile-search-filters {
+        margin-top: 16px;
+    }
+
+    .mobile-search-filter-title {
+        margin-right: 4px;
+    }
+}
+
+/* 결과 격자의 열 수: 1025px 이상 4열, 769~1024px 3열. 768px 이하의 2열은 위 휴대폰 규칙에 있다. */
+@media (min-width: 1025px) {
+    .mobile-search-results .products-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .mobile-search-results .products-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}

@@ -5,107 +5,246 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>스크래핑 대시보드 - 비라임</title>
     <meta name="robots" content="noindex,follow">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/scraping_dashboard.css">
     <script src="js/vendor/chart.umd.min.js"></script>
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      gtag('config', 'G-KKBT885WBS');
-    </script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  // 앱에서 온 방문을 나눠 센다. 판정은 앱 웹뷰의 User-Agent 토큰(BlimeApp/<버전>)만 본다.
+  // ?app=1은 브라우저에서 앱 모드를 재현하는 주소라 앱 방문으로 세지 않는다(app_mode_head.html과 다르다).
+  // 웹 방문에도 client_type을 실어 보고서에 "(not set)"이 남지 않게 한다.
+  // config의 값은 page_view뿐 아니라 그 뒤의 모든 이벤트에 실린다. 전역에는 gtag·dataLayer만 남긴다(test_page_assets.py).
+  gtag('config', 'G-KKBT885WBS', (function () {
+    var blimeApp = /(?:^|\s)BlimeApp\/([^\s]+)/.exec(navigator.userAgent || '');
+    return blimeApp
+      ? { client_type: 'app', app_version: blimeApp[1] }
+      : { client_type: 'web' };
+  })());
+</script>
 </head>
-<body>
+<body data-page="scraping-dashboard" data-site-root="" class="scraping-dashboard-page">
     <div class="container">
-        <h1>📊 스크래핑 대시보드</h1>
+        <header class="dashboard-header">
+            <h1>📊 스크래핑 대시보드</h1>
+        </header>
+
         
-        <!-- 기준날짜 표시 -->
-        <div class="data-reference-date">
-            <h2>
-                📅 데이터 기준일시: <span class="date-value">2026-08-16 16:15:23</span>
-            </h2>
+        <div class="dash-tabs" role="tablist" aria-label="수집 출처">
+            <button type="button" class="dash-tab" role="tab" id="tab-iherb" aria-controls="panel-iherb" aria-selected="true" data-tab="iherb">아이허브 <span class="tab-count"><span class="sr-only">실패 </span>4</span></button>
+            <button type="button" class="dash-tab" role="tab" id="tab-coupang" aria-controls="panel-coupang" aria-selected="false" tabindex="-1" data-tab="coupang">쿠팡</button>
         </div>
-        
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">1275</div>
-                <div class="stat-label">전체 상품</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">1227</div>
-                <div class="stat-label">오늘 수집</div>
-            </div>
-            <div class="stat-card warning">
-                <div class="stat-value">57</div>
-                <div class="stat-label">품절 상품</div>
-            </div>
-            <div class="stat-card success">
-                <div class="stat-value">100.0%</div>
-                <div class="stat-label">성공률</div>
-            </div>
-        </div>
-    
-        <!-- Scraping Progress -->
-        <div class="section">
-            <h2>🔄 오늘의 스크래핑 진행 상황</h2>
-            <div class="progress-container">
-                <div class="overall-progress">
-                    <h3>전체 진행률: 96.24%</h3>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 96.24%"></div>
+
+        <div class="tab-panel" role="tabpanel" id="panel-iherb" aria-labelledby="tab-iherb">
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>오늘의 아이허브 수집</h2>
+                    <span class="panel-meta">마지막 수집 <strong>11-14 07:21</strong></span>
+                </div>
+                <div class="summary-strip">
+                    
+                    <div class="cell">
+                        <div class="value">1,343</div>
+                        <div class="label">전체 URL</div>
                     </div>
-                    <div class="progress-stats">
-                        <span>완료: 1227 / 1275</span>
+                    
+                    <div class="cell ok">
+                        <div class="value">1,339</div>
+                        <div class="label">오늘 수집</div>
                     </div>
+                    
+                    <div class="cell bad">
+                        <div class="value">4</div>
+                        <div class="label">실패</div>
+                    </div>
+                    
+                    <div class="cell zero">
+                        <div class="value">0</div>
+                        <div class="label">대기</div>
+                    </div>
+                    
+                </div>
+                <div class="status-bar" role="img" aria-label="성공 1,339 · 실패 4 · 대기 0"><span class="seg ok" style="width: 99.70%"></span><span class="seg bad" style="width: 0.60%"></span></div>
+                <div class="status-foot">
+                    <span>성공률 <strong>99.7%</strong></span>
+                    <span>품절 <strong>27</strong></span>
                 </div>
                 
-                <h3>단계별 진행 상황</h3>
-                <div class="iteration-progress">
+            </section>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>최근 30일 신규 상품</h2>
+                </div>
+                <div class="trend-chart">
+                    <canvas id="newProductsChart"></canvas>
+                </div>
+            </section>
+
+            
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>연속 실패 URL</h2>
+                </div>
+                <table class="fail-table">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th class="col-reason">우선순위</th>
+                            <th class="col-count">연속 실패</th>
+                            <th class="col-time">마지막 시도</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        
+                        <tr>
+                            <td class="name-cell"><a href="https://kr.iherb.com/pr/vitacost-vitamin-c-1000-complex-including-citrus-bioflavonoids-300-tablets/159104" title="https://kr.iherb.com/pr/vitacost-vitamin-c-1000-complex-including-citrus-bioflavonoids-300-tablets/159104" target="_blank" rel="noopener noreferrer">vitacost-vitamin-c-1000-complex-including-citrus-bioflavonoids-300-tablets/159104</a></td>
+                            <td class="reason-cell"><span class="cell-label">우선순위</span> 5</td>
+                            <td class="count-cell"><span class="cell-label">연속 실패</span> 4회</td>
+                            <td class="time-cell"><span class="cell-label">마지막 시도</span> 11-14 06:03</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="https://kr.iherb.com/pr/vitacost-vitamin-d3-250-mcg-10-000-iu-365-capsules/159137" title="https://kr.iherb.com/pr/vitacost-vitamin-d3-250-mcg-10-000-iu-365-capsules/159137" target="_blank" rel="noopener noreferrer">vitacost-vitamin-d3-250-mcg-10-000-iu-365-capsules/159137</a></td>
+                            <td class="reason-cell"><span class="cell-label">우선순위</span> 5</td>
+                            <td class="count-cell"><span class="cell-label">연속 실패</span> 3회</td>
+                            <td class="time-cell"><span class="cell-label">마지막 시도</span> 11-14 07:03</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="https://kr.iherb.com/pr/the-vitamin-shoppe-coq-10-400-mg-60-softgels/139865" title="https://kr.iherb.com/pr/the-vitamin-shoppe-coq-10-400-mg-60-softgels/139865" target="_blank" rel="noopener noreferrer">the-vitamin-shoppe-coq-10-400-mg-60-softgels/139865</a></td>
+                            <td class="reason-cell"><span class="cell-label">우선순위</span> 5</td>
+                            <td class="count-cell"><span class="cell-label">연속 실패</span> 2회</td>
+                            <td class="time-cell"><span class="cell-label">마지막 시도</span> 11-14 04:42</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="https://kr.iherb.com/pr/vplab-pure-creatine-unflavored-10-6-oz-300-g/156787" title="https://kr.iherb.com/pr/vplab-pure-creatine-unflavored-10-6-oz-300-g/156787" target="_blank" rel="noopener noreferrer">vplab-pure-creatine-unflavored-10-6-oz-300-g/156787</a></td>
+                            <td class="reason-cell"><span class="cell-label">우선순위</span> 5</td>
+                            <td class="count-cell"><span class="cell-label">연속 실패</span> 1회</td>
+                            <td class="time-cell"><span class="cell-label">마지막 시도</span> 11-14 03:43</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </section>
+            
+        </div>
+
+        <div class="tab-panel" role="tabpanel" id="panel-coupang" aria-labelledby="tab-coupang" hidden>
+
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>오늘의 쿠팡 수집</h2>
+                    <span class="panel-meta">마지막 수집 <strong>11-14 14:30</strong></span>
+                </div>
+                <div class="summary-strip">
                     
-                    <div class="iteration-item">
-                        <div class="iteration-header">
-                            <span class="iteration-name">1차 시도 (우선순위 5)</span>
-                            <span class="iteration-stats">1227/1275 (96.24%)</span>
-                        </div>
-                        <div class="progress-bar small">
-                            <div class="progress-fill primary" 
-                                 style="width: 96.24%"></div>
-                        </div>
-                        <div class="iteration-details">
-                            <span class="badge success">완료: 1227</span>
-                            <span class="badge danger">실패: 0</span>
-                            <span class="badge">대기: 48</span>
-                        </div>
+                    <div class="cell">
+                        <div class="value">370</div>
+                        <div class="label">연결 링크</div>
+                    </div>
+                    
+                    <div class="cell ok">
+                        <div class="value">370</div>
+                        <div class="label">오늘 수집</div>
+                    </div>
+                    
+                    <div class="cell zero">
+                        <div class="value">0</div>
+                        <div class="label">실패</div>
+                    </div>
+                    
+                    <div class="cell zero">
+                        <div class="value">0</div>
+                        <div class="label">대기</div>
                     </div>
                     
                 </div>
-            </div>
-            
-            <div class="new-products-chart-panel">
-                <div class="chart-title-row">
-                    <h3>최근 30일 신규 추가 상품</h3>
-                    <span class="chart-subtitle">일별 추가 상품 수</span>
+                <div class="status-bar" role="img" aria-label="성공 370 · 실패 0 · 대기 0"><span class="seg ok" style="width: 100.00%"></span></div>
+                <div class="status-foot">
+                    <span>성공률 <strong>100.0%</strong></span>
+                    <span>품절 <strong>4</strong></span>
+                    <span>판매자 배송 <strong class="seller">7</strong></span>
+                    
                 </div>
-                <div class="chart-container">
-                    <canvas id="newProductsChart"></canvas>
-                </div>
-            </div>
+                
+            </section>
 
             
+
+            
+            
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>판매자 배송으로 바뀐 링크</h2>
+                </div>
+                <table class="fail-table seller-table">
+                    <thead>
+                        <tr>
+                            <th>상품</th>
+                            <th class="col-time">바뀐 날</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_333.html" title="C-1000">C-1000</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 10-16</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_109.html" title="애플 사이다 식초, 엑스트라 스트렝스">애플 사이다 식초, 엑스트라 스트렝스</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 10-22</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_910.html" title="Stress-Relax®, 부신 세레니티">Stress-Relax®, 부신 세레니티</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 10-31</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_1112.html" title="Digest Basic®">Digest Basic®</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 11-07</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_1111.html" title="Digest Basic®">Digest Basic®</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 11-08</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_571.html" title="칼슘 마그네슘 플러스 아연">칼슘 마그네슘 플러스 아연</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 11-12</td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="name-cell"><a href="products/product_691.html" title="트리플 마그네슘 복합체, 400mg">트리플 마그네슘 복합체, 400mg</a></td>
+                            <td class="time-cell"><span class="cell-label">바뀐 날</span> 11-14</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </section>
+            
         </div>
-        
+
         <div class="timestamp">
-            <p class="update-time">마지막 업데이트: 2026-08-16 16:15:30</p>
+            <p class="update-time">마지막 업데이트: 2026-11-14 21:10:50</p>
         </div>
     </div>
-    
+
     <script>
-        window.BLIME_NEW_PRODUCTS_DAILY = [{"date": "2026-07-18", "count": 0}, {"date": "2026-07-19", "count": 0}, {"date": "2026-07-20", "count": 0}, {"date": "2026-07-21", "count": 0}, {"date": "2026-07-22", "count": 0}, {"date": "2026-07-23", "count": 0}, {"date": "2026-07-24", "count": 0}, {"date": "2026-07-25", "count": 0}, {"date": "2026-07-26", "count": 0}, {"date": "2026-07-27", "count": 0}, {"date": "2026-07-28", "count": 0}, {"date": "2026-07-29", "count": 0}, {"date": "2026-07-30", "count": 13}, {"date": "2026-07-31", "count": 0}, {"date": "2026-08-01", "count": 0}, {"date": "2026-08-02", "count": 0}, {"date": "2026-08-03", "count": 0}, {"date": "2026-08-04", "count": 0}, {"date": "2026-08-05", "count": 1}, {"date": "2026-08-06", "count": 3}, {"date": "2026-08-07", "count": 0}, {"date": "2026-08-08", "count": 0}, {"date": "2026-08-09", "count": 0}, {"date": "2026-08-10", "count": 0}, {"date": "2026-08-11", "count": 2}, {"date": "2026-08-12", "count": 0}, {"date": "2026-08-13", "count": 1}, {"date": "2026-08-14", "count": 3}, {"date": "2026-08-15", "count": 0}, {"date": "2026-08-16", "count": 3}];
+        window.BLIME_NEW_PRODUCTS_DAILY = [{"date": "2026-10-16", "count": 0}, {"date": "2026-10-17", "count": 0}, {"date": "2026-10-18", "count": 46}, {"date": "2026-10-19", "count": 0}, {"date": "2026-10-20", "count": 0}, {"date": "2026-10-21", "count": 1}, {"date": "2026-10-22", "count": 0}, {"date": "2026-10-23", "count": 1}, {"date": "2026-10-24", "count": 0}, {"date": "2026-10-25", "count": 2}, {"date": "2026-10-26", "count": 1}, {"date": "2026-10-27", "count": 0}, {"date": "2026-10-28", "count": 1}, {"date": "2026-10-29", "count": 3}, {"date": "2026-10-30", "count": 0}, {"date": "2026-10-31", "count": 2}, {"date": "2026-11-01", "count": 1}, {"date": "2026-11-02", "count": 0}, {"date": "2026-11-03", "count": 0}, {"date": "2026-11-04", "count": 4}, {"date": "2026-11-05", "count": 0}, {"date": "2026-11-06", "count": 0}, {"date": "2026-11-07", "count": 0}, {"date": "2026-11-08", "count": 0}, {"date": "2026-11-09", "count": 1}, {"date": "2026-11-10", "count": 1}, {"date": "2026-11-11", "count": 0}, {"date": "2026-11-12", "count": 0}, {"date": "2026-11-13", "count": 1}, {"date": "2026-11-14", "count": 0}];
     </script>
-    <script src="js/main.js"></script>
+    <script src="js/format.js"></script>
+    <script src="js/scraping_dashboard.js"></script>
 </body>
 </html>
