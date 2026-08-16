@@ -1,127 +1,62 @@
 /* Unit Price Component Styles */
 
-/* Unit Price Section - Main Display */
+/* Unit Price Section — 상세 페이지의 단위 가격 줄.
+   2026-08 개편: 그라데이션 박스 안의 박스 두 개가 아니라, 헤어라인 아래 한두 줄의 글.
+   (.unit-price-section 은 .product-extras 안에서 다른 줄들과 같은 선에 선다) */
 .unit-price-section {
-    background: linear-gradient(135deg, rgba(247, 147, 30, 0.05) 0%, rgba(255, 107, 53, 0.05) 100%);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px 24px;
-    margin-top: 16px;
-    position: relative;
-    overflow: hidden;
-}
-
-.unit-price-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
-    border-radius: 16px 16px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
 }
 
 .unit-price-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
+    gap: 6px;
+    margin-bottom: 8px;
 }
 
 .unit-price-icon {
-    width: 24px;
-    height: 24px;
-    color: var(--accent-color);
-    flex-shrink: 0;
+    display: none;
 }
 
 .unit-price-title {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     margin: 0;
 }
 
 .unit-price-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 28px;
 }
 
 .unit-price-item {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 16px 18px;
-    background: var(--bg-primary);
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    transition: all var(--transition-base);
-    position: relative;
-    overflow: hidden;
-}
-
-.unit-price-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-    opacity: 0;
-    transition: opacity var(--transition-base);
-}
-
-.unit-price-item:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--accent-color);
-}
-
-.unit-price-item:hover::before {
-    opacity: 1;
-}
-
-.unit-price-item:hover .unit-price-value {
-    color: var(--primary-color);
-    transform: scale(1.02);
-}
-
-.unit-price-item:hover .unit-price-meta {
-    opacity: 1;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
 }
 
 .unit-price-label {
     font-size: 13px;
-    font-weight: 500;
     color: var(--text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .unit-price-value {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--accent-color);
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-    margin-bottom: 6px;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    transition: color var(--transition-base);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums;
 }
 
 .unit-price-meta {
     font-size: 12px;
     color: var(--text-tertiary);
-    font-weight: 400;
-    opacity: 0.6;
     line-height: 1.4;
-    margin-top: 2px;
-    transition: opacity var(--transition-base);
 }
 
 .unit-price-currency {
@@ -130,16 +65,7 @@
 }
 
 .unit-price-compare-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--accent-color);
-    margin-left: auto;
-    opacity: 0;
-    transition: opacity var(--transition-base);
-}
-
-.unit-price-item:hover .unit-price-compare-icon {
-    opacity: 1;
+    display: none;
 }
 
 /* Compact Unit Price Display for Stats Cards */
@@ -309,58 +235,24 @@
     color: var(--text-primary);
 }
 
-/* Badge for Best Value Indicator */
+/* Badge for Best Value Indicator — 조용한 칩. 움직이지 않는다 */
 .unit-price-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: linear-gradient(135deg, var(--success-color), #059669);
-    color: white;
+    margin-left: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
     font-size: 11px;
     font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: var(--shadow-sm);
-    animation: valueBadgePulse 2s ease-in-out infinite;
-}
-
-@keyframes valueBadgePulse {
-    0%, 100% {
-        box-shadow: var(--shadow-sm);
-        transform: scale(1);
-    }
-    50% {
-        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
-        transform: scale(1.02);
-    }
+    line-height: 1.5;
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.12);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .unit-price-section {
-        padding: 16px 20px;
+        padding-top: 12px;
     }
-    
-    .unit-price-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-    
-    .unit-price-item {
-        padding: 14px 16px;
-    }
-    
-    .unit-price-value {
-        font-size: 18px;
-        font-weight: 700;
-    }
-    
-    .unit-price-meta {
-        font-size: 11px;
-    }
-    
+
     .unit-price-breakdown {
         grid-template-columns: 1fr;
     }
@@ -381,22 +273,8 @@
 }
 
 @media (max-width: 480px) {
-    .unit-price-section {
-        padding: 12px 16px;
-        margin-top: 12px;
-    }
-    
-    .unit-price-value {
-        font-size: 17px;
-        font-weight: 700;
-    }
-    
-    .unit-price-meta {
-        font-size: 10px;
-    }
-    
-    .unit-price-item {
-        padding: 12px 14px;
+    .unit-price-grid {
+        gap: 4px 20px;
     }
     
     .unit-price-compact-value {
@@ -405,10 +283,6 @@
 }
 
 /* Dark Mode Adjustments */
-[data-theme="dark"] .unit-price-section {
-    background: linear-gradient(135deg, rgba(247, 147, 30, 0.08) 0%, rgba(255, 107, 53, 0.08) 100%);
-}
-
 [data-theme="dark"] .unit-price-details {
     background: var(--bg-tertiary);
 }
@@ -430,10 +304,6 @@
     .unit-price-details.expanded {
         animation: none;
     }
-    
-    .unit-price-badge {
-        animation: none;
-    }
 }
 
 /* Focus States */
@@ -446,24 +316,6 @@
 .unit-price-item:focus-within {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
-}
-
-/* 정보 중요도별 시각적 가이드 */
-.unit-price-value::after {
-    content: '';
-    position: absolute;
-    left: -4px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 2px;
-    height: 20px;
-    background: var(--accent-color);
-    opacity: 0;
-    transition: opacity var(--transition-base);
-}
-
-.unit-price-item:hover .unit-price-value::after {
-    opacity: 0.6;
 }
 
 /* 텍스트 선택 개선 */
@@ -481,11 +333,4 @@
         color: var(--text-primary);
     }
     
-    .unit-price-item {
-        border-width: 2px;
-    }
-    
-    .unit-price-item:hover {
-        border-width: 3px;
-    }
 }
