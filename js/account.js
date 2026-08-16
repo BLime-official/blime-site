@@ -8,8 +8,14 @@
         "custom:naver": "네이버",
         email: "이메일",
     };
+    const priceViewHash = "#price-view";
+    const priceViewHighlightMs = 2000;
+    const priceViewSaveFailedMessage = "저장하지 못했습니다. 잠시 후 다시 시도해 주세요.";
     let accountRefreshToken = 0;
     let latestFavoritesCount = null;
+    let priceViewPointedAt = false;
+    // 로그인 확인이 끝나지 않았을 때 보이는 오류 상자(showLoadError가 처음 보일 때 한 번 만든다)
+    let loadError = null;
 
     function content() {
         return document.getElementById("account-content");
@@ -76,20 +82,103 @@
         error.hidden = !message;
     }
 
+    // 로그아웃 결과는 auth.js가 이 기기에 세션이 남았는지로 정한다. 세션이 남은 경우에만 실패로 알린다.
     async function handleLogout() {
         setLogoutError("");
-        try {
-            const client = window.BLIME_AUTH?.getClient?.();
-            if (!client?.auth?.signOut) throw new Error("Missing signOut");
-
-            const { error } = await client.auth.signOut();
-            if (error) throw error;
-
-            await window.BLIME_AUTH?.refreshSessionState?.();
+        if (await window.BLIME_AUTH?.signOut?.()) {
             window.BLIME_AUTH?.showFlash?.("로그아웃되었습니다.");
-        } catch (error) {
+        } else {
             setLogoutError("로그아웃에 실패했습니다.");
         }
+    }
+
+    // 가격 보기 카드(운영값이 있을 때만 서버가 그린다)의 스위치를 화면의 표시(BLIME_PRICE_VIEW.isOn())에 맞춘다.
+    // 카드가 없거나 price_view.js가 없으면 아무것도 하지 않는다.
+    function syncPriceViewSwitch() {
+        const view = window.BLIME_PRICE_VIEW;
+        const switchButton = document.querySelector("[data-price-view-switch]");
+        if (!view || !switchButton) return;
+        switchButton.setAttribute("aria-checked", String(view.isOn()));
+    }
+
+    // 스위치를 누르면 저장하는 동안 잠근다. price_view.js는 set()이 하나씩 돈다고 보기 때문에(저장이 겹쳐 실패하면 화면과 DB가 어긋난다),
+    // 잠긴 단추가 두 번째 누름을 막아 준다. 표시는 set()이 바로 바꾸고 BLIME_PRICE_VIEW가 알려서(blime:iherb-code-changed) 스위치가 따라간다.
+    async function togglePriceView(switchButton) {
+        if (switchButton.disabled) return;
+
+        const view = window.BLIME_PRICE_VIEW;
+        const hadFocus = document.activeElement === switchButton;
+        switchButton.disabled = true;
+        try {
+            // price_view.js를 받지 못했으면(view가 없다) 저장하지 못한 것과 같다.
+            if (!(await view?.set(!view.isOn()))) {
+                window.BLIME_AUTH?.showFlash?.(priceViewSaveFailedMessage);
+            }
+        } finally {
+            // 표시를 바꾼 알림(blime:iherb-code-changed)이 이미 스위치를 맞췄다. 풀기 전에 한 번 더 맞춰 스위치가 늘 화면과 같은 채로 풀리게 한다.
+            syncPriceViewSwitch();
+            switchButton.disabled = false;
+            // 잠긴 사이 초점이 빠졌다. 키보드로 누른 사람이 이어서 쓸 수 있게 돌려준다(그사이 다른 곳으로 옮긴 초점은 건드리지 않는다).
+            if (hadFocus && document.activeElement === document.body) switchButton.focus();
+        }
+    }
+
+    // 카드로 스크롤해 가운데에 두고 2초 동안 초록 테두리로 짚는다.
+    function pointAt(card) {
+        card.scrollIntoView({ block: "center" });
+        card.classList.add("is-highlight");
+        setTimeout(() => card.classList.remove("is-highlight"), priceViewHighlightMs);
+    }
+
+    // 말풍선이나 링크로 account/#price-view에 온 사람에게 카드를 보여 준다. 로그인한 화면이 보인 뒤에, 페이지를 연 뒤 처음 한 번만 한다.
+    // 카드는 로그인을 확인할 때까지 숨어 있어 브라우저가 주소의 #price-view로 스크롤하지 못한다. 확인이 load보다 먼저 끝나면 크롬이 문서를
+    // 다 받을 때까지(load) 레이아웃이 바뀔 때마다 카드를 주소 쪽으로 다시 스크롤해 카드 위쪽을 헤더 바로 아래에 붙인다. 그 전에 가운데로
+    // 맞춰 둬도 덮이므로, 문서가 아직 로딩 중이면 load 뒤로 미룬다(짚기도 그때 시작한다). 이미 다 받았으면 바로 한다.
+    function pointAtPriceView() {
+        if (priceViewPointedAt || window.location.hash !== priceViewHash) return;
+        const card = document.getElementById("price-view");
+        if (!card) return;
+
+        priceViewPointedAt = true;
+        if (document.readyState === "complete") {
+            pointAt(card);
+        } else {
+            window.addEventListener("load", () => pointAt(card), { once: true });
+        }
+    }
+
+    // 오류 상자를 한 번 만든다. 템플릿에 두지 않아 템플릿은 그대로이고(옛 HTML도 같은 길로 돈다), 로그인 안내 바로 뒤에 놓는다(안내가 없으면 내용 앞).
+    // 안내가 열리면 account.css가 이 상자를 숨기는데, 그 규칙이 뒤따르는 형제를 고르므로 상자는 안내 뒤에 있어야 한다.
+    // 상자는 role=status(알림 영역)이고 문서에 넣은 뒤 글을 채운다. 읽어 주는 도구가 알릴지는 도구에 달렸다.
+    function ensureLoadError() {
+        if (loadError) return loadError;
+
+        loadError = document.createElement("p");
+        loadError.className = "account-load-error";
+        loadError.setAttribute("role", "status");
+        const loginPanel = document.getElementById("favorites-login-panel");
+        if (loginPanel) {
+            loginPanel.insertAdjacentElement("afterend", loadError);
+        } else {
+            content()?.insertAdjacentElement("beforebegin", loadError);
+        }
+        loadError.textContent = "계정 정보를 불러오지 못했습니다.";
+        return loadError;
+    }
+
+    // 오류 상자를 거둔다. 만든 적이 없으면(확인이 멈춘 적이 없으면) 할 일이 없다.
+    function hideLoadError() {
+        if (loadError) loadError.hidden = true;
+    }
+
+    // 로그인 확인이 끝나지 않은 채(10초 마감 또는 로그인 스크립트 없음) 안내도 내용도 열리지 않은 화면에 오류를 보인다. 차례를 올려 이 화면이
+    // 시작한 확인(DOMContentLoaded의 getCurrentUser)과 관심상품 개수 읽기의 늦은 답이 나중에 내용을 열지 못하게 한다.
+    function showLoadError() {
+        accountRefreshToken += 1;
+        latestFavoritesCount = null;
+        const section = content();
+        if (section) section.hidden = true;
+        ensureLoadError().hidden = false;
     }
 
     async function refresh(userFromEvent) {
@@ -103,6 +192,9 @@
             if (refreshToken !== accountRefreshToken) return;
         }
 
+        // 차례를 지난 답이다(낡은 답은 위에서 돌아갔다). 사용자가 다시 로그인했거나 로그아웃했으니 오류 상자는 거둔다.
+        hideLoadError();
+
         if (!user) {
             latestFavoritesCount = null;
             section.hidden = true;
@@ -111,6 +203,8 @@
 
         renderAccountInfo(user);
         section.hidden = false;
+        syncPriceViewSwitch();
+        pointAtPriceView();
         await loadFavoritesCount(user, refreshToken);
     }
 
@@ -119,6 +213,12 @@
 
         if (event.target.closest("[data-account-logout]")) {
             handleLogout();
+            return;
+        }
+
+        const priceViewSwitch = event.target.closest("[data-price-view-switch]");
+        if (priceViewSwitch) {
+            togglePriceView(priceViewSwitch);
             return;
         }
 
@@ -134,7 +234,18 @@
         refresh(event.detail?.user || null);
     });
 
+    // 로그인 확인(auth.js)이 10초 안에 끝나지 않았다. 그 확인의 늦은 답은 auth.js가 버려 알림이 오지 않는다.
+    window.addEventListener("blime:auth-check-timeout", showLoadError);
+
+    // 설정이 바뀌면(이 스위치, DB 값을 읽은 뒤, 다른 탭, 뒤로 가기) 스위치가 따라간다.
+    window.addEventListener("blime:iherb-code-changed", syncPriceViewSwitch);
+
     document.addEventListener("DOMContentLoaded", () => {
+        // 로그인 스크립트(auth.js)를 받지 못했으면 로그인 확인이 시작되지 않는다. 안내도 내용도 열리지 않은 채 머물지 않게 바로 오류를 보인다.
+        if (!window.BLIME_AUTH) {
+            showLoadError();
+            return;
+        }
         refresh();
     });
 })();
