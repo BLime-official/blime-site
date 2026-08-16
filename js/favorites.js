@@ -3,33 +3,29 @@
     let favoriteButtonObserver = null;
     let favoriteRefreshToken = 0;
 
-    function productsIndexPath() {
-        const path = window.location.pathname;
-        if (/\/(deals|price-drops|products|favorites)\//.test(path)) {
-            return "../products_index.json";
-        }
-        return "products_index.json";
+    // 페이지는 body에 사이트 루트까지의 상대 경로(data-site-root)를 적어 둔다.
+    function sitePath(path) {
+        return `${document.body?.dataset.siteRoot ?? ""}${path}`;
     }
+
+    function productsIndexPath() {
+        return sitePath("products_index.json");
+    }
+
+    // 사이트 자료 받기의 10초 한도(load_limit.js). 그 파일이 없는 옛 HTML(동기화가 JS를 템플릿보다 먼저 보낼 때, 배포 직후 캐시)에서는
+    // 지금처럼 한도 없이 받는다.
+    const loadLimit = () => window.BLIME_LOAD || {
+        fetchJson: async (url) => {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`${url} ${response.status}`);
+            return response.json();
+        },
+        deadline: () => () => {},
+    };
 
     function productIdValue(productId) {
         const numericId = Number(productId);
         return Number.isFinite(numericId) ? numericId : productId;
-    }
-
-    function escapeHtml(value) {
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#39;");
-    }
-
-    function formatPrice(price) {
-        if (price === null || price === undefined || price === "") return "N/A";
-        const number = Number(price);
-        if (!Number.isFinite(number)) return escapeHtml(price);
-        return number.toLocaleString("ko-KR");
     }
 
     function getSupabaseClient() {
@@ -185,50 +181,16 @@
         }
     }
 
-    function productCard(product) {
-        const productId = String(product.id);
-        const detailPath = product.detail_path || `products/product_${escapeHtml(productId)}.html`;
-        const image = product.image_url
-            ? `<img src="${escapeHtml(product.image_url)}" alt="${escapeHtml(product.name)}" loading="lazy">`
-            : `<div class="no-image"></div>`;
-        const saleBadge = product.is_on_sale && product.discount_percentage
-            ? `<div class="sale-badge">${escapeHtml(product.discount_percentage)}% ↓</div>`
-            : "";
-
-        return `
-            <div class="product-card" data-product-id="${escapeHtml(productId)}">
-                ${saleBadge}
-                <a class="product-image-link" href="../${escapeHtml(detailPath)}" aria-label="${escapeHtml(product.name)} 상세 보기">
-                    <div class="product-image">${image}</div>
-                </a>
-                <div class="product-content">
-                    <div class="product-brand">${escapeHtml(product.brand || "-")}</div>
-                    <h3 class="product-name">
-                        <a href="../${escapeHtml(detailPath)}">${escapeHtml(product.full_text || product.name)}</a>
-                    </h3>
-                    <div class="product-variant">${escapeHtml(product.form_and_quantity || "")}</div>
-                    <div class="price-group">
-                        <span class="current-price">₩${formatPrice(product.current_price)}</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="stock-status ${product.availability === "재고있음" ? "in-stock" : "out-of-stock"}">
-                            ${escapeHtml(product.availability || "")}
-                        </span>
-                        <button class="favorite-toggle-btn is-favorite" data-favorite-toggle data-product-id="${escapeHtml(productId)}" aria-label="관심상품 제거" aria-pressed="true" type="button">
-                            제거
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
     function renderMissingFavorites(productIds) {
         const missingSection = document.getElementById("favorites-missing");
         const missingList = document.getElementById("favorites-missing-list");
         if (!missingSection || !missingList) return;
 
-        missingList.innerHTML = productIds.map((productId) => `<li>${escapeHtml(productId)}</li>`).join("");
+        missingList.replaceChildren(...productIds.map((productId) => {
+            const item = document.createElement("li");
+            item.textContent = productId;
+            return item;
+        }));
         missingSection.hidden = productIds.length === 0;
     }
 
@@ -254,10 +216,9 @@
         const content = document.getElementById("favorites-content");
         const empty = document.getElementById("favorites-empty");
         try {
-            const response = await fetch(productsIndexPath());
-            if (refreshToken !== null && !isLatestRefresh(refreshToken)) return;
-            if (!response.ok) throw new Error("products_index fetch failed");
-            const products = await response.json();
+            // 10초 안에 다 받지 못하면 받기가 끊기고(AbortError) 아래 catch가 오류를 보인다. refreshFavoritesForUser의 마감이 먼저 와서 이 차례가
+            // 낡았으면 이미 오류를 보였으므로 catch는 조용히 돌아간다.
+            const products = await loadLimit().fetchJson(productsIndexPath());
             if (refreshToken !== null && !isLatestRefresh(refreshToken)) return;
             if (!Array.isArray(products)) throw new Error("products_index must be an array");
 
@@ -269,7 +230,8 @@
 
             hideLoginPanel();
             if (content) content.hidden = false;
-            grid.innerHTML = favoriteProducts.map(productCard).join("");
+            // 카드는 다른 목록과 같은 모양이다(cards.js). 별 버튼은 아래 syncFavoriteButtons가 눌린 상태로 맞춘다.
+            grid.replaceChildren(...favoriteProducts.map((product) => window.BLIME_CARDS.productCard(product)));
             if (empty) {
                 empty.textContent = "아직 추가한 관심상품이 없습니다.";
                 empty.hidden = favoriteProducts.length !== 0 || missingIds.length !== 0;
@@ -282,6 +244,9 @@
         }
     }
 
+    // 관심상품 화면은 관심상품 읽기와 상품 인덱스 받기를 합쳐 10초까지만 기다린다(load_limit.js). 넘기면 지금의 실패 처리대로 오류를 보인다.
+    // 관심상품 읽기(SDK의 받기)는 끊지 않고, 마감에 차례를 올려 늦게 온 답을 버린다. 별 버튼만 맞추는 다른 페이지는 기다리는
+    // 화면이 없어 마감을 걸지 않는다. 마감은 이 차례가 끝나면(그리거나 오류를 보이거나 낡으면) 거둔다.
     async function refreshFavoritesForUser(user) {
         const refreshToken = ++favoriteRefreshToken;
 
@@ -291,23 +256,38 @@
             return null;
         }
 
-        const loaded = await loadFavoriteIds(user, refreshToken);
-        if (!isLatestRefresh(refreshToken)) return null;
-        if (!loaded) {
-            if (document.body?.dataset.page === "favorites") showFavoritesLoadError();
-            return user;
-        }
+        const onFavoritesPage = document.body?.dataset.page === "favorites";
+        const cancelDeadline = onFavoritesPage
+            ? loadLimit().deadline(() => {
+                // 그사이 다른 차례(로그아웃, 새 로그인 확인)가 시작했으면 그 차례의 화면을 건드리지 않는다.
+                if (!isLatestRefresh(refreshToken)) return;
+                favoriteRefreshToken += 1;
+                console.warn("[favorites] 관심상품을 10초 안에 불러오지 못해 오류를 보입니다");
+                showFavoritesLoadError();
+            })
+            : () => {};
 
-        if (document.body?.dataset.page === "favorites") {
-            await renderFavoritesPage(user, refreshToken);
+        try {
+            const loaded = await loadFavoriteIds(user, refreshToken);
+            if (!isLatestRefresh(refreshToken)) return null;
+            if (!loaded) {
+                if (onFavoritesPage) showFavoritesLoadError();
+                return user;
+            }
+
+            if (onFavoritesPage) {
+                await renderFavoritesPage(user, refreshToken);
+            }
+            return user;
+        } finally {
+            cancelDeadline();
         }
-        return user;
     }
 
     function watchDynamicButtons() {
         if (favoriteButtonObserver) return;
 
-        const containers = document.querySelectorAll("#products-grid, .hot-deals-grid, #favorites-grid, .product-detail");
+        const containers = document.querySelectorAll("#products-grid, #favorites-grid, .product-detail");
         if (containers.length === 0) return;
 
         favoriteButtonObserver = new MutationObserver(() => {

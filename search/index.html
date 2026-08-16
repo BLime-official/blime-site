@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-iherb-code-percent="20">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +23,27 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="../css/main.css">
-  <script src="../js/synonyms.js"></script>
+  <script>
+  (function () {
+    try {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+    } catch (error) {}
+  })();
+</script>
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem('blime:iherb-code-view') === 'on') document.documentElement.setAttribute('data-iherb-code', 'on');
+    } catch (error) {}
+  })();
+</script>
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/search.css">
+  
+<script src="../js/synonyms.js"></script>
+<script src="../js/search.js"></script>
+
   <script>
     window.BLIME_SUPABASE_CONFIG = {
       url: "https://owzhzchjhrpyreinicuq.supabase.co",
@@ -33,25 +52,33 @@
       requestFunctionUrl: "https://owzhzchjhrpyreinicuq.supabase.co/functions/v1/request-product-url"
     };
   </script>
-</head>
-<body data-page="search">
   
+</head>
+<body data-page="search" data-site-root="../">
   <header class="header">
-    <div class="header-container">
-      <div class="logo">
-        <a href="../#home">
-          <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
-        </a>
-      </div>
-      <nav class="nav">
-        <a href="../#home" class="nav-link">홈</a>
-        <a href="../deals/" class="nav-link">가격 기회</a>
-        <a href="../coupons/" class="nav-link">쿠폰</a>
-        <a href="../favorites/" class="nav-link">관심상품</a>
-      </nav>
-      <div class="header-actions">
-        
-        
+  <div class="header-container">
+    <div class="logo">
+      <a href="../#home">
+        <img src="../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="../#home" class="nav-link">홈</a>
+      <a href="../coupons/" class="nav-link">혜택</a>
+      <a href="../favorites/" class="nav-link">관심상품</a>
+    </nav>
+    <div class="header-actions">
+      <form class="header-search is-current" action="../search/" method="get" role="search">
+        <label class="sr-only" for="header-search-input">상품 검색</label>
+        <svg class="header-search-icon" data-icon="search" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <circle cx="11" cy="11" r="8"></circle>
+  <path d="m21 21-4.3-4.3"></path>
+  
+</svg>
+        <input id="header-search-input" class="header-search-input" type="search" name="q" placeholder="제품명, 브랜드, 성분 검색">
+      </form>
+      
 <div class="settings-menu" data-settings-menu>
   <button class="account-menu-button" data-settings-menu-button type="button" aria-label="설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="settings-menu-panel">
     <svg class="account-menu-icon" data-icon="sliders-horizontal" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -75,80 +102,73 @@
     <a class="account-menu-item" href="mailto:blime.app.official@gmail.com" role="menuitem">문의하기</a>
   </div>
 </div>
-        <div class="account-menu" data-account-menu data-favorites-href="../favorites/" data-deals-href="../deals/" data-account-href="../account/">
-          <button class="account-menu-button" data-account-menu-button type="button" aria-label="계정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="account-menu-panel">
-            <svg class="account-menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
-              <circle cx="12" cy="8" r="4"></circle>
-              <path d="M20 21a8 8 0 0 0-16 0"></path>
-            </svg>
-          </button>
-          <div class="account-menu-panel" id="account-menu-panel" data-account-menu-panel role="menu" hidden></div>
-        </div>
+      <div class="account-menu" data-account-menu>
+        <button class="account-menu-button" data-account-menu-button type="button" aria-label="계정 및 설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="account-menu-panel">
+          <svg class="account-menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+          </svg>
+        </button>
+        <div class="account-menu-panel" id="account-menu-panel" data-account-menu-panel role="menu" hidden></div>
       </div>
     </div>
-  </header>
-
-  <main class="mobile-search-page">
-    <section class="mobile-search-shell" aria-labelledby="mobile-search-title">
-      <div class="mobile-search-bar">
-        <a class="mobile-search-back" href="../#home" aria-label="뒤로가기"><svg class="mobile-search-back-icon" data-icon="arrow-left" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  </div>
+</header>
+  
+<main class="mobile-search-page">
+  <section class="mobile-search-shell" aria-labelledby="mobile-search-title">
+    <div class="mobile-search-bar">
+      <a class="mobile-search-back" href="../#home" aria-label="뒤로가기"><svg class="mobile-search-back-icon" data-icon="arrow-left" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   
   <path d="m12 19-7-7 7-7"></path>
   <path d="M19 12H5"></path>
   
 </svg></a>
-        <label class="sr-only" for="mobile-search-input">상품 검색</label>
-        <input id="mobile-search-input" type="search" class="mobile-search-input search-input" placeholder="제품명, 브랜드로 검색" autocomplete="off">
-        <button class="mobile-search-submit search-button" type="button" aria-label="검색">
-          <svg class="mobile-search-submit-icon" data-icon="search" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <label class="sr-only" for="mobile-search-input">상품 검색</label>
+      <input id="mobile-search-input" type="search" class="mobile-search-input search-input" placeholder="제품명, 브랜드, 성분 검색" autocomplete="off">
+      <button class="mobile-search-submit search-button" type="button" aria-label="검색">
+        <svg class="mobile-search-submit-icon" data-icon="search" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   
   <circle cx="11" cy="11" r="8"></circle>
   <path d="m21 21-4.3-4.3"></path>
   
 </svg>
-        </button>
+      </button>
+    </div>
+
+    <div class="search-filters mobile-search-filters" aria-label="인기 검색어">
+      <p class="mobile-search-filter-title" id="mobile-search-title">인기 검색어</p>
+      <button class="filter-chip" type="button">THORNE</button>
+      <button class="filter-chip" type="button">NMN</button>
+      <button class="filter-chip" type="button">오메가3</button>
+      <button class="filter-chip" type="button">마그네슘</button>
+      <button class="filter-chip" type="button">유산균</button>
+      <button class="filter-chip" type="button">콜라겐</button>
+    </div>
+
+    
+    <section class="mobile-search-results" data-search-results hidden>
+      <div class="search-results-head" data-search-head hidden>
+        <h1 class="search-results-title"><span class="search-results-quoted">‘<span class="search-results-query" data-search-query></span>’</span> <span>검색 결과</span> <b data-search-count></b></h1>
+        <label class="sr-only" for="search-sort">정렬</label>
+        <select class="search-sort" id="search-sort" data-search-sort>
+          <option value="relevance">관련도순</option>
+          <option value="price-asc">낮은 가격순</option>
+          <option value="price-desc">높은 가격순</option>
+        </select>
       </div>
-
-      <div class="search-filters mobile-search-filters" aria-label="인기 검색어">
-        <p class="mobile-search-filter-title" id="mobile-search-title">인기 검색어</p>
-        <button class="filter-chip" type="button">THORNE</button>
-        <button class="filter-chip" type="button">NMN</button>
-        <button class="filter-chip" type="button">오메가3</button>
-        <button class="filter-chip" type="button">마그네슘</button>
-        <button class="filter-chip" type="button">유산균</button>
-        <button class="filter-chip" type="button">콜라겐</button>
+      <div class="search-results-head" data-search-browse-head hidden>
+        <h1 class="search-browse-title"><span>전체 상품</span> <b>1,339</b></h1>
+        <label class="sr-only" for="search-browse-sort">정렬</label>
+        <select class="search-browse-sort" id="search-browse-sort" data-search-browse-sort>
+          <option value="default">기본순</option>
+          <option value="price-asc">낮은 가격순</option>
+          <option value="price-desc">높은 가격순</option>
+        </select>
       </div>
-
-      <div class="mobile-search-empty" data-search-empty-state>
-        <div class="mobile-search-empty-icon" aria-hidden="true"><svg class="mobile-search-empty-svg" data-icon="search" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-  
-  <circle cx="11" cy="11" r="8"></circle>
-  <path d="m21 21-4.3-4.3"></path>
-  
-</svg></div>
-        <p class="mobile-search-empty-title">원하는 상품을 검색해보세요</p>
-        <p class="mobile-search-empty-copy">상품명을 입력하면 로컬 검색 결과를 바로 확인할 수 있습니다.</p>
-      </div>
-
-      <section class="mobile-search-results" data-search-results hidden>
-        <div class="products-grid" id="products-grid"></div>
-        <div class="pagination" id="pagination"></div>
-      </section>
-    </section>
-  </main>
-
-  
-  
-<!-- 상품 요청 플로팅 버튼 -->
-<div class="fab-container">
-    <button
-        class="fab"
-        id="requestProductFab"
-        type="button"
-        aria-label="상품 추가 요청"
-        title="상품 추가 요청"
-    >
-        <svg class="fab-icon" data-icon="package-plus" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <p class="search-no-results" data-search-no-results hidden>‘<span data-search-query></span>’에 맞는 상품이 없어요</p>
+      <div class="search-request-card" data-search-request-card hidden>
+        <span class="search-request-icon"><svg class="search-request-icon-svg" data-icon="package-plus" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   
   <path d="M16 16h6"></path>
   <path d="M19 13v6"></path>
@@ -157,11 +177,41 @@
   <path d="M3.29 7 12 12l8.71-5"></path>
   <path d="M12 22V12"></path>
   
-</svg>
-        <span class="fab-label">상품 추가 요청</span>
-    </button>
-</div>
+</svg></span>
+        <div class="search-request-body">
+          <strong class="search-request-title">비라임이 아직 추적하지 않는 상품일 수 있어요</strong>
+          <p class="search-request-copy">iHerb 상품 링크를 보내 주시면 다음 날부터 가격을 추적해요.</p>
+        </div>
+        <button class="search-request-button" type="button" data-request-open>상품 추가 요청</button>
+      </div>
+      <div class="search-request-card" data-search-link-card hidden>
+        <span class="search-request-icon"><svg class="search-request-icon-svg" data-icon="link" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+  
+</svg></span>
+        <div class="search-request-body">
+          <strong class="search-request-title">iHerb 상품 링크예요</strong>
+          <p class="search-request-copy">이 상품의 가격을 추적하도록 요청할 수 있어요. 다음 날부터 추적해요.</p>
+          <code class="search-request-url" data-search-link-url></code>
+        </div>
+        <button class="search-request-button" type="button" data-request-open data-request-url="">이 상품 추가 요청</button>
+      </div>
+      <p class="search-status" data-search-loading hidden>‘<span data-search-query></span>’ 찾는 중이에요</p>
+      <p class="search-status" data-search-browse-loading hidden>상품 목록을 불러오는 중이에요</p>
+      <p class="search-status" data-search-load-error hidden>상품 목록을 불러오지 못했어요.<br>새로고침 후 다시 시도해 주세요.</p>
+      <div class="products-grid" id="products-grid"></div>
+      <div class="pagination" id="pagination"></div>
+      <div class="search-request-line" data-search-request-line hidden>
+        <span>찾는 상품이 없나요?</span>
+        <button class="search-request-link" type="button" data-request-open>iHerb 상품 추가 요청 →</button>
+      </div>
+    </section>
+  </section>
+</main>
 
+  
 <!-- 상품 요청 모달 -->
 <div class="modal" id="requestModal">
     <div class="modal-overlay" id="modalOverlay"></div>
@@ -219,9 +269,11 @@
         </div>
     </div>
 </div>
+<script src="../js/product_request.js"></script>
 
   
-  
+
+
   
 <nav class="mobile-bottom-nav" data-mobile-nav aria-label="모바일 주요 메뉴">
   <a class="mobile-bottom-nav-item" href="../#home" data-mobile-nav-item="home">
@@ -233,7 +285,7 @@
 </svg></span>
     <span class="mobile-bottom-nav-label">홈</span>
   </a>
-  <a class="mobile-bottom-nav-item" href="../deals/" data-mobile-nav-item="deals">
+  <a class="mobile-bottom-nav-item" href="../coupons/" data-mobile-nav-item="benefit">
     <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="badge-percent" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
   
   <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
@@ -242,7 +294,7 @@
   <path d="M15 15h.01"></path>
   
 </svg></span>
-    <span class="mobile-bottom-nav-label">할인</span>
+    <span class="mobile-bottom-nav-label">혜택</span>
   </a>
   <a class="mobile-bottom-nav-item active" href="../search/" data-mobile-nav-item="search" aria-current="page">
     <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="search" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -259,7 +311,7 @@
   <path d="M19.5 12.6 12 20l-7.5-7.4A5 5 0 0 1 12 6a5 5 0 0 1 7.5 6.6Z"></path>
   
 </svg></span>
-    <span class="mobile-bottom-nav-label">관심</span>
+    <span class="mobile-bottom-nav-label">관심상품</span>
   </a>
   <a class="mobile-bottom-nav-item" href="../account/" data-mobile-nav-item="account">
     <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="circle-user-round" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -272,12 +324,60 @@
     <span class="mobile-bottom-nav-label">계정</span>
   </a>
 </nav>
-
+  
+  
+  <script src="../js/format.js"></script>
+  <script src="../js/load_limit.js"></script>
+  
+<template id="product-card-template"><div class="product-card" data-product-id="">
+  <div class="sale-badge"></div>
+  <a class="product-image-link" href="" aria-label=" 상세 보기">
+    <div class="product-image">
+      <img alt="" loading="lazy">
+      <div class="no-image">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+      </div>
+    </div>
+  </a>
+  <div class="product-content">
+    <div class="product-brand">-</div>
+    <h3 class="product-name"><a href=""></a></h3>
+    <div class="product-variant"></div>
+    <div class="price-group">
+      <span class="original-price">₩N/A</span>
+      <span class="current-price">₩N/A</span>
+    </div>
+    <div class="unit-price-summary"><span class="unit-price-text"></span></div>
+    <div class="list-price-drop-meta">90일 최고 정가 <span class="list-price-drop-high">₩N/A</span></div>
+    <div class="card-coupang" hidden><span class="card-coupang-main">쿠팡 <b class="card-coupang-price">₩N/A</b></span> <span class="card-coupang-chip iherb-code-default"></span></div>
+    <div class="product-footer">
+      <span class="stock-status out-of-stock"></span>
+      <button class="favorite-toggle-btn" data-favorite-toggle data-product-id="" aria-label="관심상품 추가" aria-pressed="false" type="button">
+        <svg class="favorite-icon-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <svg class="favorite-icon-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div></template>
+<script src="../js/cards.js"></script>
   <script src="../js/vendor/supabase.umd.min.js"></script>
   <script src="../js/auth.js"></script>
+  <script src="../js/price_view.js"></script>
   <script src="../js/theme.js"></script>
   <script src="../js/favorites.js"></script>
+  
   <script src="../js/account_menu.js"></script>
-  <script src="../js/main.js"></script>
+  
+<script src="../js/product_list.js"></script>
+
+  <script src="../js/mobile_nav_autohide.js"></script>
 </body>
 </html>

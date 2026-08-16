@@ -2,6 +2,8 @@ data/
 *.json
 !products_index.json
 !dashboard_data.json
+!benefits_index.json
+!coupons/active.json
 .sync.ffs_db
 js/google_apps_script.js
 

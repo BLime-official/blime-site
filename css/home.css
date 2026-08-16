@@ -1,0 +1,820 @@
+/* 홈(main_dashboard.html)만 쓰는 스타일: 히어로(머리의 바탕과 제목), 새 홈(웹 개편 3단계의 안 B)의 머리·머리 검색창·줄 머리,
+ * 관심상품 줄의 행과 품절 모양·받는 동안의 빈 행, 쿠폰 줄의 칸과 받는 동안의 빈 칸, 상품 줄(가격 내린 상품·쿠팡이 더 싼 상품)의 작은 카드와 품절 모양,
+ * 성분 칩, 요청 한 줄의 자리와 홈 아래 여백. 차례는 시안 stage3.css의 절 차례(관심상품 → 쿠폰 → 상품 줄)다.
+ * base.css 다음에 싣는다.
+ * 값은 승인된 시안(docs/superpowers/specs/2026-10-24-web-redesign/stage3/files/stage3.css)이다. 시안은 아래 히어로 규칙 위에 새 규칙을
+ * 얹어 그렸으므로 히어로 규칙은 그대로 두고, 머리(.home-head)는 위아래 여백·글자 크기·간격만 덮는다. */
+
+/* Hero Section */
+.hero-section {
+    padding: 48px 0;
+    background: var(--bg-primary);
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    /* 글자는 이 그라데이션이 칠한다(글자 칠은 투명). 끝은 글자 전용 주황이다. 제목 안의 부제(.hero-subtitle)도 같은 칠을 받는다.
+       var()가 값을 못 찾으면 background 선언이 통째로 무효가 되어 제목과 부제가 사라진다. 배포·롤백 직후 브라우저가 --primary-text가 없는 옛 base.css를
+       최대 10분 캐시에서 쓰는 경우를 위해, 그때는 브랜드 주황을 쓴다(밝은 테마의 #C2410C는 다크 바탕 위에서 3.4:1이라 대신하지 않는다). */
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-text, var(--primary-color)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+/* 홈 바탕. 본문과 푸터 사이는 48px다(본문 아래 8px + 푸터 위 40px, 아래 '홈 아래 여백'). 줄 사이는 줄의 위 여백이 정하므로
+   전역 section의 아래 여백(64px)은 홈에서 끊는다. */
+.home-page {
+    padding-bottom: 8px;
+}
+
+.home-page section {
+    margin-bottom: 0;
+}
+
+/* 머리: 히어로의 제목을 작게 쓴다(PC 34px, 768px 이하 22px). */
+.home-page .hero-section.home-head {
+    padding: 28px 0 24px;
+    margin-bottom: 0;
+}
+
+.home-head .hero-title {
+    font-size: 34px;
+    margin-bottom: 0;
+}
+
+.home-head .hero-subtitle {
+    font-size: 16px;
+    margin-top: 6px;
+}
+
+/* 머리 검색창: 왼쪽 돋보기, 오른쪽 주황 버튼의 진짜 입력창이다(사용자 결정 8). 폼을 보내면 search/?q=…로 간다. 768px 이하와 앱 모드에서만
+   보인다(아래). 글자는 16px다(iOS가 칸을 눌렀을 때 화면을 키우지 않게. 검색 화면의 검색창과 같다). */
+.home-search {
+    display: none;
+    position: relative;
+    align-items: center;
+    max-width: 640px;
+    margin-top: 16px;
+}
+
+.home-search .home-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    pointer-events: none;
+}
+
+.home-search input {
+    width: 100%;
+    height: 48px;
+    padding: 0 50px 0 44px;
+    border: 2px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 16px;
+}
+
+.home-search input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.home-search input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+}
+
+.home-search button {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--cta-500);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 줄(section.home-row): 머리 아래로 같은 간격(위 여백)으로 이어진다. 0개인 줄은 hidden으로 접는다(display를 가진 규칙이 UA의 [hidden]을
+   이기지 않게 따로 적는다). 줄 머리는 제목 + 개수와 오른쪽 링크다. */
+.home-row {
+    margin-top: 40px;
+}
+
+.home-row[hidden] {
+    display: none;
+}
+
+.home-row-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.home-row-head h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* 개수는 보조 글자색이다(사용자 결정 24). 받기 전(.is-pending)에는 같은 글자 크기의 빈 자리라(글자는 투명) 받은 뒤 제목 줄 높이가 그대로다. */
+.home-row-count {
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.home-row-count.is-pending {
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+    color: transparent;
+}
+
+/* Windows 고대비(forced-colors: active)는 글자색과 바탕을 시스템 색으로 덮어 위의 `color: transparent`가 듣지 않는다. 자리에 넣어 둔 가짜 글자('00',
+   '0개 가격이 좋아졌어요')가 그대로 읽히므로 숨긴다. visibility는 상자를 그대로 둬서 받은 뒤에도 제목 줄 높이가 같다(display: none이면 달라질 수 있다). */
+@media (forced-colors: active) {
+    .home-row-count.is-pending {
+        visibility: hidden;
+    }
+}
+
+.home-row-head > a {
+    color: var(--primary-text);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* 관심상품 줄: PC 세 칸 타일, 1024px 이하 한 상자 안의 목록이다(아래 폭 규칙). home.js가 혜택 인덱스와 내 관심상품 번호로 행(템플릿 #home-favorite-template,
+   상세 페이지 링크)을 그린다. 행은 사진, 이름 칸(브랜드 + 이름 두 줄 + 혜택 한 줄), 가격이다. 혜택 글은 할인 중·정가 하락이 빨강, 쿠팡이 더 쌈이 쿠팡 파랑이다. */
+.home-favorites {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.home-favorite {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-primary);
+    box-shadow: var(--shadow-sm);
+    color: inherit;
+    text-decoration: none;
+}
+
+.home-favorite-image {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.home-favorite-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 4px;
+}
+
+.home-favorite-text {
+    min-width: 0;
+}
+
+/* 이름 칸은 늘 두 줄 자리다(길면 두 줄에서 자른다). 행마다 높이가 같아 받는 동안의 빈 행과 받은 행이 같은 높이다. */
+.home-favorite-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(14px * 1.35 * 2);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.home-favorite-brand {
+    color: var(--text-tertiary);
+    font-weight: 600;
+}
+
+.home-favorite-benefit {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    margin-top: 3px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.home-favorite-benefit--drop {
+    color: var(--danger-color);
+}
+
+.home-favorite-benefit--coupang {
+    color: var(--store-coupang-ink);
+}
+
+.home-favorite-price {
+    color: var(--text-primary);
+    font-size: 15px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* 품절 칩(.home-soldout, 아래 상품 줄의 규칙)은 혜택 글 뒤에 서고 좌우 여백만 좁다. */
+.home-favorite-benefit .home-soldout.stock-status {
+    padding: 0 8px;
+}
+
+/* 품절 행(사용자 결정 16, 안 C): 이름·혜택 글·가격이 회색(라이트 --text-secondary, 다크 --text-tertiary)이고 가격에 취소선이다. 브랜드(원래
+   --text-tertiary)·품절 칩·사진은 그대로다. 작은 카드의 품절 모양(아래 상품 줄)과 같은 값이다. */
+.home-favorite.is-soldout .home-favorite-name,
+.home-favorite.is-soldout .home-favorite-benefit,
+.home-favorite.is-soldout .home-favorite-price {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .home-favorite.is-soldout .home-favorite-name,
+[data-theme="dark"] .home-favorite.is-soldout .home-favorite-benefit,
+[data-theme="dark"] .home-favorite.is-soldout .home-favorite-price {
+    color: var(--text-tertiary);
+}
+
+.home-favorite.is-soldout .home-favorite-price {
+    text-decoration: line-through;
+}
+
+/* 받는 동안(로그인했을 때만 인라인 스크립트가 연다): 받은 행과 같은 칸·높이의 빈 행 셋에 회색 막대(.home-skeleton, 아래 쿠폰 줄의 규칙)를 둔다.
+   이름 칸의 최소 높이는 이름 두 줄 + 혜택 한 줄(위 여백 3px + 12px × 1.5)이다. 막대는 움직임을 줄여 달라고 하지 않은 화면에서만 숨쉰다. */
+.home-favorite.is-skeleton {
+    pointer-events: none;
+}
+
+.home-favorite.is-skeleton .home-favorite-image {
+    background: var(--bg-tertiary);
+}
+
+.home-favorite.is-skeleton .home-favorite-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    min-height: calc(14px * 1.35 * 2 + 21px);
+}
+
+.home-favorite.is-skeleton .home-skeleton--name {
+    width: 88%;
+    height: 12px;
+}
+
+.home-favorite.is-skeleton .home-skeleton--short {
+    width: 56%;
+}
+
+.home-favorite.is-skeleton .home-skeleton--sub {
+    width: 40%;
+    height: 10px;
+    margin-top: 3px;
+}
+
+.home-favorite.is-skeleton .home-skeleton--price {
+    width: 64px;
+    height: 16px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .home-favorites.is-loading .home-skeleton {
+        animation: home-pulse 1.4s ease-in-out infinite;
+    }
+}
+
+/* 사용 가능한 쿠폰 줄: PC 네 칸, 769~1024px 2×2, 768px 이하 옆으로 넘기는 한 줄(칸 240px)이다(아래 폭 규칙). home.js가 coupons/active.json으로
+   칸(템플릿 #home-coupon-template)을 그린다. 칸은 할인율(주황 글자, 할인율이 없는 코드는 표 아이콘), 코드와 제목 한 줄(길면 말줄임), 복사 버튼이다. */
+.home-coupons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.home-coupon {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 66px;
+    padding: 12px 12px 12px 14px;
+    border: 1px dashed rgba(255, 107, 53, 0.5);
+    border-radius: 12px;
+    background: rgba(255, 107, 53, 0.06);
+}
+
+.home-coupon-percent {
+    min-width: 40px;
+    color: var(--primary-text);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.home-coupon-percent svg {
+    display: block;
+}
+
+.home-coupon-text {
+    min-width: 0;
+}
+
+.home-coupon-text code {
+    display: block;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.home-coupon-text span {
+    display: block;
+    overflow: hidden;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 복사 버튼은 쿠폰 페이지 카드의 복사 버튼과 같은 36px 주황 버튼이다. */
+.home-coupon-copy {
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 5px;
+    background: var(--primary-color);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* 받는 동안: 받은 칸과 같은 크기(높이 66px)의 빈 칸에 회색 막대(.home-skeleton)를 둔다. 받은 뒤 아래 줄이 움직이지 않는다.
+   막대는 움직임을 줄여 달라고 하지 않은 화면에서만 천천히 숨쉰다. 막대 규칙(.home-skeleton, home-pulse)은 위 관심상품 줄의 빈 행도 쓴다. 시안처럼
+   관심상품 규칙 뒤에 있어, 빈 행의 사진 자리(.home-favorite-image.home-skeleton)는 막대의 모서리(6px)와 display를 받는다. */
+.home-coupon.is-skeleton {
+    border-style: solid;
+    border-color: var(--border-color);
+    background: var(--bg-primary);
+}
+
+.home-skeleton {
+    display: block;
+    border-radius: 6px;
+    background: var(--bg-tertiary);
+}
+
+.home-coupon.is-skeleton .home-skeleton--percent {
+    width: 40px;
+    height: 20px;
+}
+
+.home-coupon.is-skeleton .home-skeleton--code {
+    width: 72%;
+    height: 13px;
+    margin-bottom: 7px;
+}
+
+.home-coupon.is-skeleton .home-skeleton--title {
+    width: 92%;
+    height: 10px;
+}
+
+.home-coupon.is-skeleton .home-skeleton--button {
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .home-coupons.is-loading .home-skeleton {
+        animation: home-pulse 1.4s ease-in-out infinite;
+    }
+}
+
+@keyframes home-pulse {
+    50% {
+        opacity: 0.55;
+    }
+}
+
+/* 상품 줄(가격 내린 상품, 쿠팡이 더 싼 상품): PC 다섯 칸, 769~1024px 네 칸(다섯째 숨김), 768px 이하 옆으로 넘기는 한 줄이다(아래 폭 규칙).
+   카드(partials/home_card.html)는 상품 카드(.product-card)의 껍데기를 짧게 쓴 링크다(home-v1의 작은 카드 틀: 짧은 사진, 이름 두 줄, 바닥 줄 없음).
+   쿠팡 줄의 배지·가격 두 줄·적용가 칩은 쿠팡 비교 카드의 부품(base.css) 그대로다. */
+.home-cards {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.home-card.product-card {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+    text-decoration: none;
+}
+
+.home-card .product-image {
+    height: 150px;
+}
+
+.home-card .product-image img {
+    padding: 14px;
+}
+
+.home-card .product-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 14px 16px 16px;
+}
+
+.home-card .product-content::before {
+    left: 16px;
+    right: 16px;
+}
+
+.home-card .product-brand {
+    margin-bottom: 2px;
+    font-size: 11px;
+}
+
+.home-card .home-card-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(14px * 1.35 * 2);
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    white-space: normal;
+}
+
+/* 가격 칸은 이름 두 줄 자리 바로 아래에서 시작한다(쿠팡 비교 카드처럼 카드 바닥에 붙이지 않는다). 그래서 한 줄의 카드끼리 첫 가격 줄의 높이가
+   같다(할인 중 카드는 아래 '90일 최고 정가' 줄이 없다). */
+.home-card .home-card-bottom {
+    margin-top: 0;
+}
+
+/* 줄 바꿈(flex-wrap)과 줄 사이 2px(gap)은 base.css의 .price-group에도 있다. 여기 다시 쓴 것은 일부러다: 배포·롤백 직후 최대 10분은 브라우저가
+   옛 base.css를 캐시에서 쓰는데, 그때 이 둘이 없으면 150px 폭 휴대폰 카드의 가격이 줄을 못 바꿔 카드 밖으로 잘린다. 홈 카드는 세로 가운데 맞춤이고 아래 여백이 없다. */
+.home-card .price-group {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 8px;
+    margin-bottom: 0;
+}
+
+.home-card .current-price {
+    font-size: 20px;
+}
+
+.home-card .original-price {
+    font-size: 13px;
+}
+
+.home-card .list-price-drop-meta {
+    margin-top: 2px;
+    font-size: 12px;
+}
+
+.home-card .compare-lines {
+    margin: 0;
+}
+
+/* 품절 칩: 상품 카드의 재고 칩(.stock-status.out-of-stock. 12px, 굵기 500, 모서리 6px, 빨간 글자에 옅은 빨강 바탕, 다크도 base.css가 바꾼다)
+   그대로이고 위아래 여백만 줄여 가격 줄 높이를 늘리지 않는다. 가격 줄 오른쪽 끝에 선다. */
+.home-soldout.stock-status {
+    padding: 1px 10px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.home-card .price-group .home-soldout {
+    margin-left: auto;
+}
+
+/* 품절 카드(사용자 결정 16, 안 C): 이름과 지금 가격을 회색으로 그리고 지금 가격에 취소선을 긋는다. 회색은 라이트 --text-secondary(흰 카드 4.8:1)이고,
+   다크는 --text-tertiary(7.0:1)로 덮는다(다크의 --text-secondary는 보통 글자와 잘 구별되지 않는다). 할인 중인 품절 카드는 정가와 판매가가 둘 다
+   취소선이다. 브랜드·'90일 최고 정가' 줄·정가(이미 취소선)는 원래 --text-tertiary라 그대로이고, 품절 칩·사진·배지도 그대로다. */
+.home-card.is-soldout .home-card-name,
+.home-card.is-soldout .current-price {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .home-card.is-soldout .home-card-name,
+[data-theme="dark"] .home-card.is-soldout .current-price {
+    color: var(--text-tertiary);
+}
+
+.home-card.is-soldout .current-price {
+    text-decoration: line-through;
+}
+
+/* 성분별로 찾기: PC는 한 줄 전체 폭의 칩(건강 구역이 꺼진 동안, 사용자 결정 26), 768px 이하는 네 칸 격자다. 칩은 링크다. */
+.home-ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.home-ingredients .filter-chip {
+    text-decoration: none;
+}
+
+/* 요청 한 줄: 검색 결과 끝 줄(base.css의 .search-request-line)과 같은 부품이고 위 여백만 줄 사이와 같다. */
+.search-request-line.home-request-line {
+    margin-top: 40px;
+}
+
+/* 홈 아래 여백. 요청 창(before_footer)이 본문과 푸터 사이에 끼어 있어 + 대신 ~로 푸터를 고른다. */
+.home-page ~ .footer {
+    margin-top: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 36px;
+    }
+
+    /* 관심상품은 1024px 이하에서 한 상자 안의 목록이다(사용자 결정 25). 행은 테두리 대신 사이의 선으로 가르고 사진이 44px다. */
+    .home-favorites {
+        display: block;
+        padding: 2px 14px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background: var(--bg-primary);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .home-favorite {
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+        padding: 10px 0;
+        border: 0;
+        border-bottom: 1px solid var(--border-color);
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .home-favorite:last-child {
+        border-bottom: 0;
+    }
+
+    .home-favorite-image {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* 769~1024px(세로로 든 iPad, 좁은 창): 쿠폰은 2×2, 상품 줄은 네 칸이고 다섯째 카드를 숨긴다(사용자 결정 25). */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .home-coupons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .home-cards {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .home-cards > :nth-child(5) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 32px 0;
+        margin-bottom: 32px;
+    }
+
+    .hero-content {
+        padding: 0 16px;
+    }
+
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .home-page .hero-section.home-head {
+        padding: 20px 0 18px;
+    }
+
+    .home-head .hero-title {
+        font-size: 22px;
+    }
+
+    .home-head .hero-subtitle {
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .home-search {
+        display: flex;
+    }
+
+    .home-row {
+        margin-top: 28px;
+    }
+
+    .home-row-head {
+        margin-bottom: 12px;
+    }
+
+    .home-row-head h2 {
+        font-size: 18px;
+        gap: 6px;
+    }
+
+    .home-row-count {
+        font-size: 14px;
+    }
+
+    /* 쿠폰 줄은 화면 끝까지 닿는 가로 줄이다(칸 240px). 맞춤은 상품 줄과 같다(맞춤 위치 16px, 칸마다 왼쪽 끝. 승인된 시안의 쿠폰 줄에는 없던 것을
+       상품 줄에 맞췄다). 칸 안의 복사 버튼은 위아래 여백 안에 있어 초점 테두리가 잘리지 않으므로 줄의 위아래 여백은 없다. */
+    .home-coupons {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        margin: 0 -16px;
+        padding: 0 16px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 16px;
+        scrollbar-width: none;
+    }
+
+    .home-coupons::-webkit-scrollbar {
+        display: none;
+    }
+
+    .home-coupon {
+        flex: 0 0 240px;
+        scroll-snap-align: start;
+    }
+
+    /* 상품 줄은 화면 끝까지 닿는 가로 줄이다. 맞춤 위치(scroll-padding)를 본문 여백 16px에 두어 첫 카드가 화면 끝에 붙지 않는다. 가로로 넘기는
+       칸은 넘친 것을 잘라서, 위아래 여백이 카드를 올리는 호버(4px)·초점 테두리(4px)와 그림자가 잘리지 않을 자리다. */
+    .home-cards {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        margin: 0 -16px;
+        padding: 4px 16px 8px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 16px;
+        scrollbar-width: none;
+    }
+
+    .home-cards::-webkit-scrollbar {
+        display: none;
+    }
+
+    .home-card.product-card {
+        flex: 0 0 150px;
+        scroll-snap-align: start;
+    }
+
+    .home-card .product-image {
+        height: 112px;
+    }
+
+    .home-card .product-image img {
+        padding: 10px;
+    }
+
+    .home-card .product-content {
+        padding: 10px 12px 12px;
+    }
+
+    .home-card .product-content::before {
+        left: 12px;
+        right: 12px;
+    }
+
+    .home-card .home-card-name {
+        min-height: calc(13px * 1.35 * 2);
+        margin-bottom: 8px;
+        font-size: 13px;
+    }
+
+    .home-card .current-price {
+        font-size: 16px;
+    }
+
+    .home-card .original-price {
+        font-size: 12px;
+    }
+
+    .home-card .list-price-drop-meta {
+        font-size: 11px;
+    }
+
+    .home-ingredients {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .home-ingredients .filter-chip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 4px;
+        border-radius: 8px;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .search-request-line.home-request-line {
+        margin-top: 28px;
+    }
+}
+
+/* 앱 모드는 헤더 검색창이 숨으므로(base.css) 폭과 상관없이 머리 검색창을 보인다(사용자 결정 23. 검색 화면의 검색창 줄과 같은 규칙). */
+html.app-mode .home-search {
+    display: flex;
+}

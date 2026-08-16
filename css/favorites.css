@@ -1,0 +1,54 @@
+/* 관심상품 페이지(favorites.html)만 쓰는 스타일. 로그인 안내 패널은 계정 페이지도 써서 base.css에 있다.
+ * base.css 다음에 싣는다. */
+
+.favorites-page {
+    min-height: calc(100vh - var(--header-height) - 96px);
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+/* 768px 이하에서는 쿠폰 페이지·검색 화면처럼 위 여백을 20px로 줄인다. 아래는 데스크톱과 같다.
+   (예전에는 모바일 공용 .container 규칙이 위아래 여백을 0으로 덮어 제목이 헤더에 붙었다. 2026-09-27 수정) */
+@media (max-width: 768px) {
+    .favorites-page {
+        padding-top: 20px;
+    }
+}
+
+.favorites-header {
+    margin-bottom: 24px;
+}
+
+.favorites-description {
+    margin-top: 8px;
+    color: var(--text-secondary);
+}
+
+.favorites-empty,
+.favorites-missing {
+    padding: 24px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+.favorites-missing h2 {
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 20px;
+}
+
+.favorites-empty {
+    color: var(--text-secondary);
+}
+
+.favorites-missing {
+    margin-top: 24px;
+}
+
+.favorites-missing ul {
+    margin: 12px 0 0;
+    padding-left: 20px;
+    color: var(--text-secondary);
+}
