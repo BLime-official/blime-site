@@ -572,7 +572,7 @@ const initProductRequest = () => {
                     : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
                 }
             </div>
-            <div class="result-message">${message}</div>
+            <div class="result-message">${escapeHtml(message)}</div>
         `;
         
         if (isSuccess) {
@@ -629,6 +629,41 @@ const initProductRequest = () => {
         }
         return '상품 추가 요청이 처리되었습니다.';
     };
+
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const pollProductRequest = async (requestId, statusToken) => {
+        for (let attempt = 0; attempt < 90; attempt++) {
+            await wait(2000);
+
+            const statusUrl = `${requestFunctionUrl}?requestId=${encodeURIComponent(requestId)}&statusToken=${encodeURIComponent(statusToken)}`;
+            const response = await fetch(statusUrl, {
+                method: 'GET',
+                headers: {
+                    'apikey': anonKey,
+                    'Authorization': `Bearer ${anonKey}`,
+                },
+            });
+            const statusPayload = await response.json().catch(() => null);
+
+            if (!response.ok || !statusPayload?.success) {
+                showResult(statusPayload?.message || '❌ 상태 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', false);
+                return;
+            }
+
+            if (statusPayload.status === 'completed') {
+                showResult(`✅ ${getSuccessMessage(statusPayload)}`, true);
+                return;
+            }
+
+            if (statusPayload.status === 'failed') {
+                showResult(`❌ ${statusPayload.errorMessage || '상품 추가 요청 처리에 실패했습니다. 잠시 후 다시 시도해주세요.'}`, false);
+                return;
+            }
+        }
+
+        showResult('✅ 상품 추가 요청이 접수되었으며 아직 처리 중입니다. 완료되면 가격 추적이 시작됩니다.', true);
+    };
     
     // 폼 제출 처리
     const handleFormSubmit = async (e) => {
@@ -673,6 +708,14 @@ const initProductRequest = () => {
 
             if (!response.ok || !payload.success) {
                 showResult(payload.message || '❌ 요청 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', false);
+                return;
+            }
+
+            if (
+                payload.requestId && payload.statusToken &&
+                (payload.status === 'pending' || payload.status === 'fetching')
+            ) {
+                await pollProductRequest(payload.requestId, payload.statusToken);
                 return;
             }
 
