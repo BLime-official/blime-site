@@ -572,7 +572,7 @@ const initProductRequest = () => {
                     : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
                 }
             </div>
-            <div class="result-message">${message}</div>
+            <div class="result-message">${escapeHtml(message)}</div>
         `;
         
         if (isSuccess) {
@@ -629,6 +629,41 @@ const initProductRequest = () => {
         }
         return '상품 추가 요청이 처리되었습니다.';
     };
+
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const pollProductRequest = async (requestId, statusToken) => {
+        for (let attempt = 0; attempt < 90; attempt++) {
+            await wait(2000);
+
+            const statusUrl = `${requestFunctionUrl}?requestId=${encodeURIComponent(requestId)}&statusToken=${encodeURIComponent(statusToken)}`;
+            const response = await fetch(statusUrl, {
+                method: 'GET',
+                headers: {
+                    'apikey': anonKey,
+                    'Authorization': `Bearer ${anonKey}`,
+                },
+            });
+            const statusPayload = await response.json().catch(() => null);
+
+            if (!response.ok || !statusPayload?.success) {
+                showResult(statusPayload?.message || '❌ 상태 확인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', false);
+                return;
+            }
+
+            if (statusPayload.status === 'completed') {
+                showResult(`✅ ${getSuccessMessage(statusPayload)}`, true);
+                return;
+            }
+
+            if (statusPayload.status === 'failed') {
+                showResult(`❌ ${statusPayload.errorMessage || '상품 추가 요청 처리에 실패했습니다. 잠시 후 다시 시도해주세요.'}`, false);
+                return;
+            }
+        }
+
+        showResult('✅ 상품 추가 요청이 접수되었으며 아직 처리 중입니다. 완료되면 가격 추적이 시작됩니다.', true);
+    };
     
     // 폼 제출 처리
     const handleFormSubmit = async (e) => {
@@ -673,6 +708,14 @@ const initProductRequest = () => {
 
             if (!response.ok || !payload.success) {
                 showResult(payload.message || '❌ 요청 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.', false);
+                return;
+            }
+
+            if (
+                payload.requestId && payload.statusToken &&
+                (payload.status === 'pending' || payload.status === 'fetching')
+            ) {
+                await pollProductRequest(payload.requestId, payload.statusToken);
                 return;
             }
 
@@ -753,7 +796,25 @@ const initNewProductsChart = async () => {
     const labels = rows.map(row => row.date);
     const counts = rows.map(row => row.count);
 
-    new Chart(canvas, {
+    // 상품 상세 가격 차트와 같은 모바일 기준. 좁은 화면의 X축은 연도까지 쓰면 라벨이 서로 붙어
+    // 'M/D'로 줄인다(툴팁 제목은 원래 날짜 그대로).
+    const mobileQuery = window.matchMedia('(max-width: 768px)');
+    const compactDay = (label) => {
+        const match = /^\d{4}-(\d{2})-(\d{2})$/.exec(String(label));
+        return match ? `${Number(match[1])}/${Number(match[2])}` : label;
+    };
+    const buildXTicks = (mobile) => ({
+        maxRotation: 0,
+        autoSkip: true,
+        autoSkipPadding: 16,
+        maxTicksLimit: mobile ? 4 : 8,
+        callback: function (value) {
+            const label = this.getLabelForValue(value);
+            return mobile ? compactDay(label) : label;
+        }
+    });
+
+    const chart = new Chart(canvas, {
         type: 'line',
         data: {
             labels,
@@ -763,8 +824,13 @@ const initNewProductsChart = async () => {
                 borderColor: '#004E89',
                 backgroundColor: 'rgba(0, 78, 137, 0.12)',
                 borderWidth: 2,
-                pointRadius: 3,
+                // 점은 숨기고 터치/호버 때만 보여 준다. 30개 점을 좁은 폭에 다 그리면 서로 겹쳐 선이 가려진다.
+                pointRadius: 0,
                 pointHoverRadius: 5,
+                pointHitRadius: 16,
+                pointBackgroundColor: '#004E89',
+                pointBorderColor: '#FFFFFF',
+                pointBorderWidth: 2,
                 tension: 0.35,
                 fill: true
             }]
@@ -772,6 +838,11 @@ const initNewProductsChart = async () => {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            // 점이 없으니 가장 가까운 날짜를 잡는다. 손가락이 선에 정확히 닿지 않아도 툴팁이 뜬다.
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
             plugins: {
                 legend: {
                     display: false
@@ -784,11 +855,7 @@ const initNewProductsChart = async () => {
             },
             scales: {
                 x: {
-                    ticks: {
-                        maxRotation: 0,
-                        autoSkip: true,
-                        maxTicksLimit: 8
-                    },
+                    ticks: buildXTicks(mobileQuery.matches),
                     grid: {
                         display: false
                     }
@@ -802,6 +869,17 @@ const initNewProductsChart = async () => {
             }
         }
     });
+
+    // 태블릿을 돌리거나 창 폭을 바꿔 768px 경계를 넘으면 X축 표기를 다시 만든다.
+    const refreshXTicks = (event) => {
+        chart.options.scales.x.ticks = buildXTicks(event.matches);
+        chart.update('none');
+    };
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', refreshXTicks);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(refreshXTicks);
+    }
 };
 
 // Smooth Scroll for Navigation

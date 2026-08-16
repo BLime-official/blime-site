@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko" data-iherb-code-percent="20">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+  (function () {
+    var ua = navigator.userAgent || '';
+    var params = new URLSearchParams(location.search);
+    var isApp = /(?:^|\s)BlimeApp\/[^\s]+/.test(ua) ||
+                params.get('app') === '1';
+    if (isApp) document.documentElement.classList.add('app-mode');
+  })();
+</script>
+<title>생체나이 계산기 - 비라임</title>
+
+<meta name="description" content="건강검진 혈액검사 9가지와 만 나이로 연구에서 쓰는 생체나이(PhenoAge)를 계산합니다. 수치는 브라우저 안에서만 계산하고 저장하지 않습니다.">
+
+
+
+<link rel="canonical" href="https://blime.app/health/phenoage/">
+
+
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="비라임">
+<meta property="og:type" content="website">
+<meta property="og:title" content="생체나이 계산기 - 비라임">
+<meta property="og:description" content="건강검진 혈액검사 9가지와 만 나이로 연구에서 쓰는 생체나이(PhenoAge)를 계산합니다. 수치는 브라우저 안에서만 계산하고 저장하지 않습니다.">
+<meta property="og:url" content="https://blime.app/health/phenoage/">
+
+<meta property="og:image" content="https://blime.app/assets/logo.png">
+
+
+  <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png">
+  <script>
+  (function () {
+    try {
+      var theme = localStorage.getItem('theme');
+      if (theme === 'dark' || theme === 'light') document.documentElement.setAttribute('data-theme', theme);
+    } catch (error) {}
+  })();
+</script>
+  <script>
+  (function () {
+    try {
+      if (localStorage.getItem('blime:iherb-code-view') === 'on') document.documentElement.setAttribute('data-iherb-code', 'on');
+    } catch (error) {}
+  })();
+</script>
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="../../css/phenoage.css">
+  
+  <script>
+    window.BLIME_SUPABASE_CONFIG = {
+      url: "https://owzhzchjhrpyreinicuq.supabase.co",
+      anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93emh6Y2hqaHJweXJlaW5pY3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTQ3NzIsImV4cCI6MjA3NTkzMDc3Mn0.XibDuV25pA9M7pxRCsxo5MR6aLa_nfOFS9vufnmHBF4",
+      googleClientId: "537324725117-bkhkf5t5imndh67oiitj8g4cms95rneu.apps.googleusercontent.com",
+      requestFunctionUrl: "https://owzhzchjhrpyreinicuq.supabase.co/functions/v1/request-product-url"
+    };
+  </script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KKBT885WBS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KKBT885WBS');
+</script>
+</head>
+<body data-page="phenoage" data-site-root="../../">
+  <header class="header">
+  <div class="header-container">
+    <div class="logo">
+      <a href="../../#home">
+        <img src="../../assets/logo_small.png" alt="비라임 로고" class="logo-img">
+      </a>
+    </div>
+    <nav class="nav">
+      <a href="../../#home" class="nav-link">홈</a>
+      <a href="../../coupons/" class="nav-link">혜택</a>
+      <a href="../../favorites/" class="nav-link">관심상품</a>
+    </nav>
+    <div class="header-actions">
+      <form class="header-search" action="../../search/" method="get" role="search">
+        <label class="sr-only" for="header-search-input">상품 검색</label>
+        <svg class="header-search-icon" data-icon="search" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <circle cx="11" cy="11" r="8"></circle>
+  <path d="m21 21-4.3-4.3"></path>
+  
+</svg>
+        <input id="header-search-input" class="header-search-input" type="search" name="q" placeholder="제품명, 브랜드, 성분 검색">
+      </form>
+      
+<div class="settings-menu" data-settings-menu>
+  <button class="account-menu-button" data-settings-menu-button type="button" aria-label="설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="settings-menu-panel">
+    <svg class="account-menu-icon" data-icon="sliders-horizontal" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <line x1="21" x2="14" y1="4" y2="4"></line>
+  <line x1="10" x2="3" y1="4" y2="4"></line>
+  <line x1="21" x2="12" y1="12" y2="12"></line>
+  <line x1="8" x2="3" y1="12" y2="12"></line>
+  <line x1="21" x2="16" y1="20" y2="20"></line>
+  <line x1="12" x2="3" y1="20" y2="20"></line>
+  <line x1="14" x2="14" y1="2" y2="6"></line>
+  <line x1="8" x2="8" y1="10" y2="14"></line>
+  <line x1="16" x2="16" y1="18" y2="22"></line>
+  
+</svg>
+  </button>
+  <div class="account-menu-panel settings-menu-panel" id="settings-menu-panel" data-settings-menu-panel role="menu" hidden>
+    <button class="account-menu-item" data-settings-action="theme" type="button" role="menuitem">테마 전환</button>
+    <a class="account-menu-item" href="../../about/" role="menuitem">비라임 소개</a>
+    <a class="account-menu-item" href="../../privacy/" role="menuitem">개인정보처리방침</a>
+    <a class="account-menu-item" href="mailto:blime.app.official@gmail.com" role="menuitem">문의하기</a>
+  </div>
+</div>
+      <div class="account-menu" data-account-menu>
+        <button class="account-menu-button" data-account-menu-button type="button" aria-label="계정 및 설정 메뉴" aria-haspopup="menu" aria-expanded="false" aria-controls="account-menu-panel">
+          <svg class="account-menu-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M20 21a8 8 0 0 0-16 0"></path>
+          </svg>
+        </button>
+        <div class="account-menu-panel" id="account-menu-panel" data-account-menu-panel role="menu" hidden></div>
+      </div>
+    </div>
+  </div>
+</header>
+  
+<main class="pheno-main">
+  <div class="pheno-container">
+    <header class="pheno-head">
+      <p class="pheno-eyebrow">PhenoAge · 연구 기반 지표</p>
+      <h1 class="pheno-title">생체나이 계산기</h1>
+      <p class="pheno-lead">건강검진의 혈액검사 9가지와 만 나이로, 연구에서 쓰는 생체나이(PhenoAge)를 계산합니다.</p>
+      <p class="pheno-privacy">
+        <svg class="pheno-privacy-icon" data-icon="lock" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+  
+</svg>
+        <span>입력한 수치와 결과는 이 브라우저 안에서 계산에만 쓰이고, 서버나 외부로 보내거나 저장하지 않습니다.</span>
+      </p>
+    </header>
+
+    <div class="pheno-layout">
+      <form class="pheno-form" id="pheno-form" novalidate autocomplete="off">
+        <fieldset class="pheno-group">
+          <legend>나이</legend>
+          <div class="pheno-fields">
+            <div class="pheno-field" data-field="age">
+              <label for="f-age">만 나이</label>
+              <div class="pheno-input"><input id="f-age" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-age-unit f-age-hint"><span class="pheno-unit" id="f-age-unit">세</span></div>
+              <p class="pheno-hint" id="f-age-hint">검사한 날 기준, 만 20세 이상</p>
+              <p class="pheno-error" id="f-age-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="pheno-group">
+          <legend>생화학 검사</legend>
+          <div class="pheno-fields">
+            <div class="pheno-field" data-field="albumin">
+              <label for="f-albumin">알부민 <span class="pheno-abbr">Albumin</span></label>
+              <div class="pheno-input"><input id="f-albumin" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-albumin-unit"><span class="pheno-unit" id="f-albumin-unit">g/dL</span></div>
+              <p class="pheno-error" id="f-albumin-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="alp">
+              <label for="f-alp">ALP <span class="pheno-abbr">알칼리성 인산분해효소</span></label>
+              <div class="pheno-input"><input id="f-alp" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-alp-unit f-alp-hint"><span class="pheno-unit" id="f-alp-unit">U/L</span></div>
+              <p class="pheno-hint" id="f-alp-hint">AST·ALT·감마지티피와 다른 항목입니다</p>
+              <p class="pheno-error" id="f-alp-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="creatinine">
+              <label for="f-creatinine">크레아티닌 <span class="pheno-abbr">Creatinine</span></label>
+              <div class="pheno-input"><input id="f-creatinine" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-creatinine-unit f-creatinine-hint"><span class="pheno-unit" id="f-creatinine-unit">mg/dL</span></div>
+              <p class="pheno-hint" id="f-creatinine-hint">eGFR이 아니라 크레아티닌 수치입니다</p>
+              <p class="pheno-error" id="f-creatinine-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="glucose">
+              <label for="f-glucose">공복 혈당 <span class="pheno-abbr">Glucose</span></label>
+              <div class="pheno-input"><input id="f-glucose" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-glucose-unit f-glucose-hint"><span class="pheno-unit" id="f-glucose-unit">mg/dL</span></div>
+              <p class="pheno-hint" id="f-glucose-hint">당화혈색소(HbA1c)가 아닙니다</p>
+              <p class="pheno-error" id="f-glucose-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="crp">
+              <label for="f-crp">CRP <span class="pheno-abbr">또는 hs-CRP</span></label>
+              <div class="pheno-input"><input id="f-crp" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-crp-hint"><select class="pheno-unit-select" id="f-crp-unit" aria-label="CRP 단위"><option value="">단위 선택</option><option>mg/dL</option><option>mg/L</option></select></div>
+              <p class="pheno-hint" id="f-crp-hint">같은 숫자라도 단위에 따라 10배 차이 납니다</p>
+              <p class="pheno-error" id="f-crp-error" hidden></p>
+              <label class="pheno-check"><input type="checkbox" id="f-crp-lt"> 검진표에 ‘미만’(&lt;)으로 적혀 있어요</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="pheno-group">
+          <legend>일반 혈액 검사 <span class="pheno-abbr">CBC</span></legend>
+          <div class="pheno-fields">
+            <div class="pheno-field" data-field="wbc">
+              <label for="f-wbc">백혈구 <span class="pheno-abbr">WBC</span></label>
+              <div class="pheno-input"><input id="f-wbc" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-wbc-hint"><select class="pheno-unit-select" id="f-wbc-unit" aria-label="백혈구 단위"><option>10³/µL</option><option>/µL</option></select></div>
+              <p class="pheno-hint" id="f-wbc-hint">5,500/µL는 5.5 × 10³/µL입니다</p>
+              <p class="pheno-error" id="f-wbc-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="lymph">
+              <label for="f-lymph">림프구 <span class="pheno-abbr">Lymphocyte</span></label>
+              <div class="pheno-input"><input id="f-lymph" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-lymph-unit f-lymph-hint"><span class="pheno-unit" id="f-lymph-unit">%</span></div>
+              <p class="pheno-hint" id="f-lymph-hint">개수(10³/µL)가 아니라 비율(%)입니다</p>
+              <p class="pheno-error" id="f-lymph-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="mcv">
+              <label for="f-mcv">MCV <span class="pheno-abbr">평균적혈구용적</span></label>
+              <div class="pheno-input"><input id="f-mcv" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-mcv-unit"><span class="pheno-unit" id="f-mcv-unit">fL</span></div>
+              <p class="pheno-error" id="f-mcv-error" hidden></p>
+            </div>
+            <div class="pheno-field" data-field="rdw">
+              <label for="f-rdw">RDW-CV <span class="pheno-abbr">적혈구분포폭</span></label>
+              <div class="pheno-input"><input id="f-rdw" type="text" inputmode="decimal" spellcheck="false" aria-describedby="f-rdw-unit f-rdw-hint"><span class="pheno-unit" id="f-rdw-unit">%</span></div>
+              <p class="pheno-hint" id="f-rdw-hint">RDW-SD(fL)가 아니라 RDW-CV(%)입니다</p>
+              <p class="pheno-error" id="f-rdw-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <p class="pheno-summary" role="alert" hidden></p>
+        <noscript><p class="pheno-noscript">계산하려면 브라우저에서 JavaScript를 켜&nbsp;주세요.</p></noscript>
+        <div class="pheno-actions">
+          <button type="submit" class="pheno-submit">계산하기</button>
+          <button type="button" class="pheno-example">예시 수치 넣기</button>
+          <button type="button" class="pheno-clear">지우기</button>
+        </div>
+      </form>
+
+      <aside class="pheno-side">
+        <section class="pheno-guide" aria-labelledby="pheno-guide-title">
+          <h2 id="pheno-guide-title">검진표 어디에 있나요?</h2>
+          <p>국가 일반건강검진에는 9가지 중 <b>공복 혈당과 크레아티닌만</b> 있습니다. 나머지는 종합검진이나 따로 받은 혈액검사 결과지의 ‘일반 혈액 검사(CBC)’와 ‘생화학 검사’ 칸에서 찾으세요. 같은 날 검사한 수치를 넣으세요.</p>
+        </section>
+        <div class="pheno-placeholder">만 나이와 9가지 수치를 넣고 계산하면 여기에 생체나이가 나옵니다.</div>
+        <p class="sr-only" role="status" data-out="status"></p>
+        <section class="pheno-result" hidden>
+          <p class="pheno-result-label" tabindex="-1">나의 생체나이 <span class="pheno-tag" hidden>예시 수치</span></p>
+          <p class="pheno-result-age"><strong data-out="age">0.0</strong><span>세</span></p>
+          <p class="pheno-result-diff" data-out="diff"></p>
+          <div class="pheno-bar" hidden></div>
+          <p class="pheno-result-note" data-out="crp" hidden></p>
+          <p class="pheno-result-note is-check" data-out="big" hidden>차이가 아주 큽니다. 수치와 단위가 검진표와 같은지 한 번 더 봐 주세요.</p>
+          <p class="pheno-result-foot">연구용 추정값이며, 진단이나 사망 위험, 남은 수명을 예측할 수는 없습니다.</p>
+          <div class="pheno-stale" hidden><span>수치가 바뀌었습니다.</span><button type="button" class="pheno-recalc">다시 계산</button></div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="pheno-about" aria-labelledby="pheno-about-title">
+      <h2 id="pheno-about-title">생체나이(PhenoAge)는 무엇인가요</h2>
+      <div class="pheno-about-grid">
+        <article>
+          <h3>무엇으로 만들었나요</h3>
+          <p>미국 성인 약 1만 명의 혈액검사와 그 뒤의 사망 기록을 따라가, 같은 나이라도 위험이 다른 정도를 가장 잘 가르는 수치 9가지를 고른 지표입니다(Levine 등, 2018).</p>
+        </article>
+        <article>
+          <h3>숫자는 어떻게 읽나요</h3>
+          <p>만 나이와 같으면 연구 표본에서 그 나이의 평균 수준이라는 뜻입니다. 연구에서는 생체나이가 만 나이보다 높을수록 그 뒤에 사망하거나 병에 걸린 사람이 많았습니다.</p>
+        </article>
+        <article>
+          <h3>알 수 없는 것</h3>
+          <p>병이 있는지, 얼마나 더 살지는 알 수 없습니다. 감기·염증이 있거나 심한 운동 직후처럼 수치가 평소와 다를 때는 결과도 달라집니다.</p>
+        </article>
+      </div>
+
+      <details class="pheno-more">
+        <summary>연구 근거</summary>
+        <ul>
+          <li>Levine ME 등. An epigenetic biomarker of aging for lifespan and healthspan. <i>Aging</i> 2018;10(4):573–591. 미국 국민건강영양조사(NHANES III) 성인 9,926명으로 식을 만들고, 다른 조사(NHANES IV)로 확인했습니다. <a href="https://doi.org/10.18632/aging.101414" target="_blank" rel="noopener">doi:10.18632/aging.101414</a></li>
+          <li>Liu Z 등. A new aging measure captures morbidity and mortality risk across diverse subpopulations from NHANES IV. <i>PLOS Medicine</i> 2018;15(12):e1002718. 같은 식이 사망과 여러 질병 위험을 성별·인종·건강 상태가 다른 집단에서도 가르는지 확인했습니다. <a href="https://doi.org/10.1371/journal.pmed.1002718" target="_blank" rel="noopener">doi:10.1371/journal.pmed.1002718</a></li>
+        </ul>
+      </details>
+      <details class="pheno-more">
+        <summary>한국인에게 쓸 때의 한계</summary>
+        <ul>
+          <li>미국 성인 자료로 만든 식이라, 한국인에게 같은 기준이 그대로 맞는지는 충분히 확인되지 않았습니다.</li>
+          <li>만 20세 이상 성인용입니다. 임신 중이거나 급성 질환이 있을 때의 수치로는 해석하지 마세요.</li>
+          <li>검사 기관마다 측정 방법이 조금씩 달라, 같은 사람도 기관에 따라 결과가 달라질 수 있습니다.</li>
+        </ul>
+      </details>
+      <details class="pheno-more">
+        <summary>단위와 계산식</summary>
+        <table class="pheno-table">
+          <thead><tr><th>항목</th><th>이 계산기의 단위</th><th>식에 넣는 단위</th></tr></thead>
+          <tbody>
+            <tr><td>알부민</td><td>g/dL</td><td>g/L (× 10)</td></tr>
+            <tr><td>크레아티닌</td><td>mg/dL</td><td>µmol/L (× 88.4)</td></tr>
+            <tr><td>공복 혈당</td><td>mg/dL</td><td>mmol/L (× 0.0555)</td></tr>
+            <tr><td>CRP</td><td>mg/dL 또는 mg/L</td><td>mg/dL의 자연로그 (mg/L은 ÷ 10)</td></tr>
+            <tr><td>백혈구</td><td>10³/µL 또는 /µL</td><td>10³/µL (/µL은 ÷ 1,000)</td></tr>
+            <tr><td>림프구 · RDW-CV</td><td>%</td><td>그대로</td></tr>
+            <tr><td>MCV · ALP</td><td>fL · U/L</td><td>그대로</td></tr>
+          </tbody>
+        </table>
+        <p class="pheno-formula">xb = −19.907 − 0.0336 × 알부민 + 0.0095 × 크레아티닌 + 0.1953 × 혈당 + 0.0954 × ln(CRP) − 0.0120 × 림프구 + 0.0268 × MCV + 0.3306 × RDW + 0.00188 × ALP + 0.0554 × 백혈구 + 0.0804 × 나이<br>
+        생체나이 = 141.50225 + ln(0.00553 × H) ÷ 0.090165, H = e<sup>xb</sup> × (e<sup>120 × 0.0076927</sup> − 1) ÷ 0.0076927</p>
+        <p>결과는 소수 첫째 자리까지 보입니다.</p>
+      </details>
+      <details class="pheno-more">
+        <summary>DNA 검사의 PhenoAge와 같은가요?</summary>
+        <p>다릅니다. 같은 연구에서 이 값을 DNA 메틸화로 추정하는 ‘DNAm PhenoAge’도 만들었습니다. 이 계산기는 혈액검사 수치로 계산하는 쪽이고, 두 값은 서로 다를 수 있습니다.</p>
+      </details>
+    </section>
+  </div>
+</main>
+
+  
+  <footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section footer-brand">
+      <h4>비라임</h4>
+      <p>스마트한 건강 쇼핑을 위한 iHerb 가격 추적 서비스</p>
+    </div>
+    <nav class="footer-support-links" aria-label="고객 지원 링크">
+      <a href="../../privacy/">개인정보처리방침</a>
+      <span class="footer-support-separator" aria-hidden="true">|</span>
+      <a href="mailto:blime.app.official@gmail.com">문의하기</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 BLime. All rights reserved.</p>
+    <p class="update-time">마지막 업데이트: 2026-11-05 09:40:46</p>
+  </div>
+</footer>
+  
+<nav class="mobile-bottom-nav" data-mobile-nav aria-label="모바일 주요 메뉴">
+  <a class="mobile-bottom-nav-item" href="../../#home" data-mobile-nav-item="home">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="house" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+  <path d="M3 10a2 2 0 0 1 .71-1.53l7-6a2 2 0 0 1 2.58 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">홈</span>
+  </a>
+  <a class="mobile-bottom-nav-item" href="../../coupons/" data-mobile-nav-item="benefit">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="badge-percent" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
+  <path d="m15 9-6 6"></path>
+  <path d="M9 9h.01"></path>
+  <path d="M15 15h.01"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">혜택</span>
+  </a>
+  <a class="mobile-bottom-nav-item" href="../../search/" data-mobile-nav-item="search">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="search" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <circle cx="11" cy="11" r="8"></circle>
+  <path d="m21 21-4.3-4.3"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">검색</span>
+  </a>
+  <a class="mobile-bottom-nav-item" href="../../favorites/" data-mobile-nav-item="favorites">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M19.5 12.6 12 20l-7.5-7.4A5 5 0 0 1 12 6a5 5 0 0 1 7.5 6.6Z"></path>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">관심상품</span>
+  </a>
+  <a class="mobile-bottom-nav-item" href="../../account/" data-mobile-nav-item="account">
+    <span class="mobile-bottom-nav-icon" aria-hidden="true"><svg class="mobile-bottom-nav-svg" data-icon="circle-user-round" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  
+  <path d="M18 20a6 6 0 0 0-12 0"></path>
+  <circle cx="12" cy="10" r="4"></circle>
+  <circle cx="12" cy="12" r="10"></circle>
+  
+</svg></span>
+    <span class="mobile-bottom-nav-label">계정</span>
+  </a>
+</nav>
+  
+  
+  <script src="../../js/format.js"></script>
+  <script src="../../js/load_limit.js"></script>
+  
+  <script src="../../js/vendor/supabase.umd.min.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/price_view.js"></script>
+  <script src="../../js/theme.js"></script>
+  <script src="../../js/favorites.js"></script>
+  
+  <script src="../../js/account_menu.js"></script>
+  
+<script src="../../js/phenoage.js"></script>
+
+  <script src="../../js/mobile_nav_autohide.js"></script>
+</body>
+</html>
