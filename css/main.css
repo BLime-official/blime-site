@@ -1749,16 +1749,19 @@ section {
     background: var(--bg-tertiary);
 }
 
+/* 형제 카드와 같은 표면을 쓴다. 위험 신호는 영역이 아니라 실행 버튼이 진다. */
 .account-danger-zone {
-    margin-top: 16px;
+    margin-top: 8px;
     padding: 20px 24px;
-    border: 1px solid var(--danger-color);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
+    box-shadow: var(--shadow-sm);
 }
 
 .account-danger-title {
     margin-bottom: 8px;
-    color: var(--danger-color);
+    color: var(--text-primary);
     font-size: 16px;
 }
 
@@ -1766,24 +1769,26 @@ section {
     margin-bottom: 16px;
     color: var(--text-secondary);
     font-size: 14px;
+    line-height: 1.6;
 }
 
+/* 페이지에서 유일하게 빨간 채움 — 되돌릴 수 없는 행동은 이것뿐이다. */
 .account-delete-button {
-    min-height: 40px;
-    padding: 0 16px;
-    border: 1px solid var(--danger-color);
-    border-radius: 10px;
-    background: transparent;
-    color: var(--danger-color);
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--danger-color);
+    color: #ffffff;
     font: inherit;
     font-weight: 600;
     cursor: pointer;
+    transition: background 0.15s ease-out;
 }
 
 .account-delete-button:hover,
 .account-delete-button:focus-visible {
-    background: var(--danger-color);
-    color: #ffffff;
+    background: #DC2626;
 }
 
 .account-delete-modal {
@@ -1842,9 +1847,61 @@ section {
     cursor: pointer;
 }
 
+.account-delete-confirm {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
 .account-delete-confirm:disabled {
-    opacity: 0.6;
     cursor: default;
+}
+
+/* 대기(취소 등)와 진행 중은 다르게 보여야 한다. 진행 중은 흐려지지 않는다. */
+.account-delete-cancel:disabled,
+.modal-close:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.account-delete-confirm[data-state="loading"] {
+    opacity: 0.85;
+}
+
+.account-delete-confirm[data-state="success"] {
+    background: var(--success-color);
+}
+
+.account-delete-spinner {
+    display: none;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: account-delete-spin 0.7s linear infinite;
+}
+
+.account-delete-confirm[data-state="loading"] .account-delete-spinner {
+    display: inline-block;
+}
+
+@keyframes account-delete-spin {
+    to { transform: rotate(360deg); }
+}
+
+.account-delete-progress {
+    margin: 0 0 12px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .account-delete-spinner {
+        animation-duration: 1.6s;
+    }
 }
 
 .favorites-header {
@@ -1994,6 +2051,27 @@ section {
         font-size: 11px;
         font-weight: 700;
         line-height: 1.2;
+    }
+
+    /* 스크롤 자동 숨김 - 상태 토글은 js/mobile_nav_autohide.js가 담당한다.
+       transform만 쓰므로 body 하단 패딩과 컨테이너 상단 마진은 그대로 두어
+       레이아웃 시프트가 생기지 않는다. */
+    .mobile-bottom-nav,
+    .fab-container {
+        transition: transform var(--transition-base), bottom var(--transition-base);
+    }
+
+    body.mobile-chrome-hidden .header {
+        transform: translateY(-100%);
+    }
+
+    /* 하단바 그림자(blur 24px)가 화면 하단에 얼룩으로 남지 않도록 더 밀어낸다. */
+    body.mobile-chrome-hidden .mobile-bottom-nav {
+        transform: translateY(calc(100% + 24px));
+    }
+
+    body.mobile-chrome-hidden .fab-container {
+        bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px));
     }
 
     .mobile-home-shell {
@@ -2696,7 +2774,9 @@ section {
     }
 }
 
-.chart-container {
+/* 스크래핑 대시보드 전용 차트 박스. 상세 페이지도 `.chart-container` 를 쓰므로
+   전역으로 두면 그쪽 차트까지 박스 안의 박스가 된다 — 반드시 패널 아래로 한정한다. */
+.new-products-chart-panel .chart-container {
     position: relative;
     height: 300px;
     background: var(--bg-secondary);
@@ -2705,7 +2785,7 @@ section {
     border: 1px solid var(--border-color);
 }
 
-.chart-container canvas {
+.new-products-chart-panel .chart-container canvas {
     max-height: 100%;
 }
 
@@ -3341,6 +3421,17 @@ section {
     .privacy-summary,
     .privacy-section {
         padding: 20px;
+    }
+}
+
+/* 모션 최소화 설정에서는 상·하단바를 애니메이션 없이 즉시 전환한다.
+   .header의 `transition: all`을 덮어야 하므로 모든 transition 정의 뒤에 둔다.
+   (앱 모드 블록은 모든 미디어쿼리 뒤에 와야 하므로 그 앞자리가 마지막 위치다.) */
+@media (prefers-reduced-motion: reduce) {
+    .header,
+    .mobile-bottom-nav,
+    .fab-container {
+        transition: none;
     }
 }
 
